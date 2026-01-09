@@ -2,6 +2,10 @@
 
 A modern, SEO-optimized Angular 18+ SSR portfolio website for showcasing software engineering expertise and attracting high-value clients.
 
+## Font Family
+
+- **Logo : Agbalumo**
+
 ## Features
 
 - ✨ **Server-Side Rendering (SSR)** - Optimized for SEO

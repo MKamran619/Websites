@@ -12,8 +12,12 @@ import { RouterLink, RouterLinkActive } from "@angular/router";
         <div class="container">
           <div class="nav-brand">
             <a routerLink="/" class="logo">
-              <span class="logo-icon">🚀</span>
-              <span class="logo-text">ApnaKam</span>
+              <img
+                src="assets/ApnaKam.png"
+                alt="ApnaKam"
+                width="170"
+                height="50"
+              />
             </a>
           </div>
           <button
