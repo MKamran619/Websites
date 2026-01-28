@@ -13,9 +13,9 @@ export const routes: Routes = [
     component: HomeComponent,
     data: {
       title:
-        "Senior Software Engineer & Technical Consultant | Digital Transformation Solutions | USA",
+        "ApnaKam — Software Solutions | Digital Transformation & Development",
       description:
-        "Experienced software engineer delivering custom digital transformation solutions for American businesses. 10+ years specializing in full-stack development, legacy modernization, and enterprise solutions.",
+        "ApnaKam delivers custom digital transformation solutions and enterprise software. 10+ years specializing in full-stack development, legacy modernization, and cloud-native architectures.",
       keywords:
         "software engineer USA, digital transformation, full-stack developer, custom development, enterprise solutions",
       ogImage: "https://websiteservice619.netlify.app/assets/og-image.jpg",
@@ -25,10 +25,9 @@ export const routes: Routes = [
     path: "about",
     component: AboutComponent,
     data: {
-      title:
-        "About Kamran Sohail - Senior Software Engineer & Technical Consultant",
+      title: "About ApnaKam — Software Solutions Team",
       description:
-        "Learn about my 10+ years of experience in software engineering, digital transformation, and technical consulting for American businesses.",
+        "Learn about our 10+ years of experience in software engineering, digital transformation, and technical consulting for businesses worldwide.",
       keywords:
         "about software engineer, technical consultant, digital transformation expert, software development",
       ogImage: "https://websiteservice619.netlify.app/assets/og-image.jpg",
