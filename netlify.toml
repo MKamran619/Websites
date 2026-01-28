@@ -1,7 +1,7 @@
 # Netlify Configuration for SEO Optimization
 
 [build]
-  command = "npm run build"
+  command = "npm ci && npm run build"
   publish = "dist/websites/browser"
 
 # Redirects for SEO and UX
