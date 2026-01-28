@@ -163,7 +163,7 @@ import emailjs from "@emailjs/browser";
                 </a>
 
                 <a
-                  href="https://github.com/mksawan619"
+                  href="https://github.com/MKamran619"
                   target="_blank"
                   rel="noopener"
                   class="contact-item"
@@ -182,7 +182,7 @@ import emailjs from "@emailjs/browser";
                   </div>
                   <div class="contact-details">
                     <span class="contact-label">GitHub</span>
-                    <span class="contact-value">github.com/mksawan619</span>
+                    <span class="contact-value">github.com/MKamran619</span>
                   </div>
                   <svg
                     class="arrow-icon"

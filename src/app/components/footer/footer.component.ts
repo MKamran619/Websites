@@ -63,7 +63,7 @@ import { FormsModule } from "@angular/forms";
               </p>
               <div class="social-links">
                 <a
-                  href="https://www.linkedin.com/company/apnakam/"
+                  href="https://www.linkedin.com/in/kamran619/"
                   target="_blank"
                   rel="noopener"
                   aria-label="LinkedIn"
@@ -81,7 +81,7 @@ import { FormsModule } from "@angular/forms";
                   </svg>
                 </a>
                 <a
-                  href="https://github.com/apnakam"
+                  href="https://github.com/MKamran619"
                   target="_blank"
                   rel="noopener"
                   aria-label="GitHub"
@@ -99,7 +99,7 @@ import { FormsModule } from "@angular/forms";
                   </svg>
                 </a>
                 <a
-                  href="https://twitter.com/apnakam"
+                  href="https://twitter.com/kamransawan"
                   target="_blank"
                   rel="noopener"
                   aria-label="Twitter"
@@ -117,7 +117,7 @@ import { FormsModule } from "@angular/forms";
                   </svg>
                 </a>
                 <a
-                  href="mailto:contact@apnakam.com"
+                  href="mailto:mksawan619@gmail.com"
                   aria-label="Email"
                   class="social-link"
                 >
@@ -178,8 +178,8 @@ import { FormsModule } from "@angular/forms";
                     />
                     <polyline points="22,6 12,13 2,6" />
                   </svg>
-                  <a href="mailto:contact@apnakam.com"
-                    >contact&#64;apnakam.com</a
+                  <a href="mailto:mksawan619@gmail.com"
+                    >mksawan619&#64;gmail.com</a
                   >
                 </li>
                 <li>

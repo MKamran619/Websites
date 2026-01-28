@@ -180,7 +180,7 @@ export class SeoService {
       },
       sameAs: [
         "https://www.linkedin.com/in/kamran619/",
-        "https://github.com/mksawan619",
+        "https://github.com/MKamran619",
         "https://twitter.com/kamransawan",
       ],
     };
