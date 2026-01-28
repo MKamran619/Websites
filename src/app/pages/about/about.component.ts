@@ -414,7 +414,7 @@ export class AboutComponent implements OnInit {
         once: true,
       },
       opacity: 0,
-      x: -50,
+      y: 50,
       duration: 0.8,
     });
 
@@ -425,7 +425,7 @@ export class AboutComponent implements OnInit {
         once: true,
       },
       opacity: 0,
-      x: 50,
+      y: 50,
       duration: 0.8,
     });
 
@@ -501,5 +501,8 @@ export class AboutComponent implements OnInit {
       y: 40,
       duration: 0.8,
     });
+
+    // Refresh ScrollTrigger to ensure all animations are properly registered
+    ScrollTrigger.refresh();
   }
 }
