@@ -5,6 +5,7 @@ import { ServicesComponent } from "./pages/services/services.component";
 import { PortfolioComponent } from "./pages/portfolio/portfolio.component";
 import { ContactComponent } from "./pages/contact/contact.component";
 import { BlogComponent } from "./pages/blog/blog.component";
+import { CoursesComponent } from "./pages/courses/courses.component";
 
 export const routes: Routes = [
   {
@@ -25,7 +26,7 @@ export const routes: Routes = [
     component: AboutComponent,
     data: {
       title:
-        "About Kamran Sawan - Senior Software Engineer & Technical Consultant",
+        "About Kamran Sohail - Senior Software Engineer & Technical Consultant",
       description:
         "Learn about my 10+ years of experience in software engineering, digital transformation, and technical consulting for American businesses.",
       keywords:
@@ -84,6 +85,20 @@ export const routes: Routes = [
         "contact, consultation, schedule meeting, software engineer contact, technical consultation, free consultation",
       ogImage:
         "https://websiteservice619.netlify.app/assets/contact-og-image.jpg",
+    },
+  },
+  {
+    path: "courses",
+    component: CoursesComponent,
+    data: {
+      title:
+        "Web Development Courses | Learn HTML, CSS, JavaScript, Angular, React | USA",
+      description:
+        "Comprehensive web development courses from beginner to advanced. Master HTML, CSS, Bootstrap, JavaScript, jQuery, Angular, React, and Full Stack Development.",
+      keywords:
+        "web development courses, learn coding, JavaScript courses, Angular courses, React courses, Bootstrap courses, jQuery, HTML CSS",
+      ogImage:
+        "https://websiteservice619.netlify.app/assets/courses-og-image.jpg",
     },
   },
   { path: "**", redirectTo: "" },

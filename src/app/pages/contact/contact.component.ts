@@ -41,14 +41,14 @@ import emailjs from "@emailjs/browser";
               <ul>
                 <li>
                   <strong>Email:</strong>
-                  <a href="mailto:mksawan619@gmail.com"
-                    >mksawan619&#64;gmail.com</a
+                  <a href="mailto:kamran.sohail@gmail.com"
+                    >kamran.sohail&#64;gmail.com</a
                   >
                 </li>
                 <li>
                   <strong>LinkedIn:</strong>
                   <a
-                    href="https://www.linkedin.com/in/kamran619/"
+                    href="https://www.linkedin.com/in/kamran-sohail/"
                     target="_blank"
                     rel="noopener"
                     >LinkedIn Profile</a
@@ -60,7 +60,7 @@ import emailjs from "@emailjs/browser";
                     >GitHub Repository</a
                   >
                 </li>
-                <li>
+                <!-- <li>
                   <strong>WhatsApp:</strong>
                   <a
                     href="https://wa.me/923447510711"
@@ -68,7 +68,7 @@ import emailjs from "@emailjs/browser";
                     rel="noopener"
                     >+923447510711</a
                   >
-                </li>
+                </li> -->
               </ul>
             </div>
           </div>
@@ -143,6 +143,10 @@ import emailjs from "@emailjs/browser";
                   required
                 >
                   <option value="">Select range...</option>
+                  <option value="less-500">Less than $500</option>
+                  <option value="500-1000">$500 - $1K</option>
+                  <option value="1000-5000">$1K - $5K</option>
+                  <option value="5000-10000">$5K - $10K</option>
                   <option value="10-25k">$10K - $25K</option>
                   <option value="25-50k">$25K - $50K</option>
                   <option value="50-100k">$50K - $100K</option>
@@ -269,9 +273,22 @@ export class ContactComponent implements OnInit {
     emailjs.init("FiOYICOvKQmtB0P1N");
   }
 
+  lastSubmitTime = 0;
+  submitCooldown = 60000; // 60 seconds cooldown between submissions
+
   onSubmit() {
     if (!this.isFormValid()) {
       alert("Please fill in all required fields.");
+      return;
+    }
+
+    // Rate limiting: prevent duplicate submissions within cooldown period
+    const now = Date.now();
+    if (now - this.lastSubmitTime < this.submitCooldown) {
+      const remainingSeconds = Math.ceil(
+        (this.submitCooldown - (now - this.lastSubmitTime)) / 1000,
+      );
+      alert(`Please wait ${remainingSeconds} seconds before submitting again.`);
       return;
     }
 
@@ -290,18 +307,57 @@ export class ContactComponent implements OnInit {
     emailjs.send("service_websites", "template_yh2wuhe", templateParams).then(
       (response: any) => {
         console.log("Email sent successfully:", response);
-        alert(
-          "Thank you! Your message has been sent. We'll be in touch shortly to schedule your consultation.",
-        );
+        this.lastSubmitTime = Date.now();
+        this.showSuccessMessage();
         this.resetForm();
       },
       (error: any) => {
         console.error("Failed to send email:", error);
-        alert(
-          "There was an issue sending your message. Please try again or contact us directly.",
-        );
+        this.showErrorMessage();
       },
     );
+  }
+
+  showErrorMessage() {
+    const errorDiv = document.createElement("div");
+    errorDiv.className = "error-message-popup";
+    errorDiv.innerHTML = `
+      <div class="error-content">
+        <div class="error-icon">✕</div>
+        <h3>Message Failed</h3>
+        <p>There was an issue sending your message. Please try again or contact us directly at mksawany619@gmail.com.</p>
+        <button onclick="this.parentElement.parentElement.remove()">Close</button>
+      </div>
+    `;
+    document.body.appendChild(errorDiv);
+
+    // Auto-remove after 7 seconds
+    setTimeout(() => {
+      if (errorDiv.parentElement) {
+        errorDiv.remove();
+      }
+    }, 7000);
+  }
+
+  showSuccessMessage() {
+    const successDiv = document.createElement("div");
+    successDiv.className = "success-message-popup";
+    successDiv.innerHTML = `
+      <div class="success-content">
+        <div class="success-icon">✓</div>
+        <h3>Message Sent Successfully!</h3>
+        <p>Thank you for reaching out. We'll review your information and contact you shortly to schedule your consultation.</p>
+        <button onclick="this.parentElement.parentElement.remove()">Close</button>
+      </div>
+    `;
+    document.body.appendChild(successDiv);
+
+    // Auto-remove after 5 seconds
+    setTimeout(() => {
+      if (successDiv.parentElement) {
+        successDiv.remove();
+      }
+    }, 5000);
   }
 
   isFormValid(): boolean {

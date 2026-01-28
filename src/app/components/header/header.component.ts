@@ -73,6 +73,14 @@ import { RouterLink, RouterLinkActive } from "@angular/router";
             </li>
             <li>
               <a
+                routerLink="/courses"
+                routerLinkActive="active"
+                (click)="closeMenu()"
+                >Courses</a
+              >
+            </li>
+            <li>
+              <a
                 routerLink="/contact"
                 routerLinkActive="active"
                 class="cta-btn"

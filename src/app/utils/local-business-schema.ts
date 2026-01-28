@@ -194,7 +194,7 @@ export const serviceProviderSchemas = {
     serviceType: "Digital Transformation",
     provider: {
       "@type": "Person",
-      name: "Kamran Sawan",
+      name: "Kamran Sohail",
     },
     areaServed: "US",
     description:
@@ -217,7 +217,7 @@ export const serviceProviderSchemas = {
     serviceType: "Software Development",
     provider: {
       "@type": "Person",
-      name: "Kamran Sawan",
+      name: "Kamran Sohail",
     },
     areaServed: "US",
     description:
@@ -240,7 +240,7 @@ export const serviceProviderSchemas = {
     serviceType: "Cloud Migration",
     provider: {
       "@type": "Person",
-      name: "Kamran Sawan",
+      name: "Kamran Sohail",
     },
     areaServed: "US",
     description:
@@ -263,7 +263,7 @@ export const serviceProviderSchemas = {
     serviceType: "Technical Consulting",
     provider: {
       "@type": "Person",
-      name: "Kamran Sawan",
+      name: "Kamran Sohail",
       jobTitle: "Senior Software Engineer & Technical Consultant",
     },
     areaServed: "US",

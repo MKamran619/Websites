@@ -193,7 +193,7 @@ export class SeoService {
       name: "Software Solutions - Digital Transformation & Development",
       provider: {
         "@type": "Person",
-        name: "Kamran Sawan",
+        name: "Kamran Sohail",
       },
       areaServed: "US",
       serviceType: [
