@@ -197,16 +197,9 @@ export class HeaderComponent implements OnInit {
   private checkScroll() {
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
 
-    // Add scrolled class when scrolled past 50px
+    // Only add scrolled class, never hide header
     this.isScrolled = scrollTop > 50;
-
-    // Hide header when scrolling down, show when scrolling up
-    if (scrollTop > this.lastScrollTop && scrollTop > 100) {
-      this.isHidden = true;
-    } else {
-      this.isHidden = false;
-    }
-
+    this.isHidden = false;
     this.lastScrollTop = scrollTop;
   }
 
