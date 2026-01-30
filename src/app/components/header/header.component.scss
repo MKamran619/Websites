@@ -307,6 +307,11 @@
   .logo {
     gap: 0.5rem;
 
+    .logo-svg {
+      width: 140px;
+      height: auto;
+    }
+
     img {
       height: 40px;
       width: auto;
@@ -413,8 +418,15 @@
     padding: 0 0.75rem;
   }
 
-  .logo img {
-    height: 35px;
+  .logo {
+    .logo-svg {
+      width: 110px;
+      height: auto;
+    }
+
+    img {
+      height: 35px;
+    }
   }
 
   .hamburger {

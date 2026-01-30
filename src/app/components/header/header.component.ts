@@ -33,7 +33,7 @@ import { isPlatformBrowser } from "@angular/common";
                 viewBox="0 0 230 58"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
-                class="logo-svg"
+                class="logo-svg responsive-logo"
               >
                 <defs>
                   <linearGradient
@@ -197,15 +197,15 @@ import { isPlatformBrowser } from "@angular/common";
                 <!-- Slogan -->
                 <text
                   x="58"
-                  y="48"
+                  y="50"
                   font-family="'Inter', 'Segoe UI', sans-serif"
-                  font-size="9"
+                  font-size="7"
                   font-weight="500"
                   fill="var(--text-muted)"
-                  letter-spacing="1.8"
-                  opacity="0.75"
+                  letter-spacing="1.2"
+                  opacity="0.65"
                 >
-                  Build · Transform · Succeed
+                  Digital Success
                 </text>
 
                 <!-- Accent underline -->
