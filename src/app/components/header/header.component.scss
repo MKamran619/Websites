@@ -59,13 +59,15 @@
 
     &:hover {
       transform: scale(1.03) translateY(-2px);
-      filter: drop-shadow(0 8px 24px var(--primary-light, rgba(99, 102, 241, 0.3)));
+      filter: drop-shadow(
+        0 8px 24px var(--primary-light, rgba(99, 102, 241, 0.3))
+      );
 
       .logo-icon {
         path {
           opacity: 1;
         }
-        
+
         circle:last-child {
           transform: scale(1.2);
           transform-origin: center;
