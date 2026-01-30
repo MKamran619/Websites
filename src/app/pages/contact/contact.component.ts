@@ -7,6 +7,7 @@ import {
 } from "@angular/core";
 import { CommonModule, isPlatformBrowser } from "@angular/common";
 import { FormsModule } from "@angular/forms";
+import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
 import emailjs from "@emailjs/browser";
 
 @Component({
@@ -68,7 +69,10 @@ import emailjs from "@emailjs/browser";
             <!-- Benefits -->
             <div class="benefits-grid">
               <div class="benefit-card" *ngFor="let benefit of benefits">
-                <div class="benefit-icon" [innerHTML]="benefit.icon"></div>
+                <div
+                  class="benefit-icon"
+                  [innerHTML]="getSafeHtml(benefit.icon)"
+                ></div>
                 <h3>{{ benefit.title }}</h3>
                 <p>{{ benefit.description }}</p>
               </div>
@@ -519,7 +523,7 @@ import emailjs from "@emailjs/browser";
       <div class="container">
         <div class="stats-grid">
           <div class="stat-card" *ngFor="let stat of stats">
-            <div class="stat-icon" [innerHTML]="stat.icon"></div>
+            <div class="stat-icon" [innerHTML]="getSafeHtml(stat.icon)"></div>
             <div class="stat-number">{{ stat.value }}</div>
             <div class="stat-label">{{ stat.label }}</div>
           </div>
@@ -686,8 +690,15 @@ export class ContactComponent implements OnInit, AfterViewInit {
     },
   ];
 
-  constructor(@Inject(PLATFORM_ID) platformId: Object) {
+  constructor(
+    @Inject(PLATFORM_ID) platformId: Object,
+    private sanitizer: DomSanitizer,
+  ) {
     this.isBrowser = isPlatformBrowser(platformId);
+  }
+
+  getSafeHtml(html: string): SafeHtml {
+    return this.sanitizer.bypassSecurityTrustHtml(html);
   }
 
   ngOnInit() {

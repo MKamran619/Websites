@@ -840,7 +840,7 @@ export class ThemeService {
       .split(" ")
       .filter(
         (c) =>
-          !c.startsWith("theme-") && c !== "light-mode" && c !== "dark-mode"
+          !c.startsWith("theme-") && c !== "light-mode" && c !== "dark-mode",
       )
       .join(" ");
     document.body.classList.add(`theme-${theme.id}`);

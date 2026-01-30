@@ -49,6 +49,52 @@
   transition: all 0.3s ease;
   gap: 0.75rem;
 
+  .logo-svg {
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    filter: drop-shadow(0 2px 8px var(--shadow-color, rgba(0, 0, 0, 0.1)));
+
+    .accent-line {
+      transition: all 0.4s ease;
+    }
+
+    &:hover {
+      transform: scale(1.03) translateY(-2px);
+      filter: drop-shadow(
+        0 8px 24px var(--primary-light, rgba(99, 102, 241, 0.3))
+      );
+
+      .logo-icon {
+        path {
+          opacity: 1;
+        }
+
+        circle:last-child {
+          transform: scale(1.2);
+          transform-origin: center;
+        }
+      }
+
+      .accent-line {
+        width: 100px;
+        opacity: 1;
+      }
+    }
+
+    text {
+      transition: all 0.3s ease;
+    }
+
+    .logo-icon {
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+
+      path,
+      circle,
+      rect {
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+    }
+  }
+
   img {
     border-radius: 8px;
     transition: all 0.3s ease;
@@ -90,25 +136,18 @@
 
   .nav-icon {
     font-size: 1rem;
-    opacity: 0;
-    transform: translateX(-10px);
+    opacity: 0.7;
+    transform: translateX(0);
     transition: all 0.3s ease;
+    color: var(--primary);
+
+    svg {
+      stroke: var(--primary);
+    }
   }
 
   .nav-text {
     position: relative;
-
-    &::after {
-      content: "";
-      position: absolute;
-      bottom: -4px;
-      left: 0;
-      width: 0;
-      height: 2px;
-      background: var(--gradient);
-      border-radius: 2px;
-      transition: width 0.3s ease;
-    }
   }
 
   &:hover,
@@ -118,17 +157,21 @@
 
     .nav-icon {
       opacity: 1;
-      transform: translateX(0);
-    }
-
-    .nav-text::after {
-      width: 100%;
+      transform: scale(1.1);
     }
   }
 
   &.active {
     background: var(--surface-alt);
     color: var(--primary);
+
+    .nav-icon {
+      color: var(--primary);
+
+      svg {
+        stroke: var(--primary);
+      }
+    }
   }
 }
 

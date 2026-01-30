@@ -7,6 +7,7 @@ import {
 } from "@angular/core";
 import { CommonModule, isPlatformBrowser } from "@angular/common";
 import { RouterLink } from "@angular/router";
+import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
 
 @Component({
   selector: "app-services",
@@ -87,7 +88,10 @@ import { RouterLink } from "@angular/router";
             [class.featured]="i === 0"
           >
             <div class="card-header">
-              <div class="service-icon" [innerHTML]="service.icon"></div>
+              <div
+                class="service-icon"
+                [innerHTML]="getSafeHtml(service.icon)"
+              ></div>
               <div class="service-number">0{{ i + 1 }}</div>
             </div>
 
@@ -165,7 +169,7 @@ import { RouterLink } from "@angular/router";
               <div class="marker-ring"></div>
             </div>
             <div class="step-content">
-              <div class="step-icon" [innerHTML]="step.icon"></div>
+              <div class="step-icon" [innerHTML]="getSafeHtml(step.icon)"></div>
               <h3 class="step-title">{{ step.title }}</h3>
               <p class="step-description">{{ step.description }}</p>
               <div class="step-deliverables">
@@ -606,8 +610,15 @@ export class ServicesComponent implements OnInit, AfterViewInit {
     },
   ];
 
-  constructor(@Inject(PLATFORM_ID) platformId: Object) {
+  constructor(
+    @Inject(PLATFORM_ID) platformId: Object,
+    private sanitizer: DomSanitizer,
+  ) {
     this.isBrowser = isPlatformBrowser(platformId);
+  }
+
+  getSafeHtml(html: string): SafeHtml {
+    return this.sanitizer.bypassSecurityTrustHtml(html);
   }
 
   ngOnInit() {

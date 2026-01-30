@@ -325,11 +325,11 @@
 // EXPERTISE SECTION
 // ============================================
 .expertise-section {
-  padding: 8rem 0;
+  padding: 5rem 0;
   background: var(--background);
 
   .section-header {
-    margin-bottom: 4rem;
+    margin-bottom: 2.5rem;
 
     &.text-center {
       text-align: center;
@@ -472,7 +472,7 @@
 // VALUES SECTION
 // ============================================
 .values-section {
-  padding: 8rem 0;
+  padding: 5rem 0;
   background: linear-gradient(
     180deg,
     var(--surface) 0%,
@@ -480,7 +480,7 @@
   );
 
   .section-header {
-    margin-bottom: 4rem;
+    margin-bottom: 2.5rem;
 
     &.text-center {
       text-align: center;
@@ -625,7 +625,7 @@
 // WHY CHOOSE SECTION
 // ============================================
 .why-choose-section {
-  padding: 8rem 0;
+  padding: 5rem 0;
   background: linear-gradient(
     180deg,
     var(--background) 0%,
@@ -633,7 +633,7 @@
   );
 
   .section-header {
-    margin-bottom: 4rem;
+    margin-bottom: 2.5rem;
 
     &.text-center {
       text-align: center;
@@ -717,7 +717,7 @@
 // CTA SECTION
 // ============================================
 .cta-section {
-  padding: 6rem 0 8rem;
+  padding: 4rem 0 5rem;
   background: var(--background);
 
   .cta-card {

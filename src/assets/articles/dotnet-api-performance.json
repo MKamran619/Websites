@@ -1,0 +1,17 @@
+{
+  "id": "dotnet-api-performance",
+  "title": "Building High-Performance APIs with .NET Core",
+  "excerpt": "Deep dive into performance optimization techniques, caching strategies, and best practices that can improve your API response times by 10x.",
+  "date": "Oct 2023",
+  "category": "Performance",
+  "readTime": 15,
+  "icon": "⚡",
+  "tags": [".NET", "API", "Performance", "Caching"],
+  "featured": false,
+  "author": {
+    "name": "Kamran Sohail",
+    "role": "Software Engineer & Consultant",
+    "avatar": "KS"
+  },
+  "content": "<h2>Why Performance Matters</h2><p>API performance directly impacts user experience and business metrics. Studies show that every 100ms of latency costs 1% in sales. This guide covers advanced techniques to make your .NET Core APIs blazingly fast.</p><h2>Baseline: Measuring Performance</h2><p>Before optimizing, establish baselines. Key metrics to track:</p><ul><li><strong>Response Time:</strong> P50, P95, P99 latencies</li><li><strong>Throughput:</strong> Requests per second</li><li><strong>Resource Usage:</strong> CPU, memory, database connections</li></ul><h2>Database Optimization</h2><h3>1. Use Async/Await Correctly</h3><pre><code>// Bad - blocks thread\nvar data = dbContext.Users.ToList();\n\n// Good - frees thread during I/O\nvar data = await dbContext.Users.ToListAsync();</code></pre><h3>2. Optimize Queries</h3><ul><li>Use <code>AsNoTracking()</code> for read-only queries</li><li>Select only needed columns with projections</li><li>Avoid N+1 queries with proper includes</li><li>Use compiled queries for repeated operations</li></ul><h3>3. Connection Pooling</h3><p>Ensure proper connection pool configuration. Default of 100 connections may be too low for high-traffic applications.</p><h2>Caching Strategies</h2><h3>In-Memory Caching</h3><p>Use IMemoryCache for frequently accessed, small datasets:</p><pre><code>public async Task&lt;User&gt; GetUserAsync(int id)\n{\n    return await _cache.GetOrCreateAsync($\"user_{id}\", async entry =&gt; {\n        entry.SlidingExpiration = TimeSpan.FromMinutes(5);\n        return await _dbContext.Users.FindAsync(id);\n    });\n}</code></pre><h3>Distributed Caching</h3><p>For multi-instance deployments, use Redis or SQL Server distributed cache.</p><h3>Response Caching</h3><p>Use response caching middleware for GET requests that don't change frequently.</p><h2>Serialization Optimization</h2><p>System.Text.Json is faster than Newtonsoft.Json. Further optimize with source generators:</p><pre><code>[JsonSerializable(typeof(User))]\npublic partial class UserContext : JsonSerializerContext { }</code></pre><h2>Compression</h2><p>Enable response compression for text-based content. Brotli offers better compression than gzip with modern clients.</p><h2>HTTP/2 and Connection Reuse</h2><p>Enable HTTP/2 for multiplexing. Use HttpClientFactory for proper connection management with external services.</p><h2>Results</h2><p>Applying these techniques to a real-world API achieved:</p><ul><li>P95 latency reduced from 450ms to 45ms (10x improvement)</li><li>Throughput increased from 500 to 3000 requests/second</li><li>Server count reduced from 8 to 3 instances</li></ul><h2>Conclusion</h2><p>Performance optimization is about making informed decisions based on profiling data. Start with the biggest bottlenecks (usually database queries) and work your way through systematic improvements.</p>"
+}

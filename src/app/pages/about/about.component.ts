@@ -7,6 +7,7 @@ import {
 } from "@angular/core";
 import { CommonModule, isPlatformBrowser } from "@angular/common";
 import { RouterLink } from "@angular/router";
+import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -136,7 +137,7 @@ gsap.registerPlugin(ScrollTrigger);
         </div>
         <div class="expertise-grid">
           <div class="expertise-card" *ngFor="let area of expertiseAreas">
-            <div class="card-icon" [innerHTML]="area.icon"></div>
+            <div class="card-icon" [innerHTML]="getSafeHtml(area.icon)"></div>
             <h3 class="card-title">{{ area.title }}</h3>
             <p class="card-description">{{ area.description }}</p>
             <div class="tech-tags">
@@ -393,8 +394,15 @@ export class AboutComponent implements OnInit, AfterViewInit {
     },
   ];
 
-  constructor(@Inject(PLATFORM_ID) platformId: Object) {
+  constructor(
+    @Inject(PLATFORM_ID) platformId: Object,
+    private sanitizer: DomSanitizer,
+  ) {
     this.platformId = platformId;
+  }
+
+  getSafeHtml(html: string): SafeHtml {
+    return this.sanitizer.bypassSecurityTrustHtml(html);
   }
 
   ngOnInit() {
