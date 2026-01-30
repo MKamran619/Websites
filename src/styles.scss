@@ -82,6 +82,7 @@
 
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 90px; /* Header height + buffer for fixed header */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

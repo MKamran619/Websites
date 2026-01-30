@@ -195,29 +195,30 @@ import { isPlatformBrowser } from "@angular/common";
                 </g>
 
                 <!-- Slogan -->
-                <text
-                  x="58"
-                  y="50"
-                  font-family="'Inter', 'Segoe UI', sans-serif"
-                  font-size="7"
-                  font-weight="500"
-                  fill="var(--text-muted)"
-                  letter-spacing="1.2"
-                  opacity="0.65"
-                >
-                  Digital Success
-                </text>
-
-                <!-- Accent underline -->
-                <rect
-                  x="58"
-                  y="52"
-                  width="120"
-                  height="2"
-                  rx="1"
-                  fill="url(#iconGradient)"
-                  opacity="0.25"
-                />
+                <g transform="translate(0, 2)">
+                  <text
+                    x="58"
+                    y="50"
+                    font-family="'Inter', 'Segoe UI', sans-serif"
+                    font-size="13"
+                    font-weight="500"
+                    fill="var(--text-muted)"
+                    letter-spacing="1.2"
+                    opacity="0.75"
+                  >
+                    Digital Success
+                  </text>
+                  <!-- Accent underline -->
+                  <rect
+                    x="58"
+                    y="52"
+                    width="120"
+                    height="2"
+                    rx="1"
+                    fill="url(#iconGradient)"
+                    opacity="0.25"
+                  />
+                </g>
               </svg>
             </a>
           </div>
