@@ -239,11 +239,45 @@
         filter: drop-shadow(0 0 10px var(--shadow-color));
       }
 
+      .logo-svg {
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        filter: drop-shadow(0 2px 8px var(--shadow-color, rgba(0, 0, 0, 0.1)));
+
+        .logo-icon {
+          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+
+          path,
+          circle,
+          rect {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+          }
+        }
+
+        text {
+          transition: all 0.3s ease;
+        }
+
+        .brand-text {
+          font-weight: 700;
+        }
+
+        .brand-text-accent {
+          font-weight: 800;
+        }
+      }
+
       &:hover {
         transform: scale(1.02);
 
         img {
           filter: drop-shadow(0 0 20px var(--shadow-color));
+        }
+
+        .logo-svg {
+          transform: scale(1.05) translateY(-2px);
+          filter: drop-shadow(
+            0 8px 20px var(--primary-light, rgba(99, 102, 241, 0.2))
+          );
         }
       }
     }

@@ -9,6 +9,7 @@ import { CommonModule } from "@angular/common";
 import { RouterLink, RouterLinkActive, Router } from "@angular/router";
 import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
 import { ThemeSwitcherComponent } from "../theme-switcher/theme-switcher.component";
+import { ThemeService } from "../../services/theme.service";
 import { DOCUMENT } from "@angular/common";
 import { isPlatformBrowser } from "@angular/common";
 
@@ -26,13 +27,198 @@ import { isPlatformBrowser } from "@angular/common";
         <div class="container">
           <div class="nav-brand">
             <a routerLink="/" class="logo">
-              <img
-                src="assets/ApnaKam.png"
-                alt="ApnaKam - Premium Software Solutions"
-                width="170"
-                height="50"
-                loading="eager"
-              />
+              <svg
+                width="230"
+                height="58"
+                viewBox="0 0 230 58"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+                class="logo-svg"
+              >
+                <defs>
+                  <linearGradient
+                    id="logoGradient"
+                    x1="0%"
+                    y1="0%"
+                    x2="100%"
+                    y2="100%"
+                  >
+                    <stop offset="0%" style="stop-color:var(--primary)" />
+                    <stop
+                      offset="100%"
+                      style="stop-color:var(--primary-light, var(--primary))"
+                    />
+                  </linearGradient>
+                  <linearGradient
+                    id="iconGradient"
+                    x1="0%"
+                    y1="0%"
+                    x2="100%"
+                    y2="100%"
+                  >
+                    <stop offset="0%" style="stop-color:var(--primary)" />
+                    <stop
+                      offset="50%"
+                      style="stop-color:var(--secondary, var(--primary))"
+                    />
+                    <stop
+                      offset="100%"
+                      style="stop-color:var(--primary-light, var(--primary))"
+                    />
+                  </linearGradient>
+                  <linearGradient
+                    id="iconBg"
+                    x1="0%"
+                    y1="0%"
+                    x2="100%"
+                    y2="100%"
+                  >
+                    <stop
+                      offset="0%"
+                      style="stop-color:var(--primary);stop-opacity:0.12"
+                    />
+                    <stop
+                      offset="100%"
+                      style="stop-color:var(--secondary, var(--primary));stop-opacity:0.06"
+                    />
+                  </linearGradient>
+                  <filter
+                    id="softGlow"
+                    x="-30%"
+                    y="-30%"
+                    width="160%"
+                    height="160%"
+                  >
+                    <feGaussianBlur stdDeviation="2" result="blur" />
+                    <feMerge>
+                      <feMergeNode in="blur" />
+                      <feMergeNode in="SourceGraphic" />
+                    </feMerge>
+                  </filter>
+                  <filter
+                    id="softShadow"
+                    x="-20%"
+                    y="-20%"
+                    width="140%"
+                    height="140%"
+                  >
+                    <feDropShadow
+                      dx="0"
+                      dy="2"
+                      stdDeviation="3"
+                      flood-color="var(--primary)"
+                      flood-opacity="0.25"
+                    />
+                  </filter>
+                </defs>
+
+                <!-- Code Brackets Icon -->
+                <g class="logo-icon" filter="url(#softShadow)">
+                  <!-- Background rounded square -->
+                  <rect
+                    x="4"
+                    y="7"
+                    width="44"
+                    height="44"
+                    rx="12"
+                    fill="url(#iconBg)"
+                  />
+                  <rect
+                    x="8"
+                    y="11"
+                    width="36"
+                    height="36"
+                    rx="9"
+                    fill="var(--primary)"
+                    opacity="0.08"
+                  />
+
+                  <!-- Left bracket < -->
+                  <path
+                    d="M22 19L12 29L22 39"
+                    stroke="url(#iconGradient)"
+                    stroke-width="3"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    fill="none"
+                  />
+                  <!-- Right bracket > -->
+                  <path
+                    d="M30 19L40 29L30 39"
+                    stroke="var(--secondary, var(--primary))"
+                    stroke-width="3"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    fill="none"
+                  />
+                  <!-- Center slash / -->
+                  <path
+                    d="M28 21L24 37"
+                    stroke="var(--primary)"
+                    stroke-width="2.5"
+                    stroke-linecap="round"
+                    opacity="0.5"
+                  />
+
+                  <!-- Accent dots -->
+                  <circle
+                    cx="44"
+                    cy="11"
+                    r="3"
+                    fill="var(--secondary, var(--accent))"
+                    opacity="0.9"
+                  />
+                </g>
+
+                <!-- Brand Text -->
+                <g filter="url(#softGlow)">
+                  <text
+                    x="58"
+                    y="34"
+                    font-family="'Poppins', 'Segoe UI', sans-serif"
+                    font-size="26"
+                    font-weight="600"
+                    fill="var(--text)"
+                  >
+                    Apna
+                  </text>
+                  <text
+                    x="130"
+                    y="34"
+                    font-family="'Poppins', 'Segoe UI', sans-serif"
+                    font-size="26"
+                    font-weight="700"
+                    fill="url(#logoGradient)"
+                  >
+                    Kam
+                  </text>
+                </g>
+
+                <!-- Slogan -->
+                <text
+                  x="58"
+                  y="48"
+                  font-family="'Inter', 'Segoe UI', sans-serif"
+                  font-size="9"
+                  font-weight="500"
+                  fill="var(--text-muted)"
+                  letter-spacing="1.8"
+                  opacity="0.75"
+                >
+                  Build · Transform · Succeed
+                </text>
+
+                <!-- Accent underline -->
+                <rect
+                  x="58"
+                  y="52"
+                  width="120"
+                  height="2"
+                  rx="1"
+                  fill="url(#iconGradient)"
+                  opacity="0.25"
+                />
+              </svg>
             </a>
           </div>
 
@@ -142,6 +328,7 @@ export class HeaderComponent implements OnInit {
     @Inject(PLATFORM_ID) platformId: Object,
     @Inject(DOCUMENT) private document: Document,
     private router: Router,
+    private themeService: ThemeService,
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
   }

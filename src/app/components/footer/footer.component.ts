@@ -55,7 +55,197 @@ import { FormsModule } from "@angular/forms";
           <div class="footer-content">
             <div class="footer-section footer-brand">
               <a routerLink="/" class="footer-logo">
-                <img src="assets/ApnaKam.png" alt="ApnaKam" height="45" />
+                <svg
+                  class="logo-svg"
+                  width="210"
+                  height="54"
+                  viewBox="0 0 230 58"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <defs>
+                    <linearGradient
+                      id="footerGradient"
+                      x1="0%"
+                      y1="0%"
+                      x2="100%"
+                      y2="100%"
+                    >
+                      <stop offset="0%" style="stop-color:var(--primary)" />
+                      <stop
+                        offset="100%"
+                        style="stop-color:var(--primary-light, var(--primary))"
+                      />
+                    </linearGradient>
+                    <linearGradient
+                      id="footerIconGradient"
+                      x1="0%"
+                      y1="0%"
+                      x2="100%"
+                      y2="100%"
+                    >
+                      <stop offset="0%" style="stop-color:var(--primary)" />
+                      <stop
+                        offset="50%"
+                        style="stop-color:var(--secondary, var(--primary))"
+                      />
+                      <stop
+                        offset="100%"
+                        style="stop-color:var(--primary-light, var(--primary))"
+                      />
+                    </linearGradient>
+                    <linearGradient
+                      id="footerIconBg"
+                      x1="0%"
+                      y1="0%"
+                      x2="100%"
+                      y2="100%"
+                    >
+                      <stop
+                        offset="0%"
+                        style="stop-color:var(--primary);stop-opacity:0.12"
+                      />
+                      <stop
+                        offset="100%"
+                        style="stop-color:var(--secondary, var(--primary));stop-opacity:0.06"
+                      />
+                    </linearGradient>
+                    <filter
+                      id="footerGlow"
+                      x="-30%"
+                      y="-30%"
+                      width="160%"
+                      height="160%"
+                    >
+                      <feGaussianBlur stdDeviation="2" result="blur" />
+                      <feMerge>
+                        <feMergeNode in="blur" />
+                        <feMergeNode in="SourceGraphic" />
+                      </feMerge>
+                    </filter>
+                    <filter
+                      id="footerShadow"
+                      x="-20%"
+                      y="-20%"
+                      width="140%"
+                      height="140%"
+                    >
+                      <feDropShadow
+                        dx="0"
+                        dy="2"
+                        stdDeviation="3"
+                        flood-color="var(--primary)"
+                        flood-opacity="0.25"
+                      />
+                    </filter>
+                  </defs>
+
+                  <!-- Code Brackets Icon -->
+                  <g class="logo-icon" filter="url(#footerShadow)">
+                    <!-- Background rounded square -->
+                    <rect
+                      x="4"
+                      y="7"
+                      width="44"
+                      height="44"
+                      rx="12"
+                      fill="url(#footerIconBg)"
+                    />
+                    <rect
+                      x="8"
+                      y="11"
+                      width="36"
+                      height="36"
+                      rx="9"
+                      fill="var(--primary)"
+                      opacity="0.08"
+                    />
+
+                    <!-- Left bracket < -->
+                    <path
+                      d="M22 19L12 29L22 39"
+                      stroke="url(#footerIconGradient)"
+                      stroke-width="3"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      fill="none"
+                    />
+                    <!-- Right bracket > -->
+                    <path
+                      d="M30 19L40 29L30 39"
+                      stroke="var(--secondary, var(--primary))"
+                      stroke-width="3"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      fill="none"
+                    />
+                    <!-- Center slash / -->
+                    <path
+                      d="M28 21L24 37"
+                      stroke="var(--primary)"
+                      stroke-width="2.5"
+                      stroke-linecap="round"
+                      opacity="0.5"
+                    />
+
+                    <!-- Accent dots -->
+                    <circle
+                      cx="44"
+                      cy="11"
+                      r="3"
+                      fill="var(--secondary, var(--accent))"
+                      opacity="0.9"
+                    />
+                  </g>
+
+                  <!-- Brand Text -->
+                  <g filter="url(#footerGlow)">
+                    <text
+                      x="58"
+                      y="34"
+                      font-family="'Poppins', 'Segoe UI', sans-serif"
+                      font-size="24"
+                      font-weight="600"
+                      fill="var(--text)"
+                    >
+                      Apna
+                    </text>
+                    <text
+                      x="126"
+                      y="34"
+                      font-family="'Poppins', 'Segoe UI', sans-serif"
+                      font-size="24"
+                      font-weight="700"
+                      fill="url(#footerGradient)"
+                    >
+                      Kam
+                    </text>
+                  </g>
+
+                  <!-- Slogan -->
+                  <text
+                    x="58"
+                    y="48"
+                    font-family="'Inter', 'Segoe UI', sans-serif"
+                    font-size="8"
+                    font-weight="500"
+                    fill="var(--text-muted)"
+                    letter-spacing="1.8"
+                    opacity="0.75"
+                  >
+                    Build · Transform · Succeed
+                  </text>
+
+                  <!-- Accent underline -->
+                  <rect
+                    x="58"
+                    y="52"
+                    width="115"
+                    height="2"
+                    rx="1"
+                    fill="url(#footerIconGradient)"
+                    opacity="0.25"
+                  />
+                </svg>
               </a>
               <p>
                 Transforming businesses with cutting-edge software solutions and

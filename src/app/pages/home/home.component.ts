@@ -20,35 +20,85 @@ gsap.registerPlugin(ScrollTrigger);
   template: `
     <!-- Hero Section with Animated Background -->
     <section class="hero">
-      <div class="hero-background">
-        <div class="gradient-sphere sphere-1"></div>
-        <div class="gradient-sphere sphere-2"></div>
-        <div class="gradient-sphere sphere-3"></div>
-        <div class="grid-overlay"></div>
-        <div class="particles" id="particles"></div>
+      <div class="hero-bg-effects">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="grid-pattern"></div>
       </div>
 
       <div class="container">
         <div class="hero-content">
           <div class="hero-badge">
-            <span class="badge-icon">🚀</span>
-            <span>Available for Projects</span>
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="var(--primary)"
+              stroke-width="2"
+            >
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+            </svg>
+            <span>Ready to Build Your Vision</span>
           </div>
 
           <h1 class="hero-title">
-            <span class="title-line">Transforming Ideas Into</span>
-            <span class="title-gradient">Digital Excellence</span>
+            <span class="title-line">We Engineer</span>
+            <span class="title-gradient">Digital Success</span>
+            <span class="title-accent">For Your Business</span>
           </h1>
 
           <p class="hero-subtitle">
-            We are a team of expert developers with 10+ years crafting scalable,
-            high-performance solutions for businesses worldwide. From startups
-            to Fortune 500 companies.
+            From concept to deployment, we deliver enterprise-grade software
+            solutions that drive growth. Our expert team combines cutting-edge
+            technology with proven methodologies to transform your ideas into
+            powerful, scalable applications.
           </p>
+
+          <div class="hero-features">
+            <div class="feature-item">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="var(--primary)"
+                stroke-width="2"
+              >
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+              <span>Enterprise Solutions</span>
+            </div>
+            <div class="feature-item">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="var(--primary)"
+                stroke-width="2"
+              >
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+              <span>Cloud Architecture</span>
+            </div>
+            <div class="feature-item">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="var(--primary)"
+                stroke-width="2"
+              >
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+              <span>24/7 Support</span>
+            </div>
+          </div>
 
           <div class="hero-cta">
             <a routerLink="/contact" class="btn btn-primary btn-lg">
-              <span>Start Your Project</span>
               <svg
                 width="20"
                 height="20"
@@ -57,28 +107,93 @@ gsap.registerPlugin(ScrollTrigger);
                 stroke="currentColor"
                 stroke-width="2"
               >
+                <path
+                  d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
+                />
+              </svg>
+              <span>Start a Conversation</span>
+              <svg
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                class="arrow-icon"
+              >
                 <path d="M5 12h14M12 5l7 7-7 7" />
               </svg>
             </a>
             <a routerLink="/portfolio" class="btn btn-secondary btn-lg">
-              <span>View Our Work</span>
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
+                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+              </svg>
+              <span>Explore Case Studies</span>
             </a>
           </div>
 
           <div class="hero-stats">
             <div class="stat-item">
+              <div class="stat-icon">
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="var(--primary)"
+                  stroke-width="2"
+                >
+                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                  <polyline points="22 4 12 14.01 9 11.01" />
+                </svg>
+              </div>
               <span class="stat-number" data-count="50">0</span
               ><span class="stat-plus">+</span>
               <span class="stat-label">Projects Delivered</span>
             </div>
             <div class="stat-divider"></div>
             <div class="stat-item">
+              <div class="stat-icon">
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="var(--primary)"
+                  stroke-width="2"
+                >
+                  <circle cx="12" cy="12" r="10" />
+                  <polyline points="12 6 12 12 16 14" />
+                </svg>
+              </div>
               <span class="stat-number" data-count="10">0</span
               ><span class="stat-plus">+</span>
               <span class="stat-label">Years Experience</span>
             </div>
             <div class="stat-divider"></div>
             <div class="stat-item">
+              <div class="stat-icon">
+                <svg
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="var(--primary)"
+                  stroke-width="2"
+                >
+                  <path
+                    d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
+                  />
+                </svg>
+              </div>
               <span class="stat-number" data-count="98">0</span
               ><span class="stat-plus">%</span>
               <span class="stat-label">Client Satisfaction</span>
@@ -87,6 +202,7 @@ gsap.registerPlugin(ScrollTrigger);
         </div>
 
         <div class="hero-visual">
+          <div class="visual-glow"></div>
           <div class="code-window">
             <div class="window-header">
               <div class="window-dots">
@@ -94,16 +210,26 @@ gsap.registerPlugin(ScrollTrigger);
                 <span class="dot yellow"></span>
                 <span class="dot green"></span>
               </div>
-              <span class="window-title">excellence.ts</span>
+              <span class="window-title">success.config.ts</span>
             </div>
             <div class="window-content">
-              <pre><code><span class="keyword">const</span> <span class="variable">apnaKam</span> = {{'{'}}</code></pre>
-              <pre><code>  <span class="property">company</span>: <span class="string">"ApnaKam Technologies"</span>,</code></pre>
-              <pre><code>  <span class="property">expertise</span>: [<span class="string">"Web Dev"</span>, <span class="string">"Cloud"</span>],</code></pre>
-              <pre><code>  <span class="property">mission</span>: <span class="string">"Building Solutions"</span>,</code></pre>
-              <pre><code>  <span class="property">available</span>: <span class="boolean">true</span></code></pre>
+              <pre><code><span class="keyword">export const</span> <span class="variable">apnaKam</span> = {{'{'}}</code></pre>
+              <pre><code>  <span class="property">name</span>: <span class="string">"ApnaKam Technologies"</span>,</code></pre>
+              <pre><code>  <span class="property">services</span>: [</code></pre>
+              <pre><code>    <span class="string">"Custom Software"</span>,</code></pre>
+              <pre><code>    <span class="string">"Cloud Solutions"</span>,</code></pre>
+              <pre><code>    <span class="string">"Digital Transformation"</span></code></pre>
+              <pre><code>  ],</code></pre>
+              <pre><code>  <span class="property">commitment</span>: <span class="string">"Excellence"</span>,</code></pre>
+              <pre><code>  <span class="property">readyToHelp</span>: <span class="boolean">true</span></code></pre>
               <pre><code>{{'}'}};</code></pre>
             </div>
+          </div>
+          <div class="tech-badges">
+            <span class="tech-badge">Angular</span>
+            <span class="tech-badge">.NET</span>
+            <span class="tech-badge">Azure</span>
+            <span class="tech-badge">Node.js</span>
           </div>
         </div>
       </div>
