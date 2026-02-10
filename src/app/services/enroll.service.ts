@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { Observable } from "rxjs";
 
 export interface EnrollPayload {
   name: string;
@@ -10,9 +10,9 @@ export interface EnrollPayload {
   message?: string;
 }
 
-@Injectable({ providedIn: 'root' })
+@Injectable({ providedIn: "root" })
 export class EnrollService {
-  private endpoint = '/api/enroll';
+  private endpoint = "/api/enroll";
 
   constructor(private http: HttpClient) {}
 

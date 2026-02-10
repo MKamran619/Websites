@@ -6,7 +6,12 @@ import {
   Inject,
 } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { RouterLink, RouterLinkActive, Router, NavigationEnd } from "@angular/router";
+import {
+  RouterLink,
+  RouterLinkActive,
+  Router,
+  NavigationEnd,
+} from "@angular/router";
 import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
 import { ThemeSwitcherComponent } from "../theme-switcher/theme-switcher.component";
 import { ThemeService } from "../../services/theme.service";
@@ -344,7 +349,10 @@ export class HeaderComponent implements OnInit {
       }
 
       // Ensure page starts at top on full reload
-      setTimeout(() => window.scrollTo({ top: 0, left: 0, behavior: "auto" }), 0);
+      setTimeout(
+        () => window.scrollTo({ top: 0, left: 0, behavior: "auto" }),
+        0,
+      );
 
       this.checkScroll();
       // Hide theme dropdown if on websiteservice619 domain
@@ -379,7 +387,10 @@ export class HeaderComponent implements OnInit {
 
       this.router.events.subscribe((event) => {
         if (event instanceof NavigationEnd) {
-          setTimeout(() => window.scrollTo({ top: 0, left: 0, behavior: "auto" }), 0);
+          setTimeout(
+            () => window.scrollTo({ top: 0, left: 0, behavior: "auto" }),
+            0,
+          );
         }
       });
     }
@@ -392,7 +403,10 @@ export class HeaderComponent implements OnInit {
   }
 
   private checkScroll() {
-    const scrollTop = (this.isBrowser && window) ? (window.pageYOffset || this.document.documentElement.scrollTop) : 0;
+    const scrollTop =
+      this.isBrowser && window
+        ? window.pageYOffset || this.document.documentElement.scrollTop
+        : 0;
 
     // Only add scrolled class, never hide header
     this.isScrolled = scrollTop > 50;
@@ -404,7 +418,9 @@ export class HeaderComponent implements OnInit {
     this.menuOpen = !this.menuOpen;
     if (this.isBrowser) {
       try {
-        (this.document.body as HTMLElement).style.overflow = this.menuOpen ? "hidden" : "";
+        (this.document.body as HTMLElement).style.overflow = this.menuOpen
+          ? "hidden"
+          : "";
       } catch (e) {}
     }
   }
