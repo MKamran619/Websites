@@ -6,6 +6,8 @@ import { PortfolioComponent } from "./pages/portfolio/portfolio.component";
 import { ContactComponent } from "./pages/contact/contact.component";
 import { BlogComponent } from "./pages/blog/blog.component";
 import { CoursesComponent } from "./pages/courses/courses.component";
+import { PricingComponent } from "./pages/pricing/pricing.component";
+import { FaqComponent } from "./pages/faq/faq.component";
 
 export const routes: Routes = [
   {
@@ -98,6 +100,30 @@ export const routes: Routes = [
         "web development courses, learn coding, JavaScript courses, Angular courses, React courses, Bootstrap courses, jQuery, HTML CSS",
       ogImage:
         "https://websiteservice619.netlify.app/assets/courses-og-image.jpg",
+    },
+  },
+  {
+    path: "pricing",
+    component: PricingComponent,
+    data: {
+      title: "Pricing — Web Development & Academy Courses | ApnaKam",
+      description:
+        "Transparent pricing for web development projects starting at $500. Academy courses from $39. US clients welcome. Pay via PayPal or Wise.",
+      keywords:
+        "web development pricing, freelance developer rates, website cost, course pricing, affordable web development",
+      ogImage: "https://websiteservice619.netlify.app/assets/og-image.jpg",
+    },
+  },
+  {
+    path: "faq",
+    component: FaqComponent,
+    data: {
+      title: "FAQ — Working with International Clients | ApnaKam",
+      description:
+        "Answers to common questions about working with ApnaKam from the US, payment methods, project timelines, and our Academy courses.",
+      keywords:
+        "faq, international clients, USD payments, remote developer, web development questions, timezone",
+      ogImage: "https://websiteservice619.netlify.app/assets/og-image.jpg",
     },
   },
   { path: "**", redirectTo: "" },
