@@ -31,7 +31,7 @@ import emailjs from "@emailjs/browser";
               <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
               <path d="M6 12v5c3 3 9 3 12 0v-5" />
             </svg>
-            ApnaKam Academy
+            NexaWeb Academy
           </span>
           <h1 class="hero-title">
             Master <span class="gradient-text">Modern Development</span><br />
@@ -292,7 +292,7 @@ import emailjs from "@emailjs/browser";
       <div class="container">
         <div class="benefits-wrapper">
           <div class="benefits-content">
-            <span class="section-tag">Why ApnaKam Academy</span>
+            <span class="section-tag">Why NexaWeb Academy</span>
             <h2 class="section-title">
               Learn Differently.<br />Succeed Faster.
             </h2>

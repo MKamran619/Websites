@@ -415,7 +415,7 @@ import { FormsModule } from "@angular/forms";
       <div class="footer-bottom">
         <div class="container">
           <div class="footer-bottom-content">
-            <p>&copy; 2014 - {{ currentYear }} ApnaKam. All rights reserved.</p>
+            <p>&copy; 2014 - {{ currentYear }} NexaWeb. All rights reserved.</p>
             <div class="footer-links">
               <a href="#">Privacy Policy</a>
               <a href="#">Terms of Service</a>

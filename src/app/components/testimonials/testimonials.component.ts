@@ -1175,14 +1175,14 @@ export class TestimonialsComponent implements OnInit, OnDestroy, AfterViewInit {
   videoTestimonials = [
     {
       id: "dQw4w9WgXcQ", // Replace with actual client testimonial video ID
-      title: "How ApnaKam Transformed Our Digital Presence",
+      title: "How NexaWeb Transformed Our Digital Presence",
       author: "James Mitchell",
       role: "CEO, TechFlow Solutions",
       duration: "2:34",
     },
     {
       id: "9bZkp7q19f0", // Replace with actual client testimonial video ID
-      title: "Our Experience Working with ApnaKam",
+      title: "Our Experience Working with NexaWeb",
       author: "Sarah Anderson",
       role: "CTO, FinanceHub Inc",
       duration: "3:12",

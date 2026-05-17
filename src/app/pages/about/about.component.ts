@@ -36,7 +36,7 @@ gsap.registerPlugin(ScrollTrigger);
             <br />Since 2014
           </h1>
           <p class="hero-subtitle">
-            ApnaKam is a leading software development company passionate about
+            NexaWeb is a leading software development company passionate about
             transforming businesses through innovative technology solutions.
           </p>
           <div class="hero-stats">
@@ -194,7 +194,7 @@ gsap.registerPlugin(ScrollTrigger);
           </blockquote>
           <div class="philosophy-author">
             <div class="author-info">
-              <span class="author-name">ApnaKam Team</span>
+              <span class="author-name">NexaWeb Team</span>
               <span class="author-title">Software Solutions</span>
             </div>
           </div>
@@ -206,8 +206,8 @@ gsap.registerPlugin(ScrollTrigger);
     <section class="why-choose-section">
       <div class="container">
         <div class="section-header text-center">
-          <span class="section-tag">Why ApnaKam?</span>
-          <h2 class="section-title">The ApnaKam Advantage</h2>
+          <span class="section-tag">Why NexaWeb?</span>
+          <h2 class="section-title">The NexaWeb Advantage</h2>
         </div>
         <div class="advantages-grid">
           <div class="advantage-card" *ngFor="let advantage of advantages">
@@ -267,7 +267,7 @@ export class AboutComponent implements OnInit, AfterViewInit {
     { year: "2018", title: "Technical Lead Role" },
     { year: "2020", title: "Cloud Architecture Specialist" },
     { year: "2022", title: "Digital Transformation Consultant" },
-    { year: "2024", title: "ApnaKam Founded" },
+    { year: "2024", title: "NexaWeb Founded" },
   ];
 
   expertiseAreas = [
