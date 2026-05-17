@@ -253,9 +253,11 @@ import { isPlatformBrowser } from "@angular/common";
                 <span class="nav-text">{{ item.label }}</span>
               </a>
             </li>
+            @if (showTheme) {
             <li class="nav-theme">
               <app-theme-switcher></app-theme-switcher>
             </li>
+            }
             <li class="nav-cta">
               <a
                 routerLink="/contact"
@@ -287,6 +289,7 @@ export class HeaderComponent implements OnInit {
   menuOpen = false;
   isScrolled = false;
   isHidden = false;
+  showTheme = true;
   private lastScrollTop = 0;
   private isBrowser: boolean;
 
@@ -349,6 +352,9 @@ export class HeaderComponent implements OnInit {
     private themeService: ThemeService,
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
+    if (this.isBrowser) {
+      this.showTheme = !this.document.location.hostname.includes("nexawebservice");
+    }
   }
 
   ngOnInit() {
@@ -367,16 +373,6 @@ export class HeaderComponent implements OnInit {
       );
 
       this.checkScroll();
-      // Hide theme dropdown if on websiteservice619 domain
-      if (this.document.location.hostname.includes("nexawebservice")) {
-        setTimeout(() => {
-          const themeSwitcher =
-            this.document.querySelector("app-theme-switcher");
-          if (themeSwitcher) {
-            (themeSwitcher as HTMLElement).style.display = "none";
-          }
-        }, 0);
-      }
 
       // Move About Us to last in navItems
       const aboutIndex = this.navItems.findIndex(
