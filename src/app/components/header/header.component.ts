@@ -368,7 +368,7 @@ export class HeaderComponent implements OnInit {
 
       this.checkScroll();
       // Hide theme dropdown if on websiteservice619 domain
-      if (this.document.location.hostname.includes("websiteservice619")) {
+      if (this.document.location.hostname.includes("nexawebservice")) {
         setTimeout(() => {
           const themeSwitcher =
             this.document.querySelector("app-theme-switcher");

@@ -7,10 +7,10 @@ export const localBusinessSchemas = {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
     name: "Software Solutions",
-    image: "https://websiteservice619.netlify.app/assets/logo.png",
+    image: "https://nexawebservice.com/assets/logo.png",
     description:
       "Digital transformation and custom software development solutions for American businesses",
-    url: "https://websiteservice619.netlify.app",
+    url: "https://nexawebservice.com",
     telephone: "+1-234-567-8900",
     email: "mksawan619@gmail.com",
     areaServed: {
@@ -53,7 +53,7 @@ export const localBusinessSchemas = {
       postalCode: "94000",
       addressCountry: "US",
     },
-    url: "https://websiteservice619.netlify.app",
+    url: "https://nexawebservice.com",
     telephone: "+1-234-567-8900",
     areaServed: ["CA", "Bay Area"],
     description:
@@ -71,7 +71,7 @@ export const localBusinessSchemas = {
       postalCode: "10000",
       addressCountry: "US",
     },
-    url: "https://websiteservice619.netlify.app",
+    url: "https://nexawebservice.com",
     telephone: "+1-234-567-8900",
     areaServed: ["NY", "NYC Metro"],
     description:
@@ -89,7 +89,7 @@ export const localBusinessSchemas = {
       postalCode: "78700",
       addressCountry: "US",
     },
-    url: "https://websiteservice619.netlify.app",
+    url: "https://nexawebservice.com",
     telephone: "+1-234-567-8900",
     areaServed: ["TX", "Austin", "Houston", "Dallas"],
     description:
@@ -103,7 +103,7 @@ export const localBusinessSchemas = {
     name: "Software Solutions - Healthcare Tech",
     description:
       "Specializing in HIPAA-compliant software solutions for healthcare providers and institutions",
-    url: "https://websiteservice619.netlify.app",
+    url: "https://nexawebservice.com",
     areaServed: "US",
     knowsAbout: [
       "HIPAA Compliance",
@@ -121,7 +121,7 @@ export const localBusinessSchemas = {
     name: "Software Solutions - FinTech",
     description:
       "Custom fintech solutions and digital banking platform development",
-    url: "https://websiteservice619.netlify.app",
+    url: "https://nexawebservice.com",
     areaServed: "US",
     knowsAbout: [
       "Payment Processing",
@@ -139,7 +139,7 @@ export const localBusinessSchemas = {
     name: "Software Solutions - E-Commerce",
     description:
       "E-commerce platform development and optimization for online retailers",
-    url: "https://websiteservice619.netlify.app",
+    url: "https://nexawebservice.com",
     areaServed: "US",
     knowsAbout: [
       "E-commerce Platforms",
@@ -157,7 +157,7 @@ export const localBusinessSchemas = {
     name: "Software Solutions - Manufacturing",
     description:
       "Enterprise software solutions for manufacturing and industrial operations",
-    url: "https://websiteservice619.netlify.app",
+    url: "https://nexawebservice.com",
     areaServed: "US",
     knowsAbout: [
       "ERP Systems",
@@ -199,7 +199,7 @@ export const serviceProviderSchemas = {
     areaServed: "US",
     description:
       "Helping American businesses modernize legacy systems and adopt cloud-native architectures",
-    url: "https://websiteservice619.netlify.app/services",
+    url: "https://nexawebservice.com/services",
     priceRange: "$$$$",
     knowsAbout: [
       "System Architecture",
@@ -222,7 +222,7 @@ export const serviceProviderSchemas = {
     areaServed: "US",
     description:
       "Full-stack enterprise application development tailored to your business needs",
-    url: "https://websiteservice619.netlify.app/services",
+    url: "https://nexawebservice.com/services",
     priceRange: "$$$$",
     knowsAbout: [
       "Full-Stack Development",
@@ -245,7 +245,7 @@ export const serviceProviderSchemas = {
     areaServed: "US",
     description:
       "Strategic cloud migration planning and execution for maximum efficiency",
-    url: "https://websiteservice619.netlify.app/services",
+    url: "https://nexawebservice.com/services",
     priceRange: "$$$$",
     knowsAbout: [
       "AWS Migration",
@@ -269,7 +269,7 @@ export const serviceProviderSchemas = {
     areaServed: "US",
     description:
       "Expert technical guidance for software architecture and technology strategy",
-    url: "https://websiteservice619.netlify.app/services",
+    url: "https://nexawebservice.com/services",
     priceRange: "$$$$",
   },
 };
@@ -311,16 +311,16 @@ export function getEventSchema(event: {
     eventAttendanceMode: "OnlineEventAttendanceMode",
     image:
       event.image ||
-      "https://websiteservice619.netlify.app/assets/og-image.jpg",
+      "https://nexawebservice.com/assets/og-image.jpg",
     location: event.location || "Online",
     organizer: {
       "@type": "Organization",
       name: "Software Solutions",
-      url: "https://websiteservice619.netlify.app",
+      url: "https://nexawebservice.com",
     },
     offers: {
       "@type": "Offer",
-      url: "https://websiteservice619.netlify.app/contact",
+      url: "https://nexawebservice.com/contact",
       price: "0",
       priceCurrency: "USD",
       availability: "https://schema.org/InStock",

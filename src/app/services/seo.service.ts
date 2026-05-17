@@ -7,7 +7,7 @@ import { filter } from "rxjs";
   providedIn: "root",
 })
 export class SeoService {
-  private baseUrl = "https://websiteservice619.netlify.app";
+  private baseUrl = "https://nexawebservice.com";
 
   constructor(
     private meta: Meta,

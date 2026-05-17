@@ -14,14 +14,14 @@
 
 # HTTP to HTTPS redirect
 [[redirects]]
-  from = "http://websiteservice619.netlify.app/*"
-  to = "https://websiteservice619.netlify.app/:splat"
+  from = "http://nexawebservice.com/*"
+  to = "https://nexawebservice.com/:splat"
   status = 301
 
 # WWW to non-WWW redirect
 [[redirects]]
-  from = "https://www.websiteservice619.netlify.app/*"
-  to = "https://websiteservice619.netlify.app/:splat"
+  from = "https://www.nexawebservice.com/*"
+  to = "https://nexawebservice.com/:splat"
   status = 301
 
 # Redirect old portfolio URLs (if any)

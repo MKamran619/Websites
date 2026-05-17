@@ -23,6 +23,6 @@ Disallow: /api/
 Disallow: /*.pdf$
 
 # Sitemap location
-Sitemap: https://websiteservice619.netlify.app/sitemap.xml
-Sitemap: https://websiteservice619.netlify.app/sitemap-pages.xml
-Sitemap: https://websiteservice619.netlify.app/sitemap-blog.xml
+Sitemap: https://nexawebservice.com/sitemap.xml
+Sitemap: https://nexawebservice.com/sitemap-pages.xml
+Sitemap: https://nexawebservice.com/sitemap-blog.xml

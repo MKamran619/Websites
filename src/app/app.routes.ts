@@ -20,7 +20,7 @@ export const routes: Routes = [
         "ApnaKam delivers custom digital transformation solutions and enterprise software. 10+ years specializing in full-stack development, legacy modernization, and cloud-native architectures.",
       keywords:
         "software engineer USA, digital transformation, full-stack developer, custom development, enterprise solutions",
-      ogImage: "https://websiteservice619.netlify.app/assets/og-image.jpg",
+      ogImage: "https://nexawebservice.com/assets/og-image.jpg",
     },
   },
   {
@@ -32,7 +32,7 @@ export const routes: Routes = [
         "Learn about our 10+ years of experience in software engineering, digital transformation, and technical consulting for businesses worldwide.",
       keywords:
         "about software engineer, technical consultant, digital transformation expert, software development",
-      ogImage: "https://websiteservice619.netlify.app/assets/og-image.jpg",
+      ogImage: "https://nexawebservice.com/assets/og-image.jpg",
     },
   },
   {
@@ -46,7 +46,7 @@ export const routes: Routes = [
       keywords:
         "software development services, digital transformation, cloud migration, legacy modernization, custom development, technical consulting",
       ogImage:
-        "https://websiteservice619.netlify.app/assets/services-og-image.jpg",
+        "https://nexawebservice.com/assets/services-og-image.jpg",
     },
   },
   {
@@ -60,7 +60,7 @@ export const routes: Routes = [
       keywords:
         "portfolio, case studies, completed projects, software solutions, enterprise development, project examples",
       ogImage:
-        "https://websiteservice619.netlify.app/assets/portfolio-og-image.jpg",
+        "https://nexawebservice.com/assets/portfolio-og-image.jpg",
     },
   },
   {
@@ -72,7 +72,7 @@ export const routes: Routes = [
         "Read technical articles and insights on digital transformation, software engineering best practices, cloud architecture, and industry trends.",
       keywords:
         "software engineering blog, technical articles, digital transformation, cloud architecture, development best practices",
-      ogImage: "https://websiteservice619.netlify.app/assets/blog-og-image.jpg",
+      ogImage: "https://nexawebservice.com/assets/blog-og-image.jpg",
     },
   },
   {
@@ -85,7 +85,7 @@ export const routes: Routes = [
       keywords:
         "contact, consultation, schedule meeting, software engineer contact, technical consultation, free consultation",
       ogImage:
-        "https://websiteservice619.netlify.app/assets/contact-og-image.jpg",
+        "https://nexawebservice.com/assets/contact-og-image.jpg",
     },
   },
   {
@@ -99,7 +99,7 @@ export const routes: Routes = [
       keywords:
         "web development courses, learn coding, JavaScript courses, Angular courses, React courses, Bootstrap courses, jQuery, HTML CSS",
       ogImage:
-        "https://websiteservice619.netlify.app/assets/courses-og-image.jpg",
+        "https://nexawebservice.com/assets/courses-og-image.jpg",
     },
   },
   {
@@ -111,7 +111,7 @@ export const routes: Routes = [
         "Transparent pricing for web development projects starting at $500. Academy courses from $39. US clients welcome. Pay via PayPal or Wise.",
       keywords:
         "web development pricing, freelance developer rates, website cost, course pricing, affordable web development",
-      ogImage: "https://websiteservice619.netlify.app/assets/og-image.jpg",
+      ogImage: "https://nexawebservice.com/assets/og-image.jpg",
     },
   },
   {
@@ -123,7 +123,7 @@ export const routes: Routes = [
         "Answers to common questions about working with ApnaKam from the US, payment methods, project timelines, and our Academy courses.",
       keywords:
         "faq, international clients, USD payments, remote developer, web development questions, timezone",
-      ogImage: "https://websiteservice619.netlify.app/assets/og-image.jpg",
+      ogImage: "https://nexawebservice.com/assets/og-image.jpg",
     },
   },
   { path: "**", redirectTo: "" },
