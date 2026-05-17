@@ -17,6 +17,7 @@ import { ThemeSwitcherComponent } from "../theme-switcher/theme-switcher.compone
 import { ThemeService } from "../../services/theme.service";
 import { DOCUMENT } from "@angular/common";
 import { isPlatformBrowser } from "@angular/common";
+import { environment } from "../../../environments/environment";
 
 @Component({
   selector: "app-header",
@@ -289,7 +290,7 @@ export class HeaderComponent implements OnInit {
   menuOpen = false;
   isScrolled = false;
   isHidden = false;
-  showTheme = true;
+  showTheme = !environment.production;
   private lastScrollTop = 0;
   private isBrowser: boolean;
 
@@ -352,9 +353,6 @@ export class HeaderComponent implements OnInit {
     private themeService: ThemeService,
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
-    if (this.isBrowser) {
-      this.showTheme = !this.document.location.hostname.includes("nexawebservice");
-    }
   }
 
   ngOnInit() {
