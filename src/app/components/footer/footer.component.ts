@@ -57,9 +57,9 @@ import { FormsModule } from "@angular/forms";
               <a routerLink="/" class="footer-logo">
                 <svg
                   class="logo-svg"
-                  width="210"
+                  width="270"
                   height="54"
-                  viewBox="0 0 230 58"
+                  viewBox="0 0 270 58"
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <defs>

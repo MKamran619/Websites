@@ -33,9 +33,9 @@ import { isPlatformBrowser } from "@angular/common";
           <div class="nav-brand">
             <a routerLink="/" class="logo">
               <svg
-                width="230"
+                width="290"
                 height="58"
-                viewBox="0 0 230 58"
+                viewBox="0 0 290 58"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
                 class="logo-svg responsive-logo"
