@@ -157,7 +157,7 @@ import emailjs from "@emailjs/browser";
     <section class="academy-section">
       <div class="container">
         <div class="section-header">
-          <span class="section-tag">NexaWeb Academy</span>
+          <span class="section-tag">Nexa Web Services Academy</span>
           <h2>Course <span class="gradient-text">Pricing</span></h2>
           <p>Learn web development with expert mentorship — courses designed for beginners to advanced developers</p>
         </div>

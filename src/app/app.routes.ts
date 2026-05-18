@@ -15,9 +15,9 @@ export const routes: Routes = [
     component: HomeComponent,
     data: {
       title:
-        "NexaWeb — Software Solutions | Digital Transformation & Development",
+        "Nexa Web Services — Software Solutions | Digital Transformation & Development",
       description:
-        "NexaWeb delivers custom digital transformation solutions and enterprise software. 10+ years specializing in full-stack development, legacy modernization, and cloud-native architectures.",
+        "Nexa Web Services delivers custom digital transformation solutions and enterprise software. 10+ years specializing in full-stack development, legacy modernization, and cloud-native architectures.",
       keywords:
         "software engineer USA, digital transformation, full-stack developer, custom development, enterprise solutions",
       ogImage: "https://nexawebservice.com/assets/og-image.jpg",
@@ -27,7 +27,7 @@ export const routes: Routes = [
     path: "about",
     component: AboutComponent,
     data: {
-      title: "About NexaWeb — Software Solutions Team",
+      title: "About Nexa Web Services — Software Solutions Team",
       description:
         "Learn about our 10+ years of experience in software engineering, digital transformation, and technical consulting for businesses worldwide.",
       keywords:
@@ -106,7 +106,7 @@ export const routes: Routes = [
     path: "pricing",
     component: PricingComponent,
     data: {
-      title: "Pricing — Web Development & Academy Courses | NexaWeb",
+      title: "Pricing — Web Development & Academy Courses | Nexa Web Services",
       description:
         "Transparent pricing for web development projects starting at $500. Academy courses from $39. US clients welcome. Pay via PayPal or Wise.",
       keywords:
@@ -118,9 +118,9 @@ export const routes: Routes = [
     path: "faq",
     component: FaqComponent,
     data: {
-      title: "FAQ — Working with International Clients | NexaWeb",
+      title: "FAQ — Working with International Clients | Nexa Web Services",
       description:
-        "Answers to common questions about working with NexaWeb from the US, payment methods, project timelines, and our Academy courses.",
+        "Answers to common questions about working with Nexa Web Services from the US, payment methods, project timelines, and our Academy courses.",
       keywords:
         "faq, international clients, USD payments, remote developer, web development questions, timezone",
       ogImage: "https://nexawebservice.com/assets/og-image.jpg",

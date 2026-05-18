@@ -233,7 +233,7 @@ gsap.registerPlugin(ScrollTrigger);
             </svg>
           </div>
           <blockquote>
-            "Working with NexaWeb was a game-changer for our business. They
+            "Working with Nexa Web Services was a game-changer for our business. They
             transformed our legacy systems into a modern, scalable platform that
             reduced our operational costs by 40% and improved customer
             satisfaction scores dramatically."

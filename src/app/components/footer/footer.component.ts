@@ -203,21 +203,21 @@ import { FormsModule } from "@angular/forms";
                       x="58"
                       y="34"
                       font-family="'Poppins', 'Segoe UI', sans-serif"
-                      font-size="24"
+                      font-size="18"
                       font-weight="600"
                       fill="var(--text)"
                     >
                       Nexa
                     </text>
                     <text
-                      x="124"
+                      x="106"
                       y="34"
                       font-family="'Poppins', 'Segoe UI', sans-serif"
-                      font-size="24"
+                      font-size="18"
                       font-weight="700"
                       fill="url(#footerGradient)"
                     >
-                      Web
+                      WebService
                     </text>
                   </g>
 
@@ -415,7 +415,7 @@ import { FormsModule } from "@angular/forms";
       <div class="footer-bottom">
         <div class="container">
           <div class="footer-bottom-content">
-            <p>&copy; 2014 - {{ currentYear }} NexaWeb. All rights reserved.</p>
+            <p>&copy; 2014 - {{ currentYear }} Nexa Web Services. All rights reserved.</p>
             <div class="footer-links">
               <a href="#">Privacy Policy</a>
               <a href="#">Terms of Service</a>

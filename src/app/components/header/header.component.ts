@@ -181,21 +181,21 @@ import { isPlatformBrowser } from "@angular/common";
                     x="58"
                     y="34"
                     font-family="'Poppins', 'Segoe UI', sans-serif"
-                    font-size="26"
+                    font-size="20"
                     font-weight="600"
                     fill="var(--text)"
                   >
                     Nexa
                   </text>
                   <text
-                    x="128"
+                    x="113"
                     y="34"
                     font-family="'Poppins', 'Segoe UI', sans-serif"
-                    font-size="26"
+                    font-size="20"
                     font-weight="700"
                     fill="url(#logoGradient)"
                   >
-                    Web
+                    WebService
                   </text>
                 </g>
 

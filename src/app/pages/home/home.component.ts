@@ -213,8 +213,8 @@ gsap.registerPlugin(ScrollTrigger);
               <span class="window-title">success.config.ts</span>
             </div>
             <div class="window-content">
-              <pre><code><span class="keyword">export const</span> <span class="variable">nexaWeb</span> = {{'{'}}</code></pre>
-              <pre><code>  <span class="property">name</span>: <span class="string">"NexaWeb Technologies"</span>,</code></pre>
+              <pre><code><span class="keyword">export const</span> <span class="variable">nexaWebService</span> = {{'{'}}</code></pre>
+              <pre><code>  <span class="property">name</span>: <span class="string">"Nexa Web Services Technologies"</span>,</code></pre>
               <pre><code>  <span class="property">services</span>: [</code></pre>
               <pre><code>    <span class="string">"Custom Software"</span>,</code></pre>
               <pre><code>    <span class="string">"Cloud Solutions"</span>,</code></pre>
@@ -523,19 +523,19 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
 
   testimonials = [
     {
-      text: "NexaWeb transformed our legacy system into a modern, scalable platform. The 3x performance improvement exceeded our expectations.",
+      text: "Nexa Web Services transformed our legacy system into a modern, scalable platform. The 3x performance improvement exceeded our expectations.",
       name: "Sarah Johnson",
       role: "CTO, TechCorp Inc.",
       initials: "SJ",
     },
     {
-      text: "Working with NexaWeb was a game-changer. They delivered our e-commerce platform on time and under budget with exceptional quality.",
+      text: "Working with Nexa Web Services was a game-changer. They delivered our e-commerce platform on time and under budget with exceptional quality.",
       name: "Michael Chen",
       role: "CEO, RetailPlus",
       initials: "MC",
     },
     {
-      text: "The cloud migration project was seamless. NexaWeb's expertise saved us $200K annually in infrastructure costs.",
+      text: "The cloud migration project was seamless. Nexa Web Services's expertise saved us $200K annually in infrastructure costs.",
       name: "Emily Davis",
       role: "VP Engineering, FinanceHub",
       initials: "ED",
@@ -547,7 +547,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
       initials: "JW",
     },
     {
-      text: "NexaWeb's team understood our complex healthcare requirements and delivered a HIPAA-compliant solution that exceeded all expectations.",
+      text: "Nexa Web Services's team understood our complex healthcare requirements and delivered a HIPAA-compliant solution that exceeded all expectations.",
       name: "Dr. Patricia Martinez",
       role: "CIO, MedTech Solutions",
       initials: "PM",
@@ -565,7 +565,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
       initials: "AL",
     },
     {
-      text: "NexaWeb helped us scale from 10K to 1M users without any downtime. Their infrastructure planning was exceptional.",
+      text: "Nexa Web Services helped us scale from 10K to 1M users without any downtime. Their infrastructure planning was exceptional.",
       name: "David Kumar",
       role: "CTO, GrowthTech",
       initials: "DK",
