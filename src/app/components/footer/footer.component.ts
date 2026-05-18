@@ -207,17 +207,17 @@ import { FormsModule } from "@angular/forms";
                       font-weight="600"
                       fill="var(--text)"
                     >
-                      Apna
+                      Nexa
                     </text>
                     <text
-                      x="126"
+                      x="124"
                       y="34"
                       font-family="'Poppins', 'Segoe UI', sans-serif"
                       font-size="24"
                       font-weight="700"
                       fill="url(#footerGradient)"
                     >
-                      Kam
+                      Web
                     </text>
                   </g>
 

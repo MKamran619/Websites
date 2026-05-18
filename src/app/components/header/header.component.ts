@@ -185,17 +185,17 @@ import { isPlatformBrowser } from "@angular/common";
                     font-weight="600"
                     fill="var(--text)"
                   >
-                    Apna
+                    Nexa
                   </text>
                   <text
-                    x="130"
+                    x="128"
                     y="34"
                     font-family="'Poppins', 'Segoe UI', sans-serif"
                     font-size="26"
                     font-weight="700"
                     fill="url(#logoGradient)"
                   >
-                    Kam
+                    Web
                   </text>
                 </g>
 
