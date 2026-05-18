@@ -182,23 +182,7 @@ import { isPlatformBrowser } from "@angular/common";
                     y="34"
                     font-family="'Poppins', 'Segoe UI', sans-serif"
                     font-size="20"
-                    font-weight="600"
-                    fill="#1a202c"
-                  >Nexa</text><text
-                    x="112"
-                    y="34"
-                    font-family="'Poppins', 'Segoe UI', sans-serif"
-                    font-size="20"
-                    font-weight="700"
-                    fill="#4f8ef7"
-                  >Web</text><text
-                    x="156"
-                    y="34"
-                    font-family="'Poppins', 'Segoe UI', sans-serif"
-                    font-size="20"
-                    font-weight="600"
-                    fill="#1a202c"
-                  >Services</text>
+                  ><tspan font-weight="600" fill="#1a202c">Nexa</tspan><tspan font-weight="700" fill="#4f8ef7">Web</tspan><tspan font-weight="600" fill="#1a202c">Services</tspan></text>
                 </g>
 
                 <!-- Slogan -->
