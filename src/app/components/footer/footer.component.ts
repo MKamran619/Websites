@@ -204,7 +204,7 @@ import { FormsModule } from "@angular/forms";
                       y="34"
                       font-family="'Poppins', 'Segoe UI', sans-serif"
                       font-size="18"
-                    ><tspan font-weight="700" fill="#1a202c">Nexa</tspan><tspan font-weight="700" fill="#4f8ef7">Web</tspan><tspan font-weight="300" fill="#718096" font-size="13" baseline-shift="-2"> Services</tspan></text>
+                    ><tspan font-weight="700" fill="#1a202c">Nexa</tspan><tspan font-weight="700" fill="#4f8ef7">Web</tspan><tspan font-weight="300" fill="#94a3b8"> Services</tspan></text>
                   </g>
 
                   <!-- Slogan -->
