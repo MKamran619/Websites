@@ -193,7 +193,7 @@ import { isPlatformBrowser } from "@angular/common";
                     letter-spacing="1.2"
                     opacity="0.75"
                   >
-                    Digital Success
+                    Build · Launch · Grow
                   </text>
                   <!-- Accent underline -->
                   <rect
