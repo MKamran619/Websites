@@ -193,7 +193,7 @@ import { isPlatformBrowser } from "@angular/common";
                     letter-spacing="1.2"
                     opacity="0.75"
                   >
-                    Build · Launch · Grow
+                    <tspan>Build · Launch · </tspan><tspan fill="var(--primary)">Grow</tspan>
                   </text>
                   <!-- Accent underline -->
                   <rect
