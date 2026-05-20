@@ -214,7 +214,7 @@ import emailjs from "@emailjs/browser";
                     letter-spacing="1.8"
                     opacity="0.75"
                   >
-                    Build · Transform · Succeed
+                    Build · Launch · Grow
                   </text>
 
                   <!-- Accent underline -->

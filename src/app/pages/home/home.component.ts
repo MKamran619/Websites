@@ -44,7 +44,7 @@ gsap.registerPlugin(ScrollTrigger);
 
           <h1 class="hero-title">
             <span class="title-line">We Engineer</span>
-            <span class="title-gradient">Digital Success</span>
+            <span class="title-gradient">Build · Launch · Grow</span>
             <span class="title-accent">For Your Business</span>
           </h1>
 
