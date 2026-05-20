@@ -17,7 +17,7 @@ export const routes: Routes = [
       title:
         "Nexa Web Services — Software Solutions | Digital Transformation & Development",
       description:
-        "Nexa Web Services delivers custom digital transformation solutions and enterprise software. 10+ years specializing in full-stack development, legacy modernization, and cloud-native architectures.",
+        "Nexa Web Services delivers custom digital transformation solutions and enterprise software. 8+ years specializing in Angular, React, .NET Core, Azure DevOps, and Healthcare SaaS — for US and international clients.",
       keywords:
         "software engineer USA, digital transformation, full-stack developer, custom development, enterprise solutions",
       ogImage: "https://nexawebservice.com/assets/og-image.jpg",
@@ -29,7 +29,7 @@ export const routes: Routes = [
     data: {
       title: "About Nexa Web Services — Software Solutions Team",
       description:
-        "Learn about our 10+ years of experience in software engineering, digital transformation, and technical consulting for businesses worldwide.",
+        "Kamran Sohail — Senior Full Stack Developer with 8+ years building Angular, React, .NET Core, and Azure DevOps solutions for US, UAE, and UK clients. Founder of Nexa Web Services.",
       keywords:
         "about software engineer, technical consultant, digital transformation expert, software development",
       ogImage: "https://nexawebservice.com/assets/og-image.jpg",

@@ -5,5 +5,5 @@ export const environment = {
   production: false,
   googleAnalyticsId: "UA-XXXXXXXXX-X",
   calendlyUrl: "https://calendly.com/your-url",
-  contactEmail: "mksawan619@gmail.com",
+  contactEmail: "contact@nexawebservice.com",
 };

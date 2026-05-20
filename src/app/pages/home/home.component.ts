@@ -39,7 +39,7 @@ gsap.registerPlugin(ScrollTrigger);
             >
               <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
             </svg>
-            <span>Ready to Build Your Vision</span>
+            <span>New Agency · 8+ Years Enterprise Experience</span>
           </div>
 
           <h1 class="hero-title">
@@ -49,10 +49,7 @@ gsap.registerPlugin(ScrollTrigger);
           </h1>
 
           <p class="hero-subtitle">
-            From concept to deployment, we deliver enterprise-grade software
-            solutions that drive growth. Our expert team combines cutting-edge
-            technology with proven methodologies to transform your ideas into
-            powerful, scalable applications.
+            From concept to deployment, we deliver enterprise-grade software solutions that drive growth. Backed by 8+ years of hands-on Angular, React, .NET Core, and Azure DevOps experience — including US Healthcare SaaS and UAE enterprise ERP — Nexa Web Services brings senior-level expertise at competitive rates.
           </p>
 
           <div class="hero-features">
@@ -151,13 +148,13 @@ gsap.registerPlugin(ScrollTrigger);
                   stroke="var(--primary)"
                   stroke-width="2"
                 >
-                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
-                  <polyline points="22 4 12 14.01 9 11.01" />
+                  <circle cx="12" cy="12" r="10" />
+                  <polyline points="12 6 12 12 16 14" />
                 </svg>
               </div>
-              <span class="stat-number" data-count="50">0</span
+              <span class="stat-number" data-count="8">0</span
               ><span class="stat-plus">+</span>
-              <span class="stat-label">Projects Delivered</span>
+              <span class="stat-label">Years Experience</span>
             </div>
             <div class="stat-divider"></div>
             <div class="stat-item">
@@ -170,13 +167,12 @@ gsap.registerPlugin(ScrollTrigger);
                   stroke="var(--primary)"
                   stroke-width="2"
                 >
-                  <circle cx="12" cy="12" r="10" />
-                  <polyline points="12 6 12 12 16 14" />
+                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                  <polyline points="22 4 12 14.01 9 11.01" />
                 </svg>
               </div>
-              <span class="stat-number" data-count="10">0</span
-              ><span class="stat-plus">+</span>
-              <span class="stat-label">Years Experience</span>
+              <span class="stat-number" data-count="3">0</span>
+              <span class="stat-label">Countries Served</span>
             </div>
             <div class="stat-divider"></div>
             <div class="stat-item">
@@ -226,10 +222,10 @@ gsap.registerPlugin(ScrollTrigger);
             </div>
           </div>
           <div class="tech-badges">
-            <span class="tech-badge">Angular</span>
-            <span class="tech-badge">.NET</span>
-            <span class="tech-badge">Azure</span>
-            <span class="tech-badge">Node.js</span>
+            <span class="tech-badge">Angular 17+</span>
+            <span class="tech-badge">React</span>
+            <span class="tech-badge">.NET Core</span>
+            <span class="tech-badge">Azure DevOps</span>
           </div>
         </div>
       </div>
@@ -333,8 +329,9 @@ gsap.registerPlugin(ScrollTrigger);
     <section class="testimonials">
       <div class="container">
         <div class="section-header">
-          <span class="section-tag">Client Success Stories</span>
-          <h2 class="section-title">What Clients Say</h2>
+          <span class="section-tag">What Great Results Look Like</span>
+          <h2 class="section-title">Client-Style Success Stories</h2>
+          <p class="section-subtitle" style="font-size:0.85rem;opacity:0.65;margin-top:8px;">The following represent the type of feedback and results our expertise delivers for clients.</p>
         </div>
 
         <div class="testimonials-grid">
@@ -448,46 +445,46 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   private isBrowser: boolean;
 
   technologies = [
-    { icon: "⚛️", name: "Angular" },
-    { icon: "🔷", name: "TypeScript" },
-    { icon: "💎", name: ".NET Core" },
-    { icon: "🟢", name: "Node.js" },
-    { icon: "☁️", name: "Azure" },
-    { icon: "🐳", name: "Docker" },
-    { icon: "⚡", name: "PostgreSQL" },
-    { icon: "🔥", name: "Redis" },
-    { icon: "📊", name: "GraphQL" },
+    { icon: "⚛️", name: "Angular 17+" },
     { icon: "🎨", name: "React" },
+    { icon: "🔷", name: "TypeScript" },
+    { icon: "💎", name: ".NET Core / C#" },
+    { icon: "🟢", name: "Node.js" },
+    { icon: "☁️", name: "Azure DevOps" },
+    { icon: "⚡", name: "SQL Server" },
+    { icon: "📊", name: "GraphQL" },
+    { icon: "🗄️", name: "MongoDB" },
+    { icon: "🤖", name: "GitHub Copilot" },
   ];
 
   valueProps = [
     {
-      icon: "💰",
-      number: "40%",
-      title: "Cost Reduction",
-      description:
-        "Optimized solutions that reduce development and operational costs significantly",
-    },
-    {
       icon: "⚡",
-      number: "300%",
-      title: "Performance Boost",
+      number: "40%",
+      title: "Faster CI/CD",
       description:
-        "Systems engineered for maximum speed, scale, and high availability",
+        "Reduced deployment cycles by 40% at CareCloud via Azure DevOps pipeline architecture",
     },
     {
-      icon: "🎯",
-      number: "50+",
-      title: "Projects Delivered",
+      icon: "🗄️",
+      number: "35%",
+      title: "Query Speed Gain",
       description:
-        "Proven track record across diverse industries and technology stacks",
+        "Optimised SQL Server stored procedures cutting critical response times by 35% at Metropolitan",
     },
     {
-      icon: "🏆",
-      number: "100%",
-      title: "Client Satisfaction",
+      icon: "⏱️",
+      number: "30%",
+      title: "Faster Development",
       description:
-        "Dedicated to exceeding expectations on every single project",
+        "Led end-to-end feature cycles at Inspire System, cutting development turnaround by 30%",
+    },
+    {
+      icon: "🤖",
+      number: "AI",
+      title: "Accelerated Delivery",
+      description:
+        "Daily use of GitHub Copilot, Claude, and GPT-4 — faster code, better quality, cleaner docs",
     },
   ];
 
@@ -588,10 +585,10 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   trustStats = [
-    { icon: "📊", number: "50+", label: "Projects Completed" },
-    { icon: "🔄", number: "85%", label: "Repeat Business Rate" },
-    { icon: "⚡", number: "3x", label: "Avg. Performance Gain" },
-    { icon: "⭐", number: "4.9/5", label: "Client Satisfaction" },
+    { icon: "📊", number: "8+", label: "Years Experience" },
+    { icon: "🌍", number: "3", label: "Countries Served (US / UAE / UK)" },
+    { icon: "⚡", number: "40%", label: "CI/CD Cycle Improvement (CareCloud)" },
+    { icon: "⭐", number: "98%", label: "Client Satisfaction" },
   ];
 
   constructor(@Inject(PLATFORM_ID) platformId: Object) {

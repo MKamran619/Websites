@@ -1,7 +1,8 @@
-import { Component } from "@angular/core";
-import { CommonModule } from "@angular/common";
+import { Component, OnInit, PLATFORM_ID, Inject } from "@angular/core";
+import { CommonModule, isPlatformBrowser } from "@angular/common";
 import { RouterLink } from "@angular/router";
 import { FormsModule } from "@angular/forms";
+import emailjs from "@emailjs/browser";
 
 @Component({
   selector: "app-footer",
@@ -28,22 +29,21 @@ import { FormsModule } from "@angular/forms";
                   name="email"
                   placeholder="Enter your email"
                   required
+                  [disabled]="isSubscribing || subscribeSuccess"
                 />
-                <button type="submit" class="btn btn-primary">
-                  Subscribe
-                  <svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                  >
-                    <path d="M5 12h14M12 5l7 7-7 7" />
-                  </svg>
+                <button type="submit" class="btn btn-primary" [disabled]="isSubscribing || subscribeSuccess || !newsletterEmail">
+                  <span *ngIf="!isSubscribing && !subscribeSuccess">
+                    Subscribe
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M5 12h14M12 5l7 7-7 7" />
+                    </svg>
+                  </span>
+                  <span *ngIf="isSubscribing">Subscribing...</span>
+                  <span *ngIf="subscribeSuccess">✓ Subscribed!</span>
                 </button>
               </div>
-              <p class="form-note">No spam, unsubscribe anytime.</p>
+              <p class="form-note" *ngIf="!subscribeSuccess">No spam, unsubscribe anytime.</p>
+              <p class="form-note success-note" *ngIf="subscribeSuccess">You're in! We'll send you our latest insights and updates.</p>
             </form>
           </div>
         </div>
@@ -291,7 +291,7 @@ import { FormsModule } from "@angular/forms";
                   </svg>
                 </a>
                 <a
-                  href="mailto:mksawan619@gmail.com"
+                  href="mailto:contact@nexawebservice.com"
                   aria-label="Email"
                   class="social-link"
                 >
@@ -352,8 +352,8 @@ import { FormsModule } from "@angular/forms";
                     />
                     <polyline points="22,6 12,13 2,6" />
                   </svg>
-                  <a href="mailto:mksawan619@gmail.com"
-                    >mksawan619&#64;gmail.com</a
+                  <a href="mailto:contact@nexawebservice.com"
+                    >contact&#64;nexawebservice.com</a
                   >
                 </li>
                 <li>
@@ -410,15 +410,48 @@ import { FormsModule } from "@angular/forms";
   `,
   styleUrls: ["./footer.component.scss"],
 })
-export class FooterComponent {
+export class FooterComponent implements OnInit {
   currentYear = new Date().getFullYear();
   newsletterEmail = "";
+  isSubscribing = false;
+  subscribeSuccess = false;
+  private isBrowser: boolean;
+
+  constructor(@Inject(PLATFORM_ID) platformId: Object) {
+    this.isBrowser = isPlatformBrowser(platformId);
+  }
+
+  ngOnInit() {
+    if (this.isBrowser) {
+      emailjs.init("FiOYICOvKQmtB0P1N");
+    }
+  }
 
   subscribeNewsletter() {
-    if (this.newsletterEmail) {
-      // Here you would typically integrate with your email service
-      alert("Thank you for subscribing!");
-      this.newsletterEmail = "";
-    }
+    if (!this.newsletterEmail || this.isSubscribing) return;
+    this.isSubscribing = true;
+    const templateParams = {
+      from_name: "Newsletter Subscriber",
+      from_email: this.newsletterEmail,
+      email: "contact@nexawebservice.com",
+      company: "Newsletter Subscription",
+      challenge: "newsletter",
+      budget: "N/A",
+      timeline: "N/A",
+      message: `New newsletter subscriber: ${this.newsletterEmail}`,
+      to_email: "contact@nexawebservice.com",
+    };
+    emailjs.send("service_websites", "template_yh2wuhe", templateParams).then(
+      () => {
+        this.isSubscribing = false;
+        this.subscribeSuccess = true;
+        this.newsletterEmail = "";
+        setTimeout(() => { this.subscribeSuccess = false; }, 6000);
+      },
+      () => {
+        this.isSubscribing = false;
+        alert("Subscription failed. Please try again or email us at contact@nexawebservice.com");
+      }
+    );
   }
 }

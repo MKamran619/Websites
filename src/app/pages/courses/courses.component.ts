@@ -131,8 +131,7 @@ import emailjs from "@emailjs/browser";
             </div>
             <h3>1-on-1 Mentoring</h3>
             <p>
-              Personalized guidance from senior developers with 10+ years
-              experience
+              Personalized guidance from a senior developer with 8+ years of real enterprise experience
             </p>
           </div>
           <div class="prop-card">
@@ -873,13 +872,13 @@ export class CoursesComponent implements OnInit {
     const templateParams = {
       from_name: this.enrollmentData.name,
       from_email: this.enrollmentData.email,
-      email: "mksawan619@gmail.com",
+      email: "contact@nexawebservice.com",
       company: `${this.selectedCourse}${this.selectedPrice ? " — " + this.selectedPrice : ""}`,
       challenge: this.enrollmentData.experience,
       budget: this.enrollmentData.availability,
       timeline: this.enrollmentData.phone || "Not provided",
       message: this.enrollmentData.message,
-      to_email: "mksawan619@gmail.com",
+      to_email: "contact@nexawebservice.com",
     };
 
     emailjs.send("service_websites", "template_yh2wuhe", templateParams).then(

@@ -12,7 +12,7 @@ export const localBusinessSchemas = {
       "Digital transformation and custom software development solutions for American businesses",
     url: "https://nexawebservice.com",
     telephone: "+1-234-567-8900",
-    email: "mksawan619@gmail.com",
+    email: "contact@nexawebservice.com",
     areaServed: {
       "@type": "Country",
       name: "US",
@@ -22,7 +22,7 @@ export const localBusinessSchemas = {
       "@type": "ContactPoint",
       contactType: "Customer Service",
       telephone: "+1-234-567-8900",
-      email: "mksawan619@gmail.com",
+      email: "contact@nexawebservice.com",
       areaServed: "US",
       availableLanguage: ["en"],
     },
