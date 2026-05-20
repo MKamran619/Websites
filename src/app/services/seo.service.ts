@@ -175,7 +175,7 @@ export class SeoService {
       contactPoint: {
         "@type": "ContactPoint",
         contactType: "Customer Service",
-        email: "mksawan619@gmail.com",
+        email: "contact@nexawebservice.com",
         areaServed: "US",
       },
       sameAs: [

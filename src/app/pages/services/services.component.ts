@@ -59,7 +59,7 @@ import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
             </div>
             <div class="stat-divider"></div>
             <div class="stat">
-              <span class="stat-number">10+</span>
+              <span class="stat-number">8+</span>
               <span class="stat-label">Years Experience</span>
             </div>
           </div>
@@ -153,8 +153,7 @@ import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
             Our Proven <span class="gradient-text">Process</span>
           </h2>
           <p class="section-description">
-            A systematic approach refined over 10+ years to ensure project
-            success
+            A systematic approach refined over 8+ years of production enterprise development
           </p>
         </div>
 
@@ -473,17 +472,6 @@ export class ServicesComponent implements OnInit, AfterViewInit {
 
   processSteps = [
     {
-      number: "00",
-      title: "Kickoff & Logo",
-      description:
-        "Project kickoff with branding and logo setup for a unified identity.",
-      icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <circle cx="12" cy="12" r="10"/>
-        <text x="12" y="16" text-anchor="middle" font-size="10" fill="currentColor">Logo</text>
-      </svg>`,
-      deliverables: ["Logo Files", "Brand Guidelines"],
-    },
-    {
       number: "01",
       title: "Discovery & Assessment",
       description:
@@ -566,46 +554,48 @@ export class ServicesComponent implements OnInit, AfterViewInit {
 
   pricingPlans = [
     {
-      name: "Project-Based",
-      description: "Perfect for defined scope projects with clear deliverables",
+      name: "Starter",
+      description: "Perfect for small businesses needing a professional web presence",
       pricePrefix: "From",
-      price: "$5,000",
+      price: "$500",
       priceSuffix: "/project",
       features: [
-        "Fixed scope & timeline",
-        "Detailed project proposal",
-        "Milestone-based payments",
-        "Full documentation",
-        "30-day support included",
+        "Landing page or portfolio site",
+        "Responsive mobile design",
+        "Contact form integration",
+        "Basic SEO setup",
+        "2 rounds of revisions",
+        "1 month post-launch support",
       ],
     },
     {
-      name: "Dedicated Engagement",
-      description: "Ideal for ongoing development and complex initiatives",
-      pricePrefix: "",
-      price: "$150",
-      priceSuffix: "/hour",
-      features: [
-        "Flexible scope",
-        "Priority scheduling",
-        "Weekly progress reports",
-        "Direct communication",
-        "Continuous optimization",
-        "Knowledge transfer",
-      ],
-    },
-    {
-      name: "Consulting & Advisory",
-      description: "Strategic guidance for technology decisions",
+      name: "Business",
+      description: "For growing businesses needing a full multi-page website or web app",
       pricePrefix: "From",
-      price: "$2,500",
-      priceSuffix: "/engagement",
+      price: "$2,000",
+      priceSuffix: "/project",
       features: [
-        "Technology assessments",
-        "Architecture reviews",
-        "Roadmap planning",
-        "Team mentoring",
-        "Written recommendations",
+        "5–10 page website or web app",
+        "Custom design & branding",
+        "CMS or admin dashboard",
+        "API / backend integration",
+        "Full SEO optimization",
+        "3 months post-launch support",
+      ],
+    },
+    {
+      name: "Enterprise",
+      description: "Complex platforms, digital transformation & legacy modernization",
+      pricePrefix: "From",
+      price: "$10,000",
+      priceSuffix: "/project",
+      features: [
+        "Full-stack enterprise application",
+        "Cloud architecture (AWS / Azure)",
+        "Microservices / API design",
+        "CI/CD pipeline setup",
+        "Security & compliance review",
+        "6+ months ongoing support",
       ],
     },
   ];

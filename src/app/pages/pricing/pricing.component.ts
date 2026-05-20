@@ -352,13 +352,13 @@ export class PricingComponent implements OnInit {
     const templateParams = {
       from_name: this.enrollmentData.name,
       from_email: this.enrollmentData.email,
-      email: "mksawan619@gmail.com",
+      email: "contact@nexawebservice.com",
       company: `${this.selectedCourse} — ${this.selectedPrice}`,
       challenge: this.enrollmentData.experience,
       budget: this.enrollmentData.availability,
       timeline: this.enrollmentData.phone || "Not provided",
       message: this.enrollmentData.message,
-      to_email: "mksawan619@gmail.com",
+      to_email: "contact@nexawebservice.com",
     };
     emailjs.send("service_websites", "template_yh2wuhe", templateParams).then(
       () => {
@@ -417,13 +417,13 @@ export class PricingComponent implements OnInit {
     const templateParams = {
       from_name: this.subscriptionData.name,
       from_email: this.subscriptionData.email,
-      email: "mksawan619@gmail.com",
+      email: "contact@nexawebservice.com",
       company: `[SUBSCRIPTION] ${this.selectedPlanName} (${this.selectedPlanPrice})${this.subscriptionData.company ? " — " + this.subscriptionData.company : ""}`,
       challenge: "Subscription inquiry",
       budget: this.selectedPlanPrice,
       timeline: this.subscriptionData.timeline,
       message: this.subscriptionData.message,
-      to_email: "mksawan619@gmail.com",
+      to_email: "contact@nexawebservice.com",
     };
     emailjs.send("service_websites", "template_yh2wuhe", templateParams).then(
       () => {
@@ -502,12 +502,12 @@ export class PricingComponent implements OnInit {
   ];
 
   coursePricing = [
-    { name: "HTML & CSS Fundamentals", level: "Beginner", levelClass: "beginner", duration: "4 weeks", price: "$49" },
-    { name: "Bootstrap Framework", level: "Beginner", levelClass: "beginner", duration: "3 weeks", price: "$39" },
-    { name: "JavaScript Essentials", level: "Intermediate", levelClass: "intermediate", duration: "6 weeks", price: "$79" },
-    { name: "React Development", level: "Advanced", levelClass: "advanced", duration: "8 weeks", price: "$99" },
-    { name: "Angular Framework", level: "Advanced", levelClass: "advanced", duration: "8 weeks", price: "$99" },
-    { name: "Full Stack Development", level: "Professional", levelClass: "professional", duration: "12 weeks", price: "$149" },
+    { name: "HTML & CSS Fundamentals", level: "Beginner", levelClass: "beginner", duration: "4 weeks", price: "$79" },
+    { name: "Bootstrap Framework", level: "Beginner", levelClass: "beginner", duration: "3 weeks", price: "$59" },
+    { name: "JavaScript Essentials", level: "Intermediate", levelClass: "intermediate", duration: "6 weeks", price: "$119" },
+    { name: "React Development", level: "Advanced", levelClass: "advanced", duration: "8 weeks", price: "$169" },
+    { name: "Angular Framework", level: "Advanced", levelClass: "advanced", duration: "8 weeks", price: "$169" },
+    { name: "Full Stack Development", level: "Professional", levelClass: "professional", duration: "12 weeks", price: "$249" },
   ];
 
   steps = [

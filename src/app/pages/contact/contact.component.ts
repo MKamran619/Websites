@@ -96,7 +96,7 @@ import emailjs from "@emailjs/browser";
                 Direct Contact
               </h3>
               <div class="contact-list">
-                <a href="mailto:mksawan619@gmail.com" class="contact-item">
+                <a href="mailto:contact@nexawebservice.com" class="contact-item">
                   <div class="contact-icon">
                     <svg
                       width="20"
@@ -114,7 +114,7 @@ import emailjs from "@emailjs/browser";
                   </div>
                   <div class="contact-details">
                     <span class="contact-label">Email</span>
-                    <span class="contact-value">mksawan619&#64;gmail.com</span>
+                    <span class="contact-value">contact&#64;nexawebservice.com</span>
                   </div>
                   <svg
                     class="arrow-icon"
@@ -620,9 +620,9 @@ export class ContactComponent implements OnInit, AfterViewInit {
         <path d="M2 17l10 5 10-5"/>
         <path d="M2 12l10 5 10-5"/>
       </svg>`,
-      title: "10+ Years of Expertise",
+      title: "8+ Years of Enterprise Experience",
       description:
-        "Industry best practices and proven solutions tailored to your situation",
+        "US Healthcare SaaS (CareCloud), UAE Enterprise ERP (Inspire), US Logistics (Metropolitan) — industry-tested solutions tailored to your situation",
     },
   ];
 
@@ -657,7 +657,7 @@ export class ContactComponent implements OnInit, AfterViewInit {
         <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
         <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
       </svg>`,
-      value: "10+",
+      value: "8+",
       label: "Years Experience",
     },
   ];
@@ -780,13 +780,13 @@ export class ContactComponent implements OnInit, AfterViewInit {
     const templateParams = {
       from_name: this.formData.name,
       from_email: this.formData.email,
-      email: "mksawan619@gmail.com",
+      email: "contact@nexawebservice.com",
       company: this.formData.company,
       challenge: this.formData.challenge,
       budget: this.formData.budget,
       timeline: this.formData.timeline,
       message: this.formData.message,
-      to_email: "mksawan619@gmail.com",
+      to_email: "contact@nexawebservice.com",
     };
 
     emailjs.send("service_websites", "template_yh2wuhe", templateParams).then(
@@ -818,7 +818,7 @@ export class ContactComponent implements OnInit, AfterViewInit {
           </svg>
         </div>
         <h3>Message Failed</h3>
-        <p>There was an issue sending your message. Please try again or contact me directly at mksawan619@gmail.com.</p>
+        <p>There was an issue sending your message. Please try again or contact me directly at contact@nexawebservice.com.</p>
         <button onclick="this.parentElement.parentElement.remove()">Try Again</button>
       </div>
     `;

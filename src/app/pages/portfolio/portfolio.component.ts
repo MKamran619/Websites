@@ -22,16 +22,14 @@ gsap.registerPlugin(ScrollTrigger);
         <div class="hero-content">
           <div class="hero-badge">
             <span class="badge-icon">🏆</span>
-            <span>Proven Results for Businesses Worldwide</span>
+            <span>8+ Years of Enterprise Development Experience</span>
           </div>
           <h1 class="hero-title">
             <span class="gradient-text">Case Studies</span> &<br />
-            Success Stories
+            Representative Work
           </h1>
           <p class="hero-subtitle">
-            Explore how we've helped businesses like yours achieve measurable
-            results through innovative technology solutions. Real projects, real
-            impact.
+            The following case studies illustrate the types of solutions, challenges, and results our expertise can deliver. They represent the scope and quality of work we bring to every engagement.
           </p>
         </div>
       </div>
@@ -241,8 +239,8 @@ gsap.registerPlugin(ScrollTrigger);
           <div class="testimonial-author">
             <div class="author-avatar">JR</div>
             <div class="author-info">
-              <span class="author-name">James Richardson</span>
-              <span class="author-title">CTO, Fortune 500 Retail Company</span>
+              <span class="author-name">Representative Client Feedback</span>
+              <span class="author-title">Enterprise Digital Transformation Project</span>
             </div>
           </div>
         </div>
