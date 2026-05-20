@@ -214,7 +214,7 @@ import emailjs from "@emailjs/browser";
                     letter-spacing="1.8"
                     opacity="0.75"
                   >
-                    Build · Launch · Grow
+                    <tspan>Build · Launch · </tspan><tspan fill="var(--primary)">Grow</tspan>
                   </text>
 
                   <!-- Accent underline -->
