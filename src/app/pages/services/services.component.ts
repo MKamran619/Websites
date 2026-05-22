@@ -349,6 +349,31 @@ export class ServicesComponent implements OnInit, AfterViewInit {
 
   services = [
     {
+      title: "SEO & Website Optimization",
+      shortDescription:
+        "Full technical SEO audits, on-page optimization, Core Web Vitals improvements, and structured data implementation. We help Wix, WordPress, Webflow, Squarespace, and custom-built sites rank higher and load faster — with a clear audit report and fix list you can act on immediately.",
+      icon: `<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <circle cx="11" cy="11" r="8"/>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+        <path d="M11 8v3l2 2"/>
+      </svg>`,
+      features: [
+        "Technical SEO audit & report",
+        "On-page optimization (titles, H tags, meta)",
+        "Core Web Vitals & page speed fixes",
+        "Schema markup & structured data",
+        "Wix / WordPress / Webflow optimization",
+        "Free Website Audit CTA",
+      ],
+      benefitTags: ["Higher Rankings", "Faster Load", "More Leads"],
+      benefits: [
+        { icon: "📈", text: "Improved search rankings" },
+        { icon: "⚡", text: "Faster page load times" },
+        { icon: "🎯", text: "Better conversion rates" },
+        { icon: "📊", text: "Clear audit deliverables" },
+      ],
+    },
+    {
       title: "Digital Transformation",
       shortDescription:
         "Transform legacy systems into modern, scalable platforms with zero-downtime migrations and strategic cloud adoption.",

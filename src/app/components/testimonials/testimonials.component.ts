@@ -7,7 +7,6 @@ import {
   AfterViewInit,
 } from "@angular/core";
 import { CommonModule, isPlatformBrowser } from "@angular/common";
-import { DomSanitizer, SafeResourceUrl } from "@angular/platform-browser";
 
 @Component({
   selector: "app-testimonials",
@@ -41,11 +40,10 @@ import { DomSanitizer, SafeResourceUrl } from "@angular/platform-browser";
             Client Success Stories
           </span>
           <h2 class="section-title">
-            What Our <span class="gradient-text">Clients</span> Say
+            The Results We <span class="gradient-text">Deliver</span>
           </h2>
           <p class="section-subtitle">
-            Don't just take our word for it — hear from business leaders who've
-            transformed their operations
+            Real feedback collected from enterprise and SMB engagements. We'll add attributed client testimonials as we grow — for now, here's the kind of impact our work drives.
           </p>
         </div>
 
@@ -149,7 +147,7 @@ import { DomSanitizer, SafeResourceUrl } from "@angular/platform-browser";
                     </div>
                   </div>
 
-                  <!-- Verified Badge -->
+                  <!-- Results badge -->
                   <div class="verified-badge">
                     <svg
                       width="14"
@@ -159,10 +157,10 @@ import { DomSanitizer, SafeResourceUrl } from "@angular/platform-browser";
                       stroke="currentColor"
                       stroke-width="2"
                     >
-                      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
-                      <polyline points="22 4 12 14.01 9 11.01" />
+                      <polyline points="23 6 13.5 15.5 8.5 10.5 1 18" />
+                      <polyline points="17 6 23 6 23 12" />
                     </svg>
-                    Verified Client
+                    Real Results
                   </div>
                 </div>
               </div>
@@ -222,91 +220,8 @@ import { DomSanitizer, SafeResourceUrl } from "@angular/platform-browser";
           </div>
         </div>
 
-        <!-- Video Testimonials Section -->
-        <div class="video-testimonials">
-          <h3 class="video-section-title">
-            <svg
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <polygon points="23 7 16 12 23 17 23 7" />
-              <rect x="1" y="5" width="15" height="14" rx="2" ry="2" />
-            </svg>
-            Video Testimonials
-          </h3>
-          <p class="video-section-subtitle">
-            Watch real clients share their success stories
-          </p>
-
-          <div class="video-grid">
-            <div class="video-card" *ngFor="let video of videoTestimonials">
-              <div class="video-thumbnail" (click)="playVideo(video.id)">
-                <div class="play-button">
-                  <svg
-                    width="48"
-                    height="48"
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                  >
-                    <polygon points="5 3 19 12 5 21 5 3" />
-                  </svg>
-                </div>
-                <div class="video-overlay">
-                  <span class="video-duration">{{ video.duration }}</span>
-                </div>
-              </div>
-              <div class="video-info">
-                <h4 class="video-title">{{ video.title }}</h4>
-                <div class="video-author">
-                  <div class="video-avatar">
-                    {{ getInitials(video.author) }}
-                  </div>
-                  <div class="video-author-info">
-                    <span class="video-author-name">{{ video.author }}</span>
-                    <span class="video-author-role">{{ video.role }}</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Video Modal -->
-          <div
-            class="video-modal-overlay"
-            *ngIf="activeVideoId"
-            (click)="closeVideo()"
-          >
-            <div class="video-modal" (click)="$event.stopPropagation()">
-              <button class="modal-close" (click)="closeVideo()">
-                <svg
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                >
-                  <line x1="18" y1="6" x2="6" y2="18" />
-                  <line x1="6" y1="6" x2="18" y2="18" />
-                </svg>
-              </button>
-              <iframe
-                *ngIf="activeVideoId"
-                [src]="getVideoUrl(activeVideoId)"
-                width="100%"
-                height="100%"
-                frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen
-              >
-              </iframe>
-            </div>
-          </div>
-        </div>
+        <!-- Video Testimonials: Placeholder — add real client video links when available -->
+        <!-- <div class="video-testimonials">...</div> -->
 
         <!-- Trust Stats -->
         <div class="trust-stats">
@@ -1169,32 +1084,9 @@ export class TestimonialsComponent implements OnInit, OnDestroy, AfterViewInit {
   currentIndex = 0;
   private autoPlayInterval: any;
   private isBrowser: boolean;
-  activeVideoId: string | null = null;
 
-  // Video testimonials data
-  videoTestimonials = [
-    {
-      id: "dQw4w9WgXcQ", // Replace with actual client testimonial video ID
-      title: "How Nexa Web Services Transformed Our Digital Presence",
-      author: "James Mitchell",
-      role: "CEO, TechFlow Solutions",
-      duration: "2:34",
-    },
-    {
-      id: "9bZkp7q19f0", // Replace with actual client testimonial video ID
-      title: "Our Experience Working with Nexa Web Services",
-      author: "Sarah Anderson",
-      role: "CTO, FinanceHub Inc",
-      duration: "3:12",
-    },
-    {
-      id: "M7lc1UVf-VE", // Replace with actual client testimonial video ID
-      title: "From Concept to Launch in 6 Weeks",
-      author: "Robert Chen",
-      role: "Founder, StartupWave",
-      duration: "4:05",
-    },
-  ];
+  // TODO: Add real client video testimonials here when available
+  // videoTestimonials = [ { id: "REAL_YOUTUBE_ID", title: "...", author: "...", role: "...", duration: "..." } ];
 
   testimonials = [
     {
@@ -1249,7 +1141,6 @@ export class TestimonialsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   constructor(
     @Inject(PLATFORM_ID) platformId: Object,
-    private sanitizer: DomSanitizer,
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
   }
@@ -1266,27 +1157,6 @@ export class TestimonialsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnDestroy(): void {
     this.stopAutoPlay();
-  }
-
-  // Video testimonial methods
-  playVideo(videoId: string): void {
-    this.activeVideoId = videoId;
-    if (this.isBrowser) {
-      document.body.style.overflow = "hidden";
-    }
-  }
-
-  closeVideo(): void {
-    this.activeVideoId = null;
-    if (this.isBrowser) {
-      document.body.style.overflow = "";
-    }
-  }
-
-  getVideoUrl(videoId: string): SafeResourceUrl {
-    return this.sanitizer.bypassSecurityTrustResourceUrl(
-      `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`,
-    );
   }
 
   getInitials(name: string): string {

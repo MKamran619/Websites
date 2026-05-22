@@ -51,6 +51,9 @@ gsap.registerPlugin(ScrollTrigger);
           <p class="hero-subtitle">
             From concept to deployment, we deliver enterprise-grade software solutions that drive growth. Backed by 8+ years of hands-on Angular, React, .NET Core, and Azure DevOps experience — including US Healthcare SaaS and UAE enterprise ERP — Nexa Web Services brings senior-level expertise at competitive rates.
           </p>
+          <p class="hero-subtitle-smb">
+            We also help coaches, consultants, and service-based businesses optimize their websites for search, speed, and conversions.
+          </p>
 
           <div class="hero-features">
             <div class="feature-item">
@@ -90,7 +93,7 @@ gsap.registerPlugin(ScrollTrigger);
               >
                 <polyline points="20 6 9 17 4 12" />
               </svg>
-              <span>24/7 Support</span>
+              <span>SEO & Optimization</span>
             </div>
           </div>
 
@@ -152,7 +155,7 @@ gsap.registerPlugin(ScrollTrigger);
                   <polyline points="12 6 12 12 16 14" />
                 </svg>
               </div>
-              <span class="stat-number" data-count="8">0</span
+              <span class="stat-number" data-count="8">8</span
               ><span class="stat-plus">+</span>
               <span class="stat-label">Years Experience</span>
             </div>
@@ -171,7 +174,7 @@ gsap.registerPlugin(ScrollTrigger);
                   <polyline points="22 4 12 14.01 9 11.01" />
                 </svg>
               </div>
-              <span class="stat-number" data-count="3">0</span>
+              <span class="stat-number" data-count="3">3</span>
               <span class="stat-label">Countries Served</span>
             </div>
             <div class="stat-divider"></div>
@@ -190,7 +193,7 @@ gsap.registerPlugin(ScrollTrigger);
                   />
                 </svg>
               </div>
-              <span class="stat-number" data-count="98">0</span
+              <span class="stat-number" data-count="98">98</span
               ><span class="stat-plus">%</span>
               <span class="stat-label">Client Satisfaction</span>
             </div>
@@ -214,7 +217,7 @@ gsap.registerPlugin(ScrollTrigger);
               <pre><code>  <span class="property">services</span>: [</code></pre>
               <pre><code>    <span class="string">"Custom Software"</span>,</code></pre>
               <pre><code>    <span class="string">"Cloud Solutions"</span>,</code></pre>
-              <pre><code>    <span class="string">"Digital Transformation"</span></code></pre>
+              <pre><code>    <span class="string">"SEO & Optimization"</span></code></pre>
               <pre><code>  ],</code></pre>
               <pre><code>  <span class="property">commitment</span>: <span class="string">"Excellence"</span>,</code></pre>
               <pre><code>  <span class="property">readyToHelp</span>: <span class="boolean">true</span></code></pre>
@@ -225,7 +228,7 @@ gsap.registerPlugin(ScrollTrigger);
             <span class="tech-badge">Angular 17+</span>
             <span class="tech-badge">React</span>
             <span class="tech-badge">.NET Core</span>
-            <span class="tech-badge">Azure DevOps</span>
+            <span class="tech-badge">SEO & CWV</span>
           </div>
         </div>
       </div>
@@ -325,61 +328,51 @@ gsap.registerPlugin(ScrollTrigger);
       </div>
     </section>
 
-    <!-- Testimonials Section -->
-    <section class="testimonials">
+    <!-- Why Choose Nexa Section -->
+    <section class="why-choose">
       <div class="container">
         <div class="section-header">
-          <span class="section-tag">What Great Results Look Like</span>
-          <h2 class="section-title">Client-Style Success Stories</h2>
-          <p class="section-subtitle" style="font-size:0.85rem;opacity:0.65;margin-top:8px;">The following represent the type of feedback and results our expertise delivers for clients.</p>
+          <span class="section-tag">Why Nexa</span>
+          <h2 class="section-title">Enterprise-Grade Thinking. Any Project Size.</h2>
+          <p class="section-subtitle">
+            Whether you're a Fortune 500 scaling infrastructure or a service-based brand optimizing your digital presence — we bring senior-level expertise to every engagement.
+          </p>
         </div>
 
-        <div class="testimonials-grid">
-          <div
-            class="testimonial-card"
-            *ngFor="let testimonial of visibleTestimonials"
-          >
-            <div class="quote-icon">"</div>
-            <p class="testimonial-text">{{ testimonial.text }}</p>
-            <div class="testimonial-author">
-              <div class="author-avatar">{{ testimonial.initials }}</div>
-              <div class="author-info">
-                <h4>{{ testimonial.name }}</h4>
-                <p>{{ testimonial.role }}</p>
-              </div>
-            </div>
-            <div class="testimonial-rating">
-              <span *ngFor="let star of [1, 2, 3, 4, 5]">⭐</span>
-            </div>
+        <div class="why-grid">
+          <div class="why-card" *ngFor="let item of whyChooseUs">
+            <div class="why-icon">{{ item.icon }}</div>
+            <h3>{{ item.title }}</h3>
+            <p>{{ item.description }}</p>
           </div>
         </div>
 
-        <div
-          class="load-more-container"
-          *ngIf="
-            !showAllTestimonials &&
-            testimonials.length > visibleTestimonialsCount
-          "
-        >
-          <button
-            class="btn btn-outline load-more-btn"
-            (click)="loadMoreTestimonials()"
-          >
-            <span>More Success Stories</span>
-            <span class="remaining-count"
-              >({{ testimonials.length - visibleTestimonialsCount }} more)</span
-            >
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <path d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+        <!-- Who We Serve -->
+        <div class="who-serves">
+          <div class="serve-card">
+            <div class="serve-icon">🏢</div>
+            <h4>Enterprise &amp; Mid-Market</h4>
+            <p>SaaS platforms, cloud migration, legacy modernization, DevOps pipelines, US Healthcare EHR, UAE enterprise ERP systems</p>
+          </div>
+          <div class="serve-divider">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="1.5">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
             </svg>
-          </button>
+          </div>
+          <div class="serve-card">
+            <div class="serve-icon">🏪</div>
+            <h4>Small Business &amp; Coaches</h4>
+            <p>Website redesigns, SEO &amp; speed audits, landing pages, Wix/WordPress/Webflow optimization, digital presence for service brands</p>
+          </div>
+        </div>
+
+        <div class="why-cta">
+          <a routerLink="/contact" class="btn btn-primary">
+            Get a Free Consultation
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </a>
         </div>
       </div>
     </section>
@@ -490,6 +483,13 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
 
   services = [
     {
+      icon: "🔍",
+      title: "SEO & Website Optimization",
+      description:
+        "Full technical SEO audits, on-page optimization, Core Web Vitals improvements, and structured data implementation. We help Wix, WordPress, Webflow, and custom-built sites rank higher and load faster.",
+      features: ["Technical SEO Audit", "Core Web Vitals", "Schema Markup", "Page Speed Boost"],
+    },
+    {
       icon: "🚀",
       title: "Digital Transformation",
       description:
@@ -518,71 +518,44 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
     },
   ];
 
-  testimonials = [
+  whyChooseUs = [
     {
-      text: "Nexa Web Services transformed our legacy system into a modern, scalable platform. The 3x performance improvement exceeded our expectations.",
-      name: "Sarah Johnson",
-      role: "CTO, TechCorp Inc.",
-      initials: "SJ",
+      icon: "🎯",
+      title: "Senior-Level Expertise",
+      description:
+        "8+ years of hands-on Angular, React, .NET Core, and Azure — not junior talent with your work outsourced.",
     },
     {
-      text: "Working with Nexa Web Services was a game-changer. They delivered our e-commerce platform on time and under budget with exceptional quality.",
-      name: "Michael Chen",
-      role: "CEO, RetailPlus",
-      initials: "MC",
+      icon: "⚡",
+      title: "Proven Results",
+      description:
+        "40% faster CI/CD at CareCloud, 35% query speed gain at Metropolitan, zero-downtime deployments across 3 countries.",
     },
     {
-      text: "The cloud migration project was seamless. Nexa Web Services's expertise saved us $200K annually in infrastructure costs.",
-      name: "Emily Davis",
-      role: "VP Engineering, FinanceHub",
-      initials: "ED",
+      icon: "🔍",
+      title: "SEO & Performance First",
+      description:
+        "We don't just build sites — we optimize them. Technical SEO, Core Web Vitals, and speed improvements built into every project.",
     },
     {
-      text: "Their API architecture completely revolutionized how we handle data. Response times dropped by 80% and our customers love the improved experience.",
-      name: "James Wilson",
-      role: "Director of Technology, DataFlow Systems",
-      initials: "JW",
+      icon: "🤝",
+      title: "Direct Communication",
+      description:
+        "You work directly with the senior developer. No project manager chain, no offshore handoffs — real accountability.",
     },
     {
-      text: "Nexa Web Services's team understood our complex healthcare requirements and delivered a HIPAA-compliant solution that exceeded all expectations.",
-      name: "Dr. Patricia Martinez",
-      role: "CIO, MedTech Solutions",
-      initials: "PM",
+      icon: "💡",
+      title: "AI-Accelerated Delivery",
+      description:
+        "Daily use of GitHub Copilot, Claude, and GPT-4 means faster delivery, fewer bugs, and more focus on what matters.",
     },
     {
-      text: "From concept to deployment in just 4 months. Their agile approach and constant communication made the entire process smooth.",
-      name: "Robert Taylor",
-      role: "Founder, StartupLabs",
-      initials: "RT",
-    },
-    {
-      text: "The mobile app they developed has a 4.9 star rating on both app stores. Their attention to UI/UX detail is remarkable.",
-      name: "Amanda Lee",
-      role: "Product Manager, AppVentures",
-      initials: "AL",
-    },
-    {
-      text: "Nexa Web Services helped us scale from 10K to 1M users without any downtime. Their infrastructure planning was exceptional.",
-      name: "David Kumar",
-      role: "CTO, GrowthTech",
-      initials: "DK",
-    },
-    {
-      text: "Their security audit identified vulnerabilities we missed for years. The remediation roadmap they provided was invaluable.",
-      name: "Jennifer Brown",
-      role: "CISO, SecureBank",
-      initials: "JB",
+      icon: "🌍",
+      title: "Global Track Record",
+      description:
+        "Enterprise solutions delivered across the US, UAE, and UK — including HIPAA-compliant healthcare and Fortune-level ERP systems.",
     },
   ];
-
-  showAllTestimonials = false;
-  visibleTestimonialsCount = 3;
-
-  get visibleTestimonials() {
-    return this.showAllTestimonials
-      ? this.testimonials
-      : this.testimonials.slice(0, this.visibleTestimonialsCount);
-  }
 
   trustStats = [
     { icon: "📊", number: "8+", label: "Years Experience" },
@@ -599,10 +572,6 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.isBrowser) {
       // Kill any existing ScrollTrigger instances to prevent conflicts
       ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
-
-      // Reset counters to 0 before animating
-      this.resetCounters();
-
       this.animateOnScroll();
       this.createParticles();
     }
@@ -610,7 +579,7 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngAfterViewInit() {
     if (this.isBrowser) {
-      // Delay counter animation slightly to ensure DOM is ready
+      // Slight delay to ensure DOM is fully rendered before setting up scroll-triggered counters
       setTimeout(() => {
         this.animateCounters();
       }, 100);
@@ -621,13 +590,6 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.isBrowser) {
       ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
     }
-  }
-
-  resetCounters() {
-    const counters = document.querySelectorAll(".stat-number[data-count]");
-    counters.forEach((counter) => {
-      counter.innerHTML = "0";
-    });
   }
 
   createParticles() {
@@ -649,20 +611,25 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
     const counters = document.querySelectorAll(".stat-number[data-count]");
     counters.forEach((counter) => {
       const target = parseInt(counter.getAttribute("data-count") || "0");
-      // Reset counter to 0 first
-      counter.innerHTML = "0";
 
-      gsap.to(counter, {
-        innerHTML: target,
-        duration: 2,
-        ease: "power2.out",
-        snap: { innerHTML: 1 },
-        scrollTrigger: {
-          trigger: counter,
-          start: "top 80%",
-          toggleActions: "play none none none",
-        },
-      });
+      // Use fromTo so the element shows its final value by default (no "0" flash)
+      // and only animates 0 → target when the scrollTrigger fires
+      gsap.fromTo(
+        counter,
+        { innerHTML: 0 },
+        {
+          innerHTML: target,
+          duration: 2,
+          ease: "power2.out",
+          snap: { innerHTML: 1 },
+          immediateRender: false, // do NOT apply the "from" state until scroll trigger fires
+          scrollTrigger: {
+            trigger: counter,
+            start: "top 90%",
+            toggleActions: "play none none none",
+          },
+        }
+      );
     });
   }
 
@@ -687,7 +654,13 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
       duration: 0.6,
       delay: 0.8,
     });
-    gsap.from(".hero-cta", { opacity: 0, y: 20, duration: 0.6, delay: 1 });
+    gsap.from(".hero-subtitle-smb", {
+      opacity: 0,
+      y: 15,
+      duration: 0.6,
+      delay: 1.0,
+    });
+    gsap.from(".hero-cta", { opacity: 0, y: 20, duration: 0.6, delay: 1.1 });
     gsap.from(".hero-stats", { opacity: 0, y: 20, duration: 0.6, delay: 1.2 });
     gsap.from(".hero-visual", { opacity: 0, x: 50, duration: 1, delay: 0.8 });
 
@@ -713,18 +686,16 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
       });
     });
 
-    // Testimonials
-    gsap.utils
-      .toArray<HTMLElement>(".testimonial-card")
-      .forEach((card, index) => {
-        gsap.from(card, {
-          scrollTrigger: { trigger: card, start: "top 85%", once: true },
-          opacity: 0,
-          scale: 0.9,
-          duration: 0.6,
-          delay: index * 0.1,
-        });
+    // Why choose cards
+    gsap.utils.toArray<HTMLElement>(".why-card").forEach((card, index) => {
+      gsap.from(card, {
+        scrollTrigger: { trigger: card, start: "top 85%", once: true },
+        opacity: 0,
+        scale: 0.95,
+        duration: 0.6,
+        delay: index * 0.1,
       });
+    });
 
     // Trust items
     gsap.utils.toArray<HTMLElement>(".trust-item").forEach((item, index) => {
@@ -736,15 +707,5 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
         delay: index * 0.1,
       });
     });
-  }
-
-  loadMoreTestimonials() {
-    this.showAllTestimonials = true;
-    // Refresh ScrollTrigger after showing more testimonials
-    if (this.isBrowser) {
-      setTimeout(() => {
-        ScrollTrigger.refresh(true);
-      }, 100);
-    }
   }
 }
