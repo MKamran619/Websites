@@ -49,7 +49,7 @@ gsap.registerPlugin(ScrollTrigger);
           </h1>
 
           <p class="hero-subtitle">
-            From concept to deployment, we deliver enterprise-grade software solutions that drive growth. Backed by 8+ years of hands-on Angular, React, .NET Core, and Azure DevOps experience — including US Healthcare SaaS and UAE enterprise ERP — Nexa Web Services brings senior-level expertise at competitive rates.
+            From concept to deployment, we deliver enterprise-grade software solutions that drive growth. Backed by 8+ years of hands-on Angular, React, .NET Core, and Azure DevOps experience — including US Healthcare SaaS and UAE enterprise ERP — Nexa Web Service brings senior-level expertise at competitive rates.
           </p>
           <p class="hero-subtitle-smb">
             We also help coaches, consultants, and service-based businesses optimize their websites for search, speed, and conversions.
@@ -213,7 +213,7 @@ gsap.registerPlugin(ScrollTrigger);
             </div>
             <div class="window-content">
               <pre><code><span class="keyword">export const</span> <span class="variable">nexaWebService</span> = {{'{'}}</code></pre>
-              <pre><code>  <span class="property">name</span>: <span class="string">"Nexa Web Services Technologies"</span>,</code></pre>
+              <pre><code>  <span class="property">name</span>: <span class="string">"Nexa Web Service Technologies"</span>,</code></pre>
               <pre><code>  <span class="property">services</span>: [</code></pre>
               <pre><code>    <span class="string">"Custom Software"</span>,</code></pre>
               <pre><code>    <span class="string">"Cloud Solutions"</span>,</code></pre>

@@ -1,4 +1,4 @@
-import { Component, OnInit, PLATFORM_ID, Inject } from "@angular/core";
+﻿import { Component, OnInit, PLATFORM_ID, Inject } from "@angular/core";
 import { CommonModule, isPlatformBrowser } from "@angular/common";
 import { RouterLink } from "@angular/router";
 import { FormsModule } from "@angular/forms";
@@ -26,7 +26,7 @@ import emailjs from "@emailjs/browser";
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
           </svg>
-          All prices in USD · Payments via PayPal, Wise, or bank transfer · Serving US &amp; global clients
+          All prices in USD Â· Payments via PayPal, Wise, or bank transfer Â· Serving US &amp; global clients
         </div>
       </div>
     </section>
@@ -122,8 +122,8 @@ import emailjs from "@emailjs/browser";
             <label for="s-timeline">Project Timeline</label>
             <select id="s-timeline" name="sTimeline" [(ngModel)]="subscriptionData.timeline" required>
               <option value="">When do you want to start?</option>
-              <option value="immediately">Immediately — as soon as possible</option>
-              <option value="1-2weeks">In 1–2 weeks</option>
+              <option value="immediately">Immediately â€” as soon as possible</option>
+              <option value="1-2weeks">In 1â€“2 weeks</option>
               <option value="1month">Within a month</option>
               <option value="flexible">Flexible / not sure yet</option>
             </select>
@@ -131,7 +131,7 @@ import emailjs from "@emailjs/browser";
 
           <div class="form-group">
             <label for="s-message">Project Details (Optional)</label>
-            <textarea id="s-message" name="sMessage" [(ngModel)]="subscriptionData.message" rows="3" placeholder="Briefly describe your project or any questions…"></textarea>
+            <textarea id="s-message" name="sMessage" [(ngModel)]="subscriptionData.message" rows="3" placeholder="Briefly describe your project or any questionsâ€¦"></textarea>
           </div>
 
           <button type="submit" class="btn-submit" [disabled]="!isSubscriptionFormValid() || isSubSubmitting">
@@ -141,7 +141,7 @@ import emailjs from "@emailjs/browser";
               </svg>
               Confirm Subscription
             </span>
-            <span *ngIf="isSubSubmitting">Submitting…</span>
+            <span *ngIf="isSubSubmitting">Submittingâ€¦</span>
           </button>
           <p class="form-note">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -157,9 +157,9 @@ import emailjs from "@emailjs/browser";
     <section class="academy-section">
       <div class="container">
         <div class="section-header">
-          <span class="section-tag">Nexa Web Services Academy</span>
+          <span class="section-tag">Nexa Web Service Academy</span>
           <h2>Course <span class="gradient-text">Pricing</span></h2>
-          <p>Learn web development with expert mentorship — courses designed for beginners to advanced developers</p>
+          <p>Learn web development with expert mentorship â€” courses designed for beginners to advanced developers</p>
         </div>
         <div class="courses-grid">
           <div class="course-price-card" *ngFor="let course of coursePricing">
@@ -353,7 +353,7 @@ export class PricingComponent implements OnInit {
       from_name: this.enrollmentData.name,
       from_email: this.enrollmentData.email,
       email: "contact@nexawebservice.com",
-      company: `${this.selectedCourse} — ${this.selectedPrice}`,
+      company: `${this.selectedCourse} â€” ${this.selectedPrice}`,
       challenge: this.enrollmentData.experience,
       budget: this.enrollmentData.availability,
       timeline: this.enrollmentData.phone || "Not provided",
@@ -377,7 +377,7 @@ export class PricingComponent implements OnInit {
   showSuccessPopup() {
     const div = document.createElement("div");
     div.style.cssText = "position:fixed;top:24px;right:24px;background:#10b981;color:#fff;padding:16px 24px;border-radius:12px;z-index:9999;font-weight:600;box-shadow:0 4px 20px rgba(0,0,0,0.15)";
-    div.textContent = "✓ Enrollment submitted! We'll contact you within 24 hours.";
+    div.textContent = "âœ“ Enrollment submitted! We'll contact you within 24 hours.";
     document.body.appendChild(div);
     setTimeout(() => div.remove(), 5000);
   }
@@ -385,7 +385,7 @@ export class PricingComponent implements OnInit {
   showErrorPopup() {
     const div = document.createElement("div");
     div.style.cssText = "position:fixed;top:24px;right:24px;background:#ef4444;color:#fff;padding:16px 24px;border-radius:12px;z-index:9999;font-weight:600;box-shadow:0 4px 20px rgba(0,0,0,0.15)";
-    div.textContent = "✕ Submission failed. Please try again or contact us directly.";
+    div.textContent = "âœ• Submission failed. Please try again or contact us directly.";
     document.body.appendChild(div);
     setTimeout(() => div.remove(), 5000);
   }
@@ -418,7 +418,7 @@ export class PricingComponent implements OnInit {
       from_name: this.subscriptionData.name,
       from_email: this.subscriptionData.email,
       email: "contact@nexawebservice.com",
-      company: `[SUBSCRIPTION] ${this.selectedPlanName} (${this.selectedPlanPrice})${this.subscriptionData.company ? " — " + this.subscriptionData.company : ""}`,
+      company: `[SUBSCRIPTION] ${this.selectedPlanName} (${this.selectedPlanPrice})${this.subscriptionData.company ? " â€” " + this.subscriptionData.company : ""}`,
       challenge: "Subscription inquiry",
       budget: this.selectedPlanPrice,
       timeline: this.subscriptionData.timeline,
@@ -431,7 +431,7 @@ export class PricingComponent implements OnInit {
         this.isSubSubmitting = false;
         const div = document.createElement("div");
         div.style.cssText = "position:fixed;top:24px;right:24px;background:#10b981;color:#fff;padding:16px 24px;border-radius:12px;z-index:9999;font-weight:600;box-shadow:0 4px 20px rgba(0,0,0,0.15)";
-        div.textContent = "✓ Subscription request sent! We'll contact you within 24 hours.";
+        div.textContent = "âœ“ Subscription request sent! We'll contact you within 24 hours.";
         document.body.appendChild(div);
         setTimeout(() => div.remove(), 5000);
         this.closeSubscriptionModal();
@@ -443,7 +443,7 @@ export class PricingComponent implements OnInit {
     );
   }
 
-  // ──────────────────────────────────────────
+  // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   plans = [
     {
       name: "Starter",
@@ -458,7 +458,7 @@ export class PricingComponent implements OnInit {
         "Contact form integration",
         "Basic SEO setup",
         "2 rounds of revisions",
-        "Delivery in 1–2 weeks",
+        "Delivery in 1â€“2 weeks",
         "1 month post-launch support",
       ],
     },
@@ -470,7 +470,7 @@ export class PricingComponent implements OnInit {
       featured: true,
       icon: `<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 21h18"/><path d="M5 21V7l8-4v18"/><path d="M19 21V11l-6-4"/></svg>`,
       features: [
-        "5–10 page website or web app",
+        "5â€“10 page website or web app",
         "Custom design & branding",
         "CMS or admin dashboard",
         "API / backend integration",
@@ -511,10 +511,11 @@ export class PricingComponent implements OnInit {
   ];
 
   steps = [
-    { title: "Free Consultation", desc: "30-minute call to understand your goals, scope, and budget — zero obligation." },
+    { title: "Free Consultation", desc: "30-minute call to understand your goals, scope, and budget â€” zero obligation." },
     { title: "Detailed Proposal", desc: "You receive a written proposal with timeline, deliverables, and fixed price within 24 hours." },
     { title: "Agreement & Kickoff", desc: "Sign a simple contract, pay 50% upfront via PayPal or Wise, and we start work." },
     { title: "Build & Review", desc: "Regular updates and demos. You review and give feedback at each milestone." },
     { title: "Launch & Support", desc: "Final payment on delivery. We stay available for post-launch support and changes." },
   ];
 }
+

@@ -1,4 +1,4 @@
-import { Component, OnInit, PLATFORM_ID, Inject } from "@angular/core";
+﻿import { Component, OnInit, PLATFORM_ID, Inject } from "@angular/core";
 import { CommonModule, isPlatformBrowser } from "@angular/common";
 import { RouterLink } from "@angular/router";
 import { FormsModule } from "@angular/forms";
@@ -31,7 +31,7 @@ import emailjs from "@emailjs/browser";
               <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
               <path d="M6 12v5c3 3 9 3 12 0v-5" />
             </svg>
-            Nexa Web Services Academy
+            Nexa Web Service Academy
           </span>
           <h1 class="hero-title">
             Master <span class="gradient-text">Modern Development</span><br />
@@ -291,7 +291,7 @@ import emailjs from "@emailjs/browser";
       <div class="container">
         <div class="benefits-wrapper">
           <div class="benefits-content">
-            <span class="section-tag">Why Nexa Web Services Academy</span>
+            <span class="section-tag">Why Nexa Web Service Academy</span>
             <h2 class="section-title">
               Learn Differently.<br />Succeed Faster.
             </h2>
@@ -385,7 +385,7 @@ import emailjs from "@emailjs/browser";
             <span class="stat-desc">Average Salary Increase</span>
           </div>
           <div class="success-stat">
-            <span class="stat-value">4.9★</span>
+            <span class="stat-value">4.9â˜…</span>
             <span class="stat-desc">Student Satisfaction</span>
           </div>
         </div>
@@ -425,7 +425,7 @@ import emailjs from "@emailjs/browser";
               </a>
             </div>
             <p class="cta-note">
-              No commitment required • Free career consultation available
+              No commitment required â€¢ Free career consultation available
             </p>
           </div>
         </div>
@@ -873,7 +873,7 @@ export class CoursesComponent implements OnInit {
       from_name: this.enrollmentData.name,
       from_email: this.enrollmentData.email,
       email: "contact@nexawebservice.com",
-      company: `${this.selectedCourse}${this.selectedPrice ? " — " + this.selectedPrice : ""}`,
+      company: `${this.selectedCourse}${this.selectedPrice ? " â€” " + this.selectedPrice : ""}`,
       challenge: this.enrollmentData.experience,
       budget: this.enrollmentData.availability,
       timeline: this.enrollmentData.phone || "Not provided",
@@ -904,7 +904,7 @@ export class CoursesComponent implements OnInit {
     successDiv.innerHTML =
       `
       <div class="success-content">
-        <div class="success-icon">✓</div>
+        <div class="success-icon">âœ“</div>
         <h3>Enrollment Successful!</h3>
         <p>Thank you for your interest. We'll review your enrollment and contact you within 24 hours at ` +
       email +
@@ -923,7 +923,7 @@ export class CoursesComponent implements OnInit {
     errorDiv.className = "error-message-popup";
     errorDiv.innerHTML = `
       <div class="error-content">
-        <div class="error-icon">✕</div>
+        <div class="error-icon">âœ•</div>
         <h3>Enrollment Failed</h3>
         <p>There was an issue processing your enrollment. Please try again or contact us at mksawany619@gmail.com.</p>
         <button onclick="this.parentElement.parentElement.remove()">Close</button>
@@ -957,3 +957,4 @@ export class CoursesComponent implements OnInit {
     }, 3000);
   }
 }
+

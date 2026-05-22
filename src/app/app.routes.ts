@@ -1,4 +1,4 @@
-import { Routes } from "@angular/router";
+﻿import { Routes } from "@angular/router";
 import { HomeComponent } from "./pages/home/home.component";
 import { AboutComponent } from "./pages/about/about.component";
 import { ServicesComponent } from "./pages/services/services.component";
@@ -15,9 +15,9 @@ export const routes: Routes = [
     component: HomeComponent,
     data: {
       title:
-        "Nexa Web Services — Software Solutions | Digital Transformation & Development",
+        "Nexa Web Service â€” Software Solutions | Digital Transformation & Development",
       description:
-        "Nexa Web Services delivers custom digital transformation solutions and enterprise software. 8+ years specializing in Angular, React, .NET Core, Azure DevOps, and Healthcare SaaS — for US and international clients.",
+        "Nexa Web Service delivers custom digital transformation solutions and enterprise software. 8+ years specializing in Angular, React, .NET Core, Azure DevOps, and Healthcare SaaS â€” for US and international clients.",
       keywords:
         "software engineer USA, digital transformation, full-stack developer, custom development, enterprise solutions",
       ogImage: "https://nexawebservice.com/assets/og-image.jpg",
@@ -27,9 +27,9 @@ export const routes: Routes = [
     path: "about",
     component: AboutComponent,
     data: {
-      title: "About Nexa Web Services — Software Solutions Team",
+      title: "About Nexa Web Service â€” Software Solutions Team",
       description:
-        "Kamran Sohail — Senior Full Stack Developer with 8+ years building Angular, React, .NET Core, and Azure DevOps solutions for US, UAE, and UK clients. Founder of Nexa Web Services.",
+        "Kamran Sohail â€” Senior Full Stack Developer with 8+ years building Angular, React, .NET Core, and Azure DevOps solutions for US, UAE, and UK clients. Founder of Nexa Web Service.",
       keywords:
         "about software engineer, technical consultant, digital transformation expert, software development",
       ogImage: "https://nexawebservice.com/assets/og-image.jpg",
@@ -106,7 +106,7 @@ export const routes: Routes = [
     path: "pricing",
     component: PricingComponent,
     data: {
-      title: "Pricing — Web Development & Academy Courses | Nexa Web Services",
+      title: "Pricing â€” Web Development & Academy Courses | Nexa Web Service",
       description:
         "Transparent pricing for web development projects starting at $500. Academy courses from $39. US clients welcome. Pay via PayPal or Wise.",
       keywords:
@@ -118,9 +118,9 @@ export const routes: Routes = [
     path: "faq",
     component: FaqComponent,
     data: {
-      title: "FAQ — Working with International Clients | Nexa Web Services",
+      title: "FAQ â€” Working with International Clients | Nexa Web Service",
       description:
-        "Answers to common questions about working with Nexa Web Services from the US, payment methods, project timelines, and our Academy courses.",
+        "Answers to common questions about working with Nexa Web Service from the US, payment methods, project timelines, and our Academy courses.",
       keywords:
         "faq, international clients, USD payments, remote developer, web development questions, timezone",
       ogImage: "https://nexawebservice.com/assets/og-image.jpg",
@@ -128,3 +128,4 @@ export const routes: Routes = [
   },
   { path: "**", redirectTo: "" },
 ];
+

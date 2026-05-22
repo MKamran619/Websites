@@ -178,7 +178,7 @@ import { isPlatformBrowser } from "@angular/common";
                 <!-- Brand Text -->
                 <g filter="url(#softGlow)">
                   <text x="58" y="34" font-family="'Poppins', 'Segoe UI', sans-serif" font-size="20"><tspan font-weight="700" fill="#1a202c">Nexa</tspan><tspan font-weight="700" fill="#4f8ef7">Web</tspan></text>
-                  <text x="162" y="34" font-family="'Poppins', 'Segoe UI', sans-serif" font-size="13" font-weight="300" fill="#94a3b8">Services</text>
+                  <text x="162" y="34" font-family="'Poppins', 'Segoe UI', sans-serif" font-size="13" font-weight="300" fill="#94a3b8">Service</text>
                 </g>
 
                 <!-- Slogan -->

@@ -1,4 +1,4 @@
-import {
+﻿import {
   Component,
   OnInit,
   PLATFORM_ID,
@@ -28,7 +28,7 @@ gsap.registerPlugin(ScrollTrigger);
       <div class="container">
         <div class="hero-content">
           <div class="hero-badge">
-            <span class="badge-icon">✨</span>
+            <span class="badge-icon">âœ¨</span>
             <span>8+ Years of Enterprise Development Experience</span>
           </div>
           <h1 class="hero-title">
@@ -36,7 +36,7 @@ gsap.registerPlugin(ScrollTrigger);
             <br />With Real Expertise
           </h1>
           <p class="hero-subtitle">
-            Nexa Web Services is a freshly launched agency backed by 8+ years of hands-on enterprise development — Angular, React, .NET Core, Azure DevOps, and Healthcare SaaS. Senior-level work, delivered directly to you.
+            Nexa Web Service is a freshly launched agency backed by 8+ years of hands-on enterprise development â€” Angular, React, .NET Core, Azure DevOps, and Healthcare SaaS. Senior-level work, delivered directly to you.
           </p>
           <div class="hero-stats">
             <div class="stat-item">
@@ -68,28 +68,28 @@ gsap.registerPlugin(ScrollTrigger);
             <span class="section-tag">Our Story</span>
             <h2 class="section-title">From Code to Business Transformation</h2>
             <p class="story-text">
-              Our journey reflects 8+ years of building real enterprise software for US and international clients — fully remote. From launching an Angular SSR application for a US logistics company (Metropolitan), to delivering HIPAA-compliant healthcare modules at CareCloud (US), to building complex ERP systems for UAE enterprise clients — we have navigated demanding requirements across industries and timezones.
+              Our journey reflects 8+ years of building real enterprise software for US and international clients â€” fully remote. From launching an Angular SSR application for a US logistics company (Metropolitan), to delivering HIPAA-compliant healthcare modules at CareCloud (US), to building complex ERP systems for UAE enterprise clients â€” we have navigated demanding requirements across industries and timezones.
             </p>
             <p class="story-text">
-              In 2024, we launched Nexa Web Services to bring that same senior-level expertise directly to businesses like yours — without agency overhead. You work with an experienced senior developer, not a junior who escalates everything. Every project gets clean architecture, real performance, and code built to last.
+              In 2024, we launched Nexa Web Service to bring that same senior-level expertise directly to businesses like yours â€” without agency overhead. You work with an experienced senior developer, not a junior who escalates everything. Every project gets clean architecture, real performance, and code built to last.
             </p>
             <div class="story-highlights">
               <div class="highlight-item">
-                <div class="highlight-icon">🎯</div>
+                <div class="highlight-icon">ðŸŽ¯</div>
                 <div class="highlight-text">
                   <strong>Mission-Driven</strong>
                   <span>Solutions that align with your business goals</span>
                 </div>
               </div>
               <div class="highlight-item">
-                <div class="highlight-icon">🤝</div>
+                <div class="highlight-icon">ðŸ¤</div>
                 <div class="highlight-text">
                   <strong>Partnership Approach</strong>
                   <span>Your success is our success</span>
                 </div>
               </div>
               <div class="highlight-item">
-                <div class="highlight-icon">🚀</div>
+                <div class="highlight-icon">ðŸš€</div>
                 <div class="highlight-text">
                   <strong>Results-Focused</strong>
                   <span>Delivering measurable business value</span>
@@ -181,12 +181,12 @@ gsap.registerPlugin(ScrollTrigger);
             </svg>
           </div>
           <blockquote class="philosophy-quote">
-            Every line of code I write carries 8 years of production experience — from HIPAA-compliant healthcare platforms to enterprise ERP systems across three countries. My clients get that senior-level thinking on every task, not just the big ones.
+            Every line of code I write carries 8 years of production experience â€” from HIPAA-compliant healthcare platforms to enterprise ERP systems across three countries. My clients get that senior-level thinking on every task, not just the big ones.
           </blockquote>
           <div class="philosophy-author">
             <div class="author-info">
               <span class="author-name">Kamran Sohail</span>
-              <span class="author-title">Founder, Nexa Web Services · Senior Full Stack Developer</span>
+              <span class="author-title">Founder, Nexa Web Service Â· Senior Full Stack Developer</span>
             </div>
           </div>
         </div>
@@ -198,7 +198,7 @@ gsap.registerPlugin(ScrollTrigger);
       <div class="container">
         <div class="section-header text-center">
           <span class="section-tag">Why Choose Us?</span>
-          <h2 class="section-title">The Nexa Web Services Advantage</h2>
+          <h2 class="section-title">The Nexa Web Service Advantage</h2>
         </div>
         <div class="advantages-grid">
           <div class="advantage-card" *ngFor="let advantage of advantages">
@@ -254,22 +254,22 @@ export class AboutComponent implements OnInit, AfterViewInit {
   platformId: Object;
 
   milestones = [
-    { year: "2017", title: "Started — Frontend Developer (Eposelive)" },
-    { year: "2019", title: "Full Stack — Angular + Node.js (TakDevs)" },
-    { year: "2021", title: "Remote US Client — Full Stack (Metropolitan)" },
-    { year: "2022", title: "Enterprise ERP — UAE (Inspire System)" },
-    { year: "2024", title: "US Healthcare SaaS — Angular 17 (CareCloud)" },
-    { year: "2024", title: "Nexa Web Services — Launched" },
+    { year: "2017", title: "Started â€” Frontend Developer (Eposelive)" },
+    { year: "2019", title: "Full Stack â€” Angular + Node.js (TakDevs)" },
+    { year: "2021", title: "Remote US Client â€” Full Stack (Metropolitan)" },
+    { year: "2022", title: "Enterprise ERP â€” UAE (Inspire System)" },
+    { year: "2024", title: "US Healthcare SaaS â€” Angular 17 (CareCloud)" },
+    { year: "2024", title: "Nexa Web Service â€” Launched" },
   ];
 
   expertiseAreas = [
     {
-      title: "Frontend — Angular & React",
+      title: "Frontend â€” Angular & React",
       description:
-        "8+ years building enterprise Angular and React UIs — from healthcare SaaS dashboards to ERP workflows handling thousands of daily users",
+        "8+ years building enterprise Angular and React UIs â€” from healthcare SaaS dashboards to ERP workflows handling thousands of daily users",
       icon: '<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>',
       technologies: [
-        "Angular 2–17+",
+        "Angular 2â€“17+",
         "React",
         "TypeScript",
         "RxJS",
@@ -292,7 +292,7 @@ export class AboutComponent implements OnInit, AfterViewInit {
       ],
     },
     {
-      title: "Backend — .NET Core & Node.js",
+      title: "Backend â€” .NET Core & Node.js",
       description:
         "Production REST APIs and business logic in .NET Core/C# and Node.js, with SQL-optimised data layers for high-volume applications",
       icon: '<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><circle cx="6" cy="6" r="1"/><circle cx="6" cy="18" r="1"/></svg>',
@@ -308,7 +308,7 @@ export class AboutComponent implements OnInit, AfterViewInit {
     {
       title: "Databases",
       description:
-        "Relational and NoSQL databases — stored procedure optimisation that reduced query response times by 35% in production",
+        "Relational and NoSQL databases â€” stored procedure optimisation that reduced query response times by 35% in production",
       icon: '<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>',
       technologies: [
         "SQL Server",
@@ -350,64 +350,64 @@ export class AboutComponent implements OnInit, AfterViewInit {
       number: "01",
       title: "Clean Architecture First",
       description:
-        "Reusable components, consistent patterns, and code built to be maintained — not just to ship. Standards enforced through peer review and clean architecture principles.",
+        "Reusable components, consistent patterns, and code built to be maintained â€” not just to ship. Standards enforced through peer review and clean architecture principles.",
     },
     {
       number: "02",
       title: "Transparent & Async-Ready",
       description:
-        "Daily updates, clear timelines, and zero surprises — the same async discipline built across 8 years of remote work for US and UAE clients.",
+        "Daily updates, clear timelines, and zero surprises â€” the same async discipline built across 8 years of remote work for US and UAE clients.",
     },
     {
       number: "03",
       title: "Performance is Non-Negotiable",
       description:
-        "Lighthouse scores, query response times, CI/CD speed — measurable performance matters in production, not just in demos.",
+        "Lighthouse scores, query response times, CI/CD speed â€” measurable performance matters in production, not just in demos.",
     },
     {
       number: "04",
       title: "AI-Augmented Quality",
       description:
-        "Using GitHub Copilot, Claude, and GPT-4 daily means faster delivery and higher quality — not shortcuts. AI handles the boilerplate; judgment handles the architecture.",
+        "Using GitHub Copilot, Claude, and GPT-4 daily means faster delivery and higher quality â€” not shortcuts. AI handles the boilerplate; judgment handles the architecture.",
     },
   ];
 
   advantages = [
     {
-      icon: "🇺🇸",
+      icon: "ðŸ‡ºðŸ‡¸",
       title: "Real US Client Experience",
       description:
-        "Worked directly with US companies — CareCloud (Healthcare SaaS, Hybrid US) and Metropolitan Warehouse & Delivery (Remote, US). We understand American delivery standards, communication norms, and business expectations.",
+        "Worked directly with US companies â€” CareCloud (Healthcare SaaS, Hybrid US) and Metropolitan Warehouse & Delivery (Remote, US). We understand American delivery standards, communication norms, and business expectations.",
     },
     {
-      icon: "⏰",
+      icon: "â°",
       title: "Async-Friendly & Remote-First",
       description:
-        "Based in Islamabad, Pakistan (UTC+5). 8+ years of async remote collaboration across US, UAE, and UK — you receive morning updates every day and replies within hours, not days.",
+        "Based in Islamabad, Pakistan (UTC+5). 8+ years of async remote collaboration across US, UAE, and UK â€” you receive morning updates every day and replies within hours, not days.",
     },
     {
-      icon: "💬",
+      icon: "ðŸ’¬",
       title: "Senior Developer Directly",
       description:
         "You work with an 8+ year senior developer, not a project manager or junior who escalates everything. Your vision stays intact from kickoff to launch.",
     },
     {
-      icon: "🏥",
+      icon: "ðŸ¥",
       title: "Healthcare & Enterprise Grade",
       description:
         "HIPAA-aware development experience from CareCloud. Enterprise ERP and complex workflow experience from Inspire System. We know what production-grade means.",
     },
     {
-      icon: "💰",
+      icon: "ðŸ’°",
       title: "Competitive Pricing",
       description:
-        "Senior-level quality at offshore rates. You get the expertise of a US agency without the US agency price tag — fully transparent, no hidden costs.",
+        "Senior-level quality at offshore rates. You get the expertise of a US agency without the US agency price tag â€” fully transparent, no hidden costs.",
     },
     {
-      icon: "🤖",
+      icon: "ðŸ¤–",
       title: "AI-Accelerated Delivery",
       description:
-        "Daily use of GitHub Copilot, ChatGPT, Claude, and OpenAI Codex means faster delivery, higher code quality, and better documentation — without cutting corners.",
+        "Daily use of GitHub Copilot, ChatGPT, Claude, and OpenAI Codex means faster delivery, higher code quality, and better documentation â€” without cutting corners.",
     },
   ];
 
@@ -546,3 +546,4 @@ export class AboutComponent implements OnInit, AfterViewInit {
     ScrollTrigger.refresh();
   }
 }
+
