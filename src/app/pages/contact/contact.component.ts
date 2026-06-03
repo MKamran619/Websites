@@ -96,7 +96,10 @@ import emailjs from "@emailjs/browser";
                 Direct Contact
               </h3>
               <div class="contact-list">
-                <a href="mailto:contact@nexawebservice.com" class="contact-item">
+                <a
+                  href="mailto:contact@nexawebservice.com"
+                  class="contact-item"
+                >
                   <div class="contact-icon">
                     <svg
                       width="20"
@@ -114,7 +117,9 @@ import emailjs from "@emailjs/browser";
                   </div>
                   <div class="contact-details">
                     <span class="contact-label">Email</span>
-                    <span class="contact-value">contact&#64;nexawebservice.com</span>
+                    <span class="contact-value"
+                      >contact&#64;nexawebservice.com</span
+                    >
                   </div>
                   <svg
                     class="arrow-icon"
@@ -795,6 +800,26 @@ export class ContactComponent implements OnInit, AfterViewInit {
         this.lastSubmitTime = Date.now();
         this.isSubmitting = false;
         this.showSuccessMessage();
+        // Fire conversion/tracking events (Meta Pixel + GA4) when running in browser
+        if (this.isBrowser) {
+          try {
+            (window as any).fbq && (window as any).fbq("track", "Lead");
+          } catch (e) {
+            console.warn("FB Pixel track failed", e);
+          }
+
+          try {
+            (window as any).gtag &&
+              (window as any).gtag("event", "conversion", {
+                event_category: "contact",
+                event_label: "contact_form",
+                value: 1,
+              });
+          } catch (e) {
+            console.warn("gtag event failed", e);
+          }
+        }
+
         this.resetForm();
       },
       (error: any) => {

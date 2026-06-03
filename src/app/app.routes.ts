@@ -15,7 +15,7 @@ export const routes: Routes = [
     component: HomeComponent,
     data: {
       title:
-        "Nexa Web Service â€” Software Solutions | Digital Transformation & Development",
+        "Nexa Web Service — Software Solutions | Digital Transformation & Development",
       description:
         "Nexa Web Service delivers custom digital transformation solutions and enterprise software. 8+ years specializing in Angular, React, .NET Core, Azure DevOps, and Healthcare SaaS â€” for US and international clients.",
       keywords:
@@ -27,7 +27,7 @@ export const routes: Routes = [
     path: "about",
     component: AboutComponent,
     data: {
-      title: "About Nexa Web Service â€” Software Solutions Team",
+      title: "About Nexa Web Service — Software Solutions Team",
       description:
         "Kamran Sohail â€” Senior Full Stack Developer with 8+ years building Angular, React, .NET Core, and Azure DevOps solutions for US, UAE, and UK clients. Founder of Nexa Web Service.",
       keywords:
@@ -45,8 +45,7 @@ export const routes: Routes = [
         "Professional software development services including digital transformation, custom development, cloud migration, legacy modernization, and technical consulting.",
       keywords:
         "software development services, digital transformation, cloud migration, legacy modernization, custom development, technical consulting",
-      ogImage:
-        "https://nexawebservice.com/assets/services-og-image.jpg",
+      ogImage: "https://nexawebservice.com/assets/services-og-image.jpg",
     },
   },
   {
@@ -59,8 +58,7 @@ export const routes: Routes = [
         "Explore 50+ completed projects showcasing expertise in digital transformation, cloud migration, custom development, and enterprise solutions.",
       keywords:
         "portfolio, case studies, completed projects, software solutions, enterprise development, project examples",
-      ogImage:
-        "https://nexawebservice.com/assets/portfolio-og-image.jpg",
+      ogImage: "https://nexawebservice.com/assets/portfolio-og-image.jpg",
     },
   },
   {
@@ -84,8 +82,7 @@ export const routes: Routes = [
         "Get in touch to schedule a free 30-minute strategy session. Discuss your project needs with an experienced technical consultant.",
       keywords:
         "contact, consultation, schedule meeting, software engineer contact, technical consultation, free consultation",
-      ogImage:
-        "https://nexawebservice.com/assets/contact-og-image.jpg",
+      ogImage: "https://nexawebservice.com/assets/contact-og-image.jpg",
     },
   },
   {
@@ -98,8 +95,7 @@ export const routes: Routes = [
         "Comprehensive web development courses from beginner to advanced. Master HTML, CSS, Bootstrap, JavaScript, jQuery, Angular, React, and Full Stack Development.",
       keywords:
         "web development courses, learn coding, JavaScript courses, Angular courses, React courses, Bootstrap courses, jQuery, HTML CSS",
-      ogImage:
-        "https://nexawebservice.com/assets/courses-og-image.jpg",
+      ogImage: "https://nexawebservice.com/assets/courses-og-image.jpg",
     },
   },
   {
@@ -128,4 +124,3 @@ export const routes: Routes = [
   },
   { path: "**", redirectTo: "" },
 ];
-

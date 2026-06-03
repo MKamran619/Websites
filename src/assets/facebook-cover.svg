@@ -1,96 +1,86 @@
-<svg width="1640" height="624" viewBox="0 0 1640 624" xmlns="http://www.w3.org/2000/svg">
+<svg width="820" height="312" viewBox="0 0 820 312" xmlns="http://www.w3.org/2000/svg">
   <defs>
     <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#0f172a"/>
-      <stop offset="60%" stop-color="#1e293b"/>
+      <stop offset="55%" stop-color="#1e293b"/>
       <stop offset="100%" stop-color="#0f172a"/>
     </linearGradient>
     <linearGradient id="iconGrad" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#4f8ef7"/>
       <stop offset="100%" stop-color="#60a5fa"/>
     </linearGradient>
-    <linearGradient id="sloganGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+    <linearGradient id="lineGrad" x1="0%" y1="0%" x2="100%" y2="0%">
       <stop offset="0%" stop-color="#4f8ef7"/>
       <stop offset="100%" stop-color="#60a5fa"/>
     </linearGradient>
     <linearGradient id="iconBg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#4f8ef7" stop-opacity="0.15"/>
-      <stop offset="100%" stop-color="#60a5fa" stop-opacity="0.06"/>
+      <stop offset="0%" stop-color="#4f8ef7" stop-opacity="0.14"/>
+      <stop offset="100%" stop-color="#60a5fa" stop-opacity="0.05"/>
     </linearGradient>
-    <filter id="iconGlow" x="-40%" y="-40%" width="180%" height="180%">
-      <feGaussianBlur stdDeviation="12" result="blur"/>
-      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-    </filter>
   </defs>
 
   <!-- Background -->
-  <rect width="1640" height="624" fill="url(#bgGrad)"/>
+  <rect width="820" height="312" fill="url(#bgGrad)"/>
 
-  <!-- Subtle gradient orbs -->
-  <circle cx="0" cy="0" r="420" fill="#4f8ef7" opacity="0.06"/>
-  <circle cx="1640" cy="624" r="480" fill="#4f8ef7" opacity="0.07"/>
-  <circle cx="1640" cy="0" r="260" fill="#60a5fa" opacity="0.04"/>
-  <circle cx="820" cy="312" r="340" fill="#4f8ef7" opacity="0.025"/>
+  <!-- Orbs -->
+  <circle cx="0" cy="0" r="200" fill="#4f8ef7" opacity="0.06"/>
+  <circle cx="820" cy="312" r="240" fill="#4f8ef7" opacity="0.07"/>
+  <circle cx="820" cy="0" r="130" fill="#60a5fa" opacity="0.04"/>
 
   <!-- Subtle grid lines -->
-  <line x1="0" y1="208" x2="1640" y2="208" stroke="#4f8ef7" stroke-width="0.5" opacity="0.06"/>
-  <line x1="0" y1="416" x2="1640" y2="416" stroke="#4f8ef7" stroke-width="0.5" opacity="0.06"/>
-  <line x1="546" y1="0" x2="546" y2="624" stroke="#4f8ef7" stroke-width="0.5" opacity="0.06"/>
-  <line x1="1093" y1="0" x2="1093" y2="624" stroke="#4f8ef7" stroke-width="0.5" opacity="0.06"/>
+  <line x1="0" y1="104" x2="820" y2="104" stroke="#4f8ef7" stroke-width="0.5" opacity="0.07"/>
+  <line x1="0" y1="208" x2="820" y2="208" stroke="#4f8ef7" stroke-width="0.5" opacity="0.07"/>
+  <line x1="273" y1="0" x2="273" y2="312" stroke="#4f8ef7" stroke-width="0.5" opacity="0.07"/>
+  <line x1="547" y1="0" x2="547" y2="312" stroke="#4f8ef7" stroke-width="0.5" opacity="0.07"/>
 
-  <!-- Icon block — right side, safe from profile photo overlap (bottom-left) -->
-  <g transform="translate(1150, 172)" filter="url(#iconGlow)">
-    <rect x="0" y="0" width="210" height="210" rx="50" fill="url(#iconBg)"/>
-    <rect x="0" y="0" width="210" height="210" rx="50" fill="none" stroke="#4f8ef7" stroke-width="1.5" opacity="0.25"/>
-
-    <!-- Left bracket < -->
-    <path d="M68 48 L20 105 L68 162"
-          stroke="url(#iconGrad)" stroke-width="15"
-          stroke-linecap="round" stroke-linejoin="round"
-          fill="none"/>
-
-    <!-- Right bracket > -->
-    <path d="M142 48 L190 105 L142 162"
-          stroke="#60a5fa" stroke-width="15"
-          stroke-linecap="round" stroke-linejoin="round"
-          fill="none"/>
-
-    <!-- Center slash / -->
-    <path d="M134 58 L92 152"
-          stroke="#4f8ef7" stroke-width="11"
+  <!-- Code icon — TOP CENTER -->
+  <g transform="translate(345, 18)">
+    <rect x="0" y="0" width="130" height="130" rx="30"
+          fill="url(#iconBg)"/>
+    <rect x="0" y="0" width="130" height="130" rx="30"
+          fill="none" stroke="#4f8ef7" stroke-width="1" opacity="0.25"/>
+    <!-- Left bracket -->
+    <path d="M40 28 L12 65 L40 102"
+          stroke="url(#iconGrad)" stroke-width="9"
+          stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    <!-- Right bracket -->
+    <path d="M90 28 L118 65 L90 102"
+          stroke="#60a5fa" stroke-width="9"
+          stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    <!-- Slash -->
+    <path d="M84 36 L58 94"
+          stroke="#4f8ef7" stroke-width="7"
           stroke-linecap="round" opacity="0.55"/>
-
     <!-- Accent dot -->
-    <circle cx="192" cy="14" r="11" fill="#60a5fa" opacity="0.92"/>
-    <circle cx="192" cy="14" r="6" fill="#ffffff" opacity="0.45"/>
+    <circle cx="120" cy="10" r="8" fill="#60a5fa" opacity="0.92"/>
+    <circle cx="120" cy="10" r="4" fill="#ffffff" opacity="0.45"/>
   </g>
 
-  <!-- ─── Brand Name — one line ─── -->
-  <text x="760" y="260"
-        font-family="'Poppins', 'Segoe UI', Arial, sans-serif"
+  <!-- Brand Name -->
+  <text x="410" y="196"
+        font-family="'Poppins','Segoe UI',Arial,sans-serif"
         text-anchor="middle">
-    <tspan font-size="108" font-weight="700" fill="#f1f5f9">Nexa</tspan><tspan font-size="108" font-weight="700" fill="#4f8ef7">Web</tspan><tspan font-size="56" font-weight="300" fill="#94a3b8" dx="12">Service</tspan>
+    <tspan font-size="60" font-weight="700" fill="#f1f5f9">Nexa</tspan><tspan font-size="60" font-weight="700" fill="#4f8ef7">Web</tspan><tspan font-size="30" font-weight="300" fill="#94a3b8" dx="8">Service</tspan>
   </text>
 
   <!-- Accent underline -->
-  <rect x="460" y="290" width="600" height="2.5" rx="1.25"
-        fill="url(#sloganGrad)" opacity="0.40"/>
+  <rect x="210" y="206" width="400" height="1.5" rx="0.75"
+        fill="url(#lineGrad)" opacity="0.40"/>
 
-  <!-- Slogan — smaller than Service, Grow in blue -->
-  <text x="760" y="352"
-        font-family="'Inter', 'Segoe UI', Arial, sans-serif"
-        font-size="30" font-weight="600"
-        text-anchor="middle" letter-spacing="5">
+  <!-- Slogan -->
+  <text x="410" y="238"
+        font-family="'Inter','Segoe UI',Arial,sans-serif"
+        font-size="17" font-weight="600"
+        text-anchor="middle" letter-spacing="4">
     <tspan fill="#94a3b8">Build · Launch · </tspan><tspan fill="#4f8ef7">Grow</tspan>
   </text>
 
   <!-- URL -->
-  <text x="760" y="408"
-        font-family="'Inter', 'Segoe UI', Arial, sans-serif"
-        font-size="22" font-weight="400"
-        fill="#334155" text-anchor="middle"
-        letter-spacing="2">nexawebservice.com</text>
+  <text x="410" y="266"
+        font-family="'Inter','Segoe UI',Arial,sans-serif"
+        font-size="12" font-weight="400"
+        fill="#334155" text-anchor="middle" letter-spacing="1.5">nexawebservice.com</text>
 
-  <!-- Bottom accent line -->
-  <rect x="0" y="616" width="1640" height="8" rx="0" fill="url(#sloganGrad)" opacity="0.6"/>
+  <!-- Bottom accent bar -->
+  <rect x="0" y="306" width="820" height="6" rx="0" fill="url(#lineGrad)" opacity="0.55"/>
 </svg>

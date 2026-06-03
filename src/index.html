@@ -31,9 +31,23 @@
     />
     <meta name="apple-mobile-web-app-title" content="Nexa Web Service" />
     <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
-    <link rel="icon" type="image/png" sizes="32x32" href="assets/Nexa Web Service.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="assets/Nexa Web Service.png" />
-    <link rel="apple-touch-icon" sizes="180x180" href="assets/Nexa Web Service.png" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="assets/Nexa Web Service.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="assets/Nexa Web Service.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="assets/Nexa Web Service.png"
+    />
     <link rel="manifest" href="manifest.webmanifest" />
     <meta
       name="robots"
@@ -73,7 +87,10 @@
       property="og:image:alt"
       content="Kamran Sohail - Senior Software Engineer & Technical Consultant"
     />
-    <meta property="og:site_name" content="Nexa Web Service - Software Solutions" />
+    <meta
+      property="og:site_name"
+      content="Nexa Web Service - Software Solutions"
+    />
     <meta property="og:locale" content="en_US" />
 
     <!-- Twitter / X -->
@@ -121,11 +138,7 @@
     <link rel="canonical" href="https://nexawebservice.com/" />
 
     <!-- Alternate links for mobile and languages -->
-    <link
-      rel="alternate"
-      hreflang="en-us"
-      href="https://nexawebservice.com/"
-    />
+    <link rel="alternate" hreflang="en-us" href="https://nexawebservice.com/" />
     <link
       rel="alternate"
       hreflang="x-default"
@@ -134,20 +147,151 @@
 
     <!-- Favicon & Icons -->
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
-    <link rel="icon" type="image/png" sizes="32x32" href="assets/Nexa Web Service.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="assets/Nexa Web Service.png" />
-    <link rel="apple-touch-icon" sizes="180x180" href="assets/Nexa Web Service.png" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="assets/Nexa Web Service.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="assets/Nexa Web Service.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="assets/Nexa Web Service.png"
+    />
 
     <link rel="mask-icon" href="assets/Nexa Web Service.png" color="#00d4aa" />
 
-    <!-- Google Analytics GA4 -->
-    <!-- REPLACE G-XXXXXXXXXX with your actual GA4 Measurement ID from analytics.google.com -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <!-- Analytics IDs (replace placeholders or let Angular inject at runtime) -->
+    <meta name="meta-pixel-id" content="YOUR_PIXEL_ID" />
+    <meta name="ga4-id" content="G-EXSDKJCCT7" />
+
+    <!-- Analytics loader functions (do not run until consent) -->
     <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-XXXXXXXXXX');
+      function loadFacebookPixel(pixelId) {
+        if (!pixelId) return;
+        if (window.fbq) {
+          try {
+            window.fbq("init", pixelId);
+            window.fbq("track", "PageView");
+          } catch (e) {}
+          return;
+        }
+        !(function (f, b, e, v, n, t, s) {
+          if (f.fbq) return;
+          n = f.fbq = function () {
+            n.callMethod
+              ? n.callMethod.apply(n, arguments)
+              : n.queue.push(arguments);
+          };
+          if (!f._fbq) f._fbq = n;
+          n.push = n;
+          n.loaded = !0;
+          n.version = "2.0";
+          n.queue = [];
+          t = b.createElement(e);
+          t.async = !0;
+          t.src = v;
+          s = b.getElementsByTagName(e)[0];
+          s.parentNode.insertBefore(t, s);
+        })(
+          window,
+          document,
+          "script",
+          "https://connect.facebook.net/en_US/fbevents.js",
+        );
+        try {
+          fbq("init", pixelId);
+          fbq("track", "PageView");
+        } catch (e) {
+          console.warn("fbq init failed", e);
+        }
+      }
+
+      function loadGA4(measurementId) {
+        if (!measurementId) return;
+        if (window.gtag) {
+          try {
+            gtag("config", measurementId);
+          } catch (e) {}
+          return;
+        }
+        var s = document.createElement("script");
+        s.async = true;
+        s.src = "https://www.googletagmanager.com/gtag/js?id=" + measurementId;
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        function gtag() {
+          dataLayer.push(arguments);
+        }
+        window.gtag = gtag;
+        gtag("js", new Date());
+        gtag("config", measurementId);
+      }
+
+      // Consent banner logic
+      (function () {
+        function createBanner() {
+          if (document.getElementById("cookie-consent-banner")) return;
+          var div = document.createElement("div");
+          div.id = "cookie-consent-banner";
+          div.style =
+            "position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(0,0,0,0.85); color: #fff; padding: 14px; text-align: center; z-index: 99999; font-family: Arial, sans-serif;";
+          div.innerHTML =
+            '<span id="cookie-text">We use cookies to improve your experience and measure campaign performance. By clicking Accept you consent to these cookies.</span>' +
+            '<button id="cookie-accept" style="margin-left:12px;padding:8px 14px;background:#1d4ed8;color:#fff;border:none;border-radius:6px;cursor:pointer;">Accept</button>' +
+            '<button id="cookie-decline" style="margin-left:8px;padding:8px 14px;background:#374151;color:#fff;border:none;border-radius:6px;cursor:pointer;">Decline</button>';
+          document.body.appendChild(div);
+          document
+            .getElementById("cookie-accept")
+            .addEventListener("click", function () {
+              localStorage.setItem("cookieConsent", "granted");
+              initAnalyticsFromMeta();
+              div.style.display = "none";
+            });
+          document
+            .getElementById("cookie-decline")
+            .addEventListener("click", function () {
+              localStorage.setItem("cookieConsent", "denied");
+              div.style.display = "none";
+            });
+        }
+
+        function initAnalyticsFromMeta() {
+          var pixel = document
+            .querySelector('meta[name="meta-pixel-id"]')
+            ?.getAttribute("content");
+          var ga = document
+            .querySelector('meta[name="ga4-id"]')
+            ?.getAttribute("content");
+          if (pixel && pixel !== "YOUR_PIXEL_ID") loadFacebookPixel(pixel);
+          if (ga && ga !== "G-XXXXXXXXXX") loadGA4(ga);
+        }
+
+        if (
+          document.readyState === "complete" ||
+          document.readyState === "interactive"
+        ) {
+          if (localStorage.getItem("cookieConsent") === "granted") {
+            initAnalyticsFromMeta();
+          } else if (localStorage.getItem("cookieConsent") !== "denied") {
+            createBanner();
+          }
+        } else {
+          document.addEventListener("DOMContentLoaded", function () {
+            if (localStorage.getItem("cookieConsent") === "granted") {
+              initAnalyticsFromMeta();
+            } else if (localStorage.getItem("cookieConsent") !== "denied") {
+              createBanner();
+            }
+          });
+        }
+      })();
     </script>
 
     <!-- Preconnect for performance -->

@@ -3,7 +3,8 @@
 
 export const environment = {
   production: false,
-  googleAnalyticsId: "UA-XXXXXXXXX-X",
+  googleAnalyticsId: "G-EXSDKJCCT7",
+  metaPixelId: "YOUR_PIXEL_ID",
   calendlyUrl: "https://calendly.com/your-url",
   contactEmail: "contact@nexawebservice.com",
 };
