@@ -48,7 +48,7 @@
       sizes="180x180"
       href="assets/Nexa Web Service.png"
     />
-    <link rel="manifest" href="manifest.webmanifest" />
+    <link rel="manifest" href="manifest.json" />
     <meta
       name="robots"
       content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
@@ -346,6 +346,14 @@
           /* noop */
         }
       })();
+
+    <script>
+      if (!window.simulateLeadEvent) {
+        window.simulateLeadEvent = function () {
+          console.warn('simulateLeadEvent helper not available or analytics not initialized.');
+        };
+      }
+    </script>
     </script>
 
     <!-- Preconnect for performance -->
@@ -360,7 +368,11 @@
       rel="preload"
       href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap"
       as="style"
+      onload="this.rel='stylesheet'"
     />
+    <noscript>
+      <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    </noscript>
 
     <!-- Google Verification -->
     <meta
