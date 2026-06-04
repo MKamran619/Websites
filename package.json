@@ -13,7 +13,8 @@
     "serve:ssr": "node dist/portfolio-ssr/server/main.js",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "lint": "ng lint"
+    "lint": "ng lint",
+    "lighthouse": "npx lighthouse http://localhost:4200 --output html --output-path=./lighthouse-report.html --quiet"
   },
   "private": true,
   "dependencies": {

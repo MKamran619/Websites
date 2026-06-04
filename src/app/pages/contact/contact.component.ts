@@ -802,21 +802,60 @@ export class ContactComponent implements OnInit, AfterViewInit {
         this.showSuccessMessage();
         // Fire conversion/tracking events (Meta Pixel + GA4) when running in browser
         if (this.isBrowser) {
+          // Generate event_id for deduplication between client Pixel and server CAPI
+          const eventId = (window.crypto && (window.crypto as any).randomUUID)
+            ? (window.crypto as any).randomUUID()
+            : 'evt-' + Date.now();
+
           try {
-            (window as any).fbq && (window as any).fbq("track", "Lead");
+            if ((window as any).fbq) {
+              try {
+                (window as any).fbq('track', 'Lead', {}, { eventID: eventId });
+              } catch (e) {
+                // fallback
+                (window as any).fbq('track', 'Lead');
+              }
+            }
           } catch (e) {
-            console.warn("FB Pixel track failed", e);
+            console.warn('FB Pixel track failed', e);
           }
 
           try {
-            (window as any).gtag &&
-              (window as any).gtag("event", "conversion", {
-                event_category: "contact",
-                event_label: "contact_form",
+            if ((window as any).gtag) {
+              (window as any).gtag('event', 'conversion', {
+                event_category: 'contact',
+                event_label: 'contact_form',
                 value: 1,
+                event_id: eventId,
               });
+            }
           } catch (e) {
-            console.warn("gtag event failed", e);
+            console.warn('gtag event failed', e);
+          }
+
+          // Send server-side event to Netlify function (will hash PII and forward to Meta Gateway)
+          try {
+            const consent = localStorage.getItem('cookieConsent') === 'granted';
+            if (consent) {
+              fetch('/.netlify/functions/track-lead', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  event_id: eventId,
+                  email: this.formData.email,
+                  consent: consent,
+                  page: '/contact',
+                  form: 'contact'
+                }),
+              })
+                .then((r) => r.text())
+                .then((txt) => console.log('server-side track response', txt))
+                .catch((err) => console.warn('server-side track failed', err));
+            } else {
+              console.log('consent not granted; skipping server-side event');
+            }
+          } catch (e) {
+            console.warn('server-side track exception', e);
           }
         }
 

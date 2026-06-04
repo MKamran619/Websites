@@ -167,9 +167,10 @@
 
     <link rel="mask-icon" href="assets/Nexa Web Service.png" color="#00d4aa" />
 
-    <!-- Analytics IDs (replace placeholders or let Angular inject at runtime) -->
-    <meta name="meta-pixel-id" content="YOUR_PIXEL_ID" />
+    <!-- Analytics IDs (managed here) -->
+    <meta name="meta-pixel-id" content="1506148861255042" />
     <meta name="ga4-id" content="G-EXSDKJCCT7" />
+    <meta name="privacy-policy" content="https://nexawebservice.com/privacy" />
 
     <!-- Analytics loader functions (do not run until consent) -->
     <script>
@@ -242,8 +243,19 @@
           div.id = "cookie-consent-banner";
           div.style =
             "position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(0,0,0,0.85); color: #fff; padding: 14px; text-align: center; z-index: 99999; font-family: Arial, sans-serif;";
+          var privacy =
+            document
+              .querySelector('meta[name="privacy-policy"]')
+              ?.getAttribute("content") || "";
+          var privacyLink = privacy
+            ? ' <a href="' +
+              privacy +
+              '" target="_blank" rel="noopener" style="color:#9ae6b4;margin-left:8px;text-decoration:underline;">Privacy Policy</a>'
+            : "";
           div.innerHTML =
-            '<span id="cookie-text">We use cookies to improve your experience and measure campaign performance. By clicking Accept you consent to these cookies.</span>' +
+            '<span id="cookie-text">We use cookies and tracking (Google Analytics &amp; Meta Pixel) to improve site experience and measure campaign performance.' +
+            privacyLink +
+            "</span>" +
             '<button id="cookie-accept" style="margin-left:12px;padding:8px 14px;background:#1d4ed8;color:#fff;border:none;border-radius:6px;cursor:pointer;">Accept</button>' +
             '<button id="cookie-decline" style="margin-left:8px;padding:8px 14px;background:#374151;color:#fff;border:none;border-radius:6px;cursor:pointer;">Decline</button>';
           document.body.appendChild(div);
@@ -290,6 +302,48 @@
               createBanner();
             }
           });
+        }
+
+        // Expose a small test helper so you can trigger a Lead event from the console
+        try {
+          window.simulateLeadEvent = function () {
+            try {
+              var pixel = document
+                .querySelector('meta[name="meta-pixel-id"]')
+                ?.getAttribute("content");
+              var ga = document
+                .querySelector('meta[name="ga4-id"]')
+                ?.getAttribute("content");
+              if (pixel && window.fbq) {
+                try {
+                  fbq("track", "Lead");
+                  console.log("fbq Lead fired");
+                } catch (e) {
+                  console.warn("fbq not ready", e);
+                }
+              } else {
+                console.warn("fbq or pixel id not available");
+              }
+              if (ga && window.gtag) {
+                try {
+                  gtag("event", "conversion", {
+                    event_category: "contact",
+                    event_label: "simulate_lead",
+                    value: 1,
+                  });
+                  console.log("gtag conversion fired");
+                } catch (e) {
+                  console.warn("gtag not ready", e);
+                }
+              } else {
+                console.warn("gtag or ga id not available");
+              }
+            } catch (ex) {
+              console.warn("simulateLeadEvent error", ex);
+            }
+          };
+        } catch (ex) {
+          /* noop */
         }
       })();
     </script>
