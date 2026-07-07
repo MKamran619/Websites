@@ -2,6 +2,7 @@ import { Component, OnInit, PLATFORM_ID, Inject } from "@angular/core";
 import { CommonModule, isPlatformBrowser } from "@angular/common";
 import { RouterLink } from "@angular/router";
 import { FormsModule } from "@angular/forms";
+import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
 import emailjs from "@emailjs/browser";
 import { ContentService } from "../../services/content.service";
 
@@ -85,7 +86,7 @@ export interface FooterLink {
               <a
                 routerLink="/"
                 class="footer-logo"
-                [innerHTML]="siteInfo?.logo_svg_footer"
+                [innerHTML]="getSafeHtml(siteInfo?.logo_svg_footer)"
               ></a>
               <p>{{ siteInfo?.brand_description }}</p>
               <div class="social-links">
@@ -96,7 +97,7 @@ export interface FooterLink {
                   [attr.rel]="link.url.startsWith('http') ? 'noopener' : null"
                   [attr.aria-label]="link.platform"
                   class="social-link"
-                  [innerHTML]="link.icon_svg"
+                  [innerHTML]="getSafeHtml(link.icon_svg)"
                 ></a>
               </div>
             </div>
@@ -214,8 +215,13 @@ export class FooterComponent implements OnInit {
   constructor(
     @Inject(PLATFORM_ID) platformId: Object,
     private content: ContentService,
+    private sanitizer: DomSanitizer,
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
+  }
+
+  getSafeHtml(html: string | null | undefined): SafeHtml {
+    return this.sanitizer.bypassSecurityTrustHtml(html || "");
   }
 
   ngOnInit() {

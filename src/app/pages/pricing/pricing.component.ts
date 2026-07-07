@@ -2,6 +2,7 @@
 import { CommonModule, isPlatformBrowser } from "@angular/common";
 import { RouterLink } from "@angular/router";
 import { FormsModule } from "@angular/forms";
+import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
 import emailjs from "@emailjs/browser";
 import { ContentService } from "../../services/content.service";
 
@@ -69,7 +70,7 @@ interface FeatureBlock {
           <div class="plan-card" *ngFor="let plan of plans" [class.featured]="plan.featured">
             <div class="plan-badge" *ngIf="plan.featured">Most Popular</div>
             <div class="plan-header">
-              <div class="plan-icon" [innerHTML]="plan.icon"></div>
+              <div class="plan-icon" [innerHTML]="getSafeHtml(plan.icon)"></div>
               <h3>{{ plan.name }}</h3>
               <p class="plan-desc">{{ plan.description }}</p>
               <div class="plan-price">
@@ -350,8 +351,13 @@ export class PricingComponent implements OnInit {
   constructor(
     @Inject(PLATFORM_ID) platformId: Object,
     private content: ContentService,
+    private sanitizer: DomSanitizer,
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
+  }
+
+  getSafeHtml(html: string | null | undefined): SafeHtml {
+    return this.sanitizer.bypassSecurityTrustHtml(html || "");
   }
 
   ngOnInit() {

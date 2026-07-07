@@ -7,6 +7,7 @@ import {
   AfterViewInit,
 } from "@angular/core";
 import { CommonModule, isPlatformBrowser } from "@angular/common";
+import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
 import { ContentService } from "../../services/content.service";
 
 interface Testimonial {
@@ -248,7 +249,7 @@ interface StatBlock {
         <div class="trust-stats">
           <ng-container *ngFor="let stat of statBlocks; let last = last">
             <div class="stat-item">
-              <div class="stat-icon" [innerHTML]="stat.icon"></div>
+              <div class="stat-icon" [innerHTML]="getSafeHtml(stat.icon)"></div>
               <div class="stat-content">
                 <span class="stat-number">{{ stat.value }}</span>
                 <span class="stat-label">{{ stat.label }}</span>
@@ -1042,8 +1043,13 @@ export class TestimonialsComponent implements OnInit, OnDestroy, AfterViewInit {
   constructor(
     @Inject(PLATFORM_ID) platformId: Object,
     private content: ContentService,
+    private sanitizer: DomSanitizer,
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
+  }
+
+  getSafeHtml(html: string | null | undefined): SafeHtml {
+    return this.sanitizer.bypassSecurityTrustHtml(html || "");
   }
 
   ngOnInit(): void {

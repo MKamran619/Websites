@@ -47,7 +47,7 @@ interface HeaderSiteInfo {
             <a
               routerLink="/"
               class="logo"
-              [innerHTML]="siteInfo?.logo_svg_header"
+              [innerHTML]="getSafeHtml(siteInfo?.logo_svg_header)"
             ></a>
           </div>
 
@@ -72,7 +72,7 @@ interface HeaderSiteInfo {
                 (click)="closeMenu()"
                 class="nav-link"
               >
-                <span class="nav-icon" [innerHTML]="item.icon_svg"></span>
+                <span class="nav-icon" [innerHTML]="getSafeHtml(item.icon_svg)"></span>
                 <span class="nav-text">{{ item.label }}</span>
               </a>
             </li>
@@ -125,8 +125,13 @@ export class HeaderComponent implements OnInit {
     private router: Router,
     private themeService: ThemeService,
     private content: ContentService,
+    private sanitizer: DomSanitizer,
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
+  }
+
+  getSafeHtml(html: string | null | undefined): SafeHtml {
+    return this.sanitizer.bypassSecurityTrustHtml(html || "");
   }
 
   ngOnInit() {

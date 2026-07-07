@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { RouterLink } from "@angular/router";
+import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
 import { ContentService } from "../../services/content.service";
 
 interface FaqCategory {
@@ -50,7 +51,7 @@ interface FaqCategoryWithItems extends FaqCategory {
                   [class.active]="activeCategory === i"
                   (click)="activeCategory = i"
                 >
-                  <span [innerHTML]="cat.icon"></span>
+                  <span [innerHTML]="getSafeHtml(cat.icon)"></span>
                   {{ cat.label }}
                 </button>
               </li>
@@ -61,7 +62,7 @@ interface FaqCategoryWithItems extends FaqCategory {
           <div class="faq-questions">
             <div class="category-block" *ngFor="let cat of categories; let ci = index" [class.hidden]="activeCategory !== ci">
               <h2 class="cat-title">
-                <span [innerHTML]="cat.icon"></span>
+                <span [innerHTML]="getSafeHtml(cat.icon)"></span>
                 {{ cat.label }}
               </h2>
               <div class="accordion">
@@ -115,7 +116,14 @@ export class FaqComponent implements OnInit {
 
   categories: FaqCategoryWithItems[] = [];
 
-  constructor(private content: ContentService) {}
+  constructor(
+    private content: ContentService,
+    private sanitizer: DomSanitizer,
+  ) {}
+
+  getSafeHtml(html: string | null | undefined): SafeHtml {
+    return this.sanitizer.bypassSecurityTrustHtml(html || "");
+  }
 
   ngOnInit(): void {
     this.content.getAll<FaqCategory>("faq_categories").subscribe((categories) => {
