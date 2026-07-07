@@ -3,6 +3,37 @@ import { CommonModule, isPlatformBrowser } from "@angular/common";
 import { RouterLink } from "@angular/router";
 import { FormsModule } from "@angular/forms";
 import emailjs from "@emailjs/browser";
+import { ContentService } from "../../services/content.service";
+
+interface PricingPlan {
+  name: string;
+  description: string | null;
+  price: string;
+  unit: string | null;
+  featured: boolean;
+  icon: string | null;
+  features: string[];
+  sort_order: number;
+}
+
+interface CoursePricingTier {
+  name: string;
+  level: string | null;
+  level_class: string | null;
+  duration: string | null;
+  price: string | null;
+  sort_order: number;
+}
+
+interface FeatureBlock {
+  page: string;
+  section: string;
+  icon: string | null;
+  eyebrow: string | null;
+  title: string;
+  description: string | null;
+  sort_order: number;
+}
 
 @Component({
   selector: "app-pricing",
@@ -163,7 +194,7 @@ import emailjs from "@emailjs/browser";
         </div>
         <div class="courses-grid">
           <div class="course-price-card" *ngFor="let course of coursePricing">
-            <div class="course-level" [class]="course.levelClass">{{ course.level }}</div>
+            <div class="course-level" [class]="course.level_class">{{ course.level }}</div>
             <h4>{{ course.name }}</h4>
             <div class="course-duration">{{ course.duration }}</div>
             <div class="course-fee">
@@ -187,7 +218,7 @@ import emailjs from "@emailjs/browser";
           <div class="step" *ngFor="let step of steps; let i = index">
             <div class="step-number">{{ i + 1 }}</div>
             <h4>{{ step.title }}</h4>
-            <p>{{ step.desc }}</p>
+            <p>{{ step.description }}</p>
           </div>
         </div>
       </div>
@@ -316,17 +347,38 @@ export class PricingComponent implements OnInit {
   enrollmentData = { name: "", email: "", phone: "", experience: "", availability: "", message: "" };
   subscriptionData = { name: "", email: "", phone: "", company: "", timeline: "", message: "" };
 
-  constructor(@Inject(PLATFORM_ID) platformId: Object) {
+  constructor(
+    @Inject(PLATFORM_ID) platformId: Object,
+    private content: ContentService,
+  ) {
     this.isBrowser = isPlatformBrowser(platformId);
   }
 
   ngOnInit() {
     if (this.isBrowser) emailjs.init("FiOYICOvKQmtB0P1N");
+
+    this.content.getAll<PricingPlan>("pricing_plans").subscribe((plans) => {
+      this.plans = plans;
+    });
+
+    this.content
+      .getAll<CoursePricingTier>("course_pricing_tiers")
+      .subscribe((tiers) => {
+        this.coursePricing = tiers;
+      });
+
+    this.content
+      .getAll<FeatureBlock>("feature_blocks", {
+        match: { page: "pricing", section: "process" },
+      })
+      .subscribe((steps) => {
+        this.steps = steps;
+      });
   }
 
-  openEnrollmentModal(courseName: string, price: string) {
+  openEnrollmentModal(courseName: string, price: string | null) {
     this.selectedCourse = courseName;
-    this.selectedPrice = price;
+    this.selectedPrice = price || "";
     this.showEnrollmentModal = true;
   }
 
@@ -444,78 +496,8 @@ export class PricingComponent implements OnInit {
   }
 
   // â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-  plans = [
-    {
-      name: "Starter",
-      description: "Perfect for small businesses needing a professional web presence",
-      price: "$500",
-      unit: "/ project",
-      featured: false,
-      icon: `<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>`,
-      features: [
-        "Landing page or portfolio site",
-        "Responsive mobile design",
-        "Contact form integration",
-        "Basic SEO setup",
-        "2 rounds of revisions",
-        "Delivery in 1â€“2 weeks",
-        "1 month post-launch support",
-      ],
-    },
-    {
-      name: "Business",
-      description: "For growing businesses needing a full multi-page website or web app",
-      price: "$2,000",
-      unit: "/ project",
-      featured: true,
-      icon: `<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 21h18"/><path d="M5 21V7l8-4v18"/><path d="M19 21V11l-6-4"/></svg>`,
-      features: [
-        "5â€“10 page website or web app",
-        "Custom design & branding",
-        "CMS or admin dashboard",
-        "API / backend integration",
-        "Full SEO optimization",
-        "Performance optimization",
-        "3 months post-launch support",
-        "Google Analytics setup",
-      ],
-    },
-    {
-      name: "Enterprise",
-      description: "Complex platforms, digital transformation, and legacy modernization",
-      price: "$10,000",
-      unit: "+ / project",
-      featured: false,
-      icon: `<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>`,
-      features: [
-        "Full-stack enterprise application",
-        "Cloud architecture (AWS / Azure)",
-        "Microservices / API design",
-        "Legacy system modernization",
-        "CI/CD pipeline setup",
-        "Security & compliance review",
-        "Team training & documentation",
-        "6+ months ongoing support",
-        "Dedicated project manager",
-      ],
-    },
-  ];
-
-  coursePricing = [
-    { name: "HTML & CSS Fundamentals", level: "Beginner", levelClass: "beginner", duration: "4 weeks", price: "$79" },
-    { name: "Bootstrap Framework", level: "Beginner", levelClass: "beginner", duration: "3 weeks", price: "$59" },
-    { name: "JavaScript Essentials", level: "Intermediate", levelClass: "intermediate", duration: "6 weeks", price: "$119" },
-    { name: "React Development", level: "Advanced", levelClass: "advanced", duration: "8 weeks", price: "$169" },
-    { name: "Angular Framework", level: "Advanced", levelClass: "advanced", duration: "8 weeks", price: "$169" },
-    { name: "Full Stack Development", level: "Professional", levelClass: "professional", duration: "12 weeks", price: "$249" },
-  ];
-
-  steps = [
-    { title: "Free Consultation", desc: "30-minute call to understand your goals, scope, and budget â€” zero obligation." },
-    { title: "Detailed Proposal", desc: "You receive a written proposal with timeline, deliverables, and fixed price within 24 hours." },
-    { title: "Agreement & Kickoff", desc: "Sign a simple contract, pay 50% upfront via PayPal or Wise, and we start work." },
-    { title: "Build & Review", desc: "Regular updates and demos. You review and give feedback at each milestone." },
-    { title: "Launch & Support", desc: "Final payment on delivery. We stay available for post-launch support and changes." },
-  ];
+  plans: PricingPlan[] = [];
+  coursePricing: CoursePricingTier[] = [];
+  steps: FeatureBlock[] = [];
 }
 

@@ -8,6 +8,40 @@ import {
 import { CommonModule, isPlatformBrowser } from "@angular/common";
 import { RouterLink } from "@angular/router";
 import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
+import { ContentService } from "../../services/content.service";
+
+interface PageHero {
+  page: string;
+  badge: string | null;
+  title: string;
+  subtitle: string | null;
+  cta_primary_label: string | null;
+  cta_primary_link: string | null;
+  cta_secondary_label: string | null;
+  cta_secondary_link: string | null;
+  tech_badges: string[] | null;
+  code_snippet: string | null;
+}
+
+interface StatBlock {
+  page: string;
+  section: string;
+  icon: string | null;
+  value: string;
+  label: string;
+  description: string | null;
+  sort_order: number;
+}
+
+interface Service {
+  page: string;
+  icon: string | null;
+  title: string;
+  short_description: string | null;
+  features: string[];
+  benefit_tags: string[] | null;
+  sort_order: number;
+}
 
 @Component({
   selector: "app-services",
@@ -37,31 +71,20 @@ import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
                 points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
               />
             </svg>
-            Expert Solutions
+            {{ hero?.badge }}
           </span>
-          <h1 class="hero-title">
-            Services That <span class="gradient-text">Transform</span> Your
-            Business
-          </h1>
+          <h1 class="hero-title" [innerHTML]="hero?.title"></h1>
           <p class="hero-subtitle">
-            From digital transformation to custom development, we deliver
-            end-to-end solutions that drive real business results
+            {{ hero?.subtitle }}
           </p>
           <div class="hero-stats">
-            <div class="stat">
-              <span class="stat-number">50+</span>
-              <span class="stat-label">Projects Delivered</span>
-            </div>
-            <div class="stat-divider"></div>
-            <div class="stat">
-              <span class="stat-number">98%</span>
-              <span class="stat-label">Client Satisfaction</span>
-            </div>
-            <div class="stat-divider"></div>
-            <div class="stat">
-              <span class="stat-number">8+</span>
-              <span class="stat-label">Years Experience</span>
-            </div>
+            <ng-container *ngFor="let stat of heroStats; let last = last">
+              <div class="stat">
+                <span class="stat-number">{{ stat.value }}</span>
+                <span class="stat-label">{{ stat.label }}</span>
+              </div>
+              <div class="stat-divider" *ngIf="!last"></div>
+            </ng-container>
           </div>
         </div>
       </div>
@@ -96,7 +119,7 @@ import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
             </div>
 
             <h3 class="service-title">{{ service.title }}</h3>
-            <p class="service-description">{{ service.shortDescription }}</p>
+            <p class="service-description">{{ service.short_description }}</p>
 
             <ul class="service-features">
               <li *ngFor="let feature of service.features.slice(0, 4)">
@@ -117,7 +140,7 @@ import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
             <div class="service-benefits-preview">
               <div
                 class="benefit-tag"
-                *ngFor="let benefit of service.benefitTags"
+                *ngFor="let benefit of service.benefit_tags"
               >
                 {{ benefit }}
               </div>
@@ -347,153 +370,9 @@ import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
 export class ServicesComponent implements OnInit, AfterViewInit {
   private isBrowser: boolean;
 
-  services = [
-    {
-      title: "SEO & Website Optimization",
-      shortDescription:
-        "Full technical SEO audits, on-page optimization, Core Web Vitals improvements, and structured data implementation. We help Wix, WordPress, Webflow, Squarespace, and custom-built sites rank higher and load faster — with a clear audit report and fix list you can act on immediately.",
-      icon: `<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-        <circle cx="11" cy="11" r="8"/>
-        <line x1="21" y1="21" x2="16.65" y2="16.65"/>
-        <path d="M11 8v3l2 2"/>
-      </svg>`,
-      features: [
-        "Technical SEO audit & report",
-        "On-page optimization (titles, H tags, meta)",
-        "Core Web Vitals & page speed fixes",
-        "Schema markup & structured data",
-        "Wix / WordPress / Webflow optimization",
-        "Free Website Audit CTA",
-      ],
-      benefitTags: ["Higher Rankings", "Faster Load", "More Leads"],
-      benefits: [
-        { icon: "📈", text: "Improved search rankings" },
-        { icon: "⚡", text: "Faster page load times" },
-        { icon: "🎯", text: "Better conversion rates" },
-        { icon: "📊", text: "Clear audit deliverables" },
-      ],
-    },
-    {
-      title: "Digital Transformation",
-      shortDescription:
-        "Transform legacy systems into modern, scalable platforms with zero-downtime migrations and strategic cloud adoption.",
-      icon: `<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-        <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-        <path d="M2 17l10 5 10-5"/>
-        <path d="M2 12l10 5 10-5"/>
-      </svg>`,
-      features: [
-        "Legacy system modernization",
-        "Cloud migration (Azure/AWS)",
-        "API-first architecture",
-        "Microservices design",
-        "Zero-downtime deployments",
-        "Data migration strategies",
-      ],
-      benefitTags: ["40% Cost Reduction", "3x Faster", "99.9% Uptime"],
-      benefits: [
-        { icon: "⚡", text: "Faster time-to-market" },
-        { icon: "💰", text: "Reduced operational costs" },
-        { icon: "📈", text: "Improved scalability" },
-        { icon: "🔒", text: "Enhanced security" },
-      ],
-    },
-    {
-      title: "Custom Development",
-      shortDescription:
-        "Full-stack enterprise applications built for your specific needs with focus on performance, scalability, and maintainability.",
-      icon: `<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-        <polyline points="16 18 22 12 16 6"/>
-        <polyline points="8 6 2 12 8 18"/>
-      </svg>`,
-      features: [
-        "Enterprise app architecture",
-        "Angular/React frontends",
-        ".NET/Node.js backends",
-        "Real-time dashboards",
-        "E-commerce platforms",
-        "High-performance systems",
-      ],
-      benefitTags: ["Custom Built", "Scalable", "Production-Ready"],
-      benefits: [
-        { icon: "🎯", text: "Purpose-built solutions" },
-        { icon: "⚙️", text: "Seamless integration" },
-        { icon: "🚀", text: "Production-ready quality" },
-        { icon: "🔄", text: "Easy maintenance" },
-      ],
-    },
-    {
-      title: "Performance Optimization",
-      shortDescription:
-        "Unlock hidden potential in existing systems through strategic optimization achieving 3x average performance improvement.",
-      icon: `<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
-      </svg>`,
-      features: [
-        "Performance audits",
-        "Code optimization",
-        "Database tuning",
-        "Caching strategies",
-        "CDN optimization",
-        "Monitoring setup",
-      ],
-      benefitTags: ["3x Faster", "Lower Costs", "Better SEO"],
-      benefits: [
-        { icon: "⚡", text: "Faster load times" },
-        { icon: "💸", text: "Lower infrastructure costs" },
-        { icon: "😊", text: "Better user experience" },
-        { icon: "📊", text: "Improved SEO rankings" },
-      ],
-    },
-    {
-      title: "Strategic Consulting",
-      shortDescription:
-        "Expert guidance on technology decisions with comprehensive roadmaps aligned with your business objectives.",
-      icon: `<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-        <circle cx="12" cy="12" r="10"/>
-        <line x1="12" y1="16" x2="12" y2="12"/>
-        <line x1="12" y1="8" x2="12.01" y2="8"/>
-      </svg>`,
-      features: [
-        "Technology roadmaps",
-        "Architecture reviews",
-        "Team mentoring",
-        "Tech selection guidance",
-        "Risk assessment",
-        "Cost-benefit analysis",
-      ],
-      benefitTags: ["Expert Guidance", "Risk Mitigation", "ROI Focus"],
-      benefits: [
-        { icon: "🎓", text: "Expert perspective" },
-        { icon: "🎯", text: "Business-aligned" },
-        { icon: "📚", text: "Knowledge transfer" },
-        { icon: "💡", text: "Innovation strategies" },
-      ],
-    },
-    {
-      title: "Cloud & DevOps",
-      shortDescription:
-        "Automate deployments, scale infrastructure, and ensure reliability with modern cloud and DevOps practices.",
-      icon: `<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-        <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/>
-      </svg>`,
-      features: [
-        "CI/CD pipelines",
-        "Containerization (Docker/Kubernetes)",
-        "Cloud scaling (AWS/Azure)",
-        "Monitoring & logging",
-        "Disaster recovery",
-        "Infrastructure as Code",
-      ],
-      benefitTags: ["99.99% Uptime", "Automated", "Scalable"],
-      benefits: [
-        { icon: "☁️", text: "Cloud reliability" },
-        { icon: "🔧", text: "Automated deployments" },
-        { icon: "📈", text: "Effortless scaling" },
-        { icon: "🔒", text: "Secure infrastructure" },
-      ],
-    },
-  ];
+  hero: PageHero | null = null;
+  heroStats: StatBlock[] = [];
+  services: Service[] = [];
 
   processSteps = [
     {
@@ -628,16 +507,35 @@ export class ServicesComponent implements OnInit, AfterViewInit {
   constructor(
     @Inject(PLATFORM_ID) platformId: Object,
     private sanitizer: DomSanitizer,
+    private content: ContentService,
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
   }
 
-  getSafeHtml(html: string): SafeHtml {
-    return this.sanitizer.bypassSecurityTrustHtml(html);
+  getSafeHtml(html: string | null): SafeHtml {
+    return this.sanitizer.bypassSecurityTrustHtml(html || "");
   }
 
   ngOnInit() {
-    // Component initialization
+    this.content
+      .getRow<PageHero>("page_heroes", { page: "services" })
+      .subscribe((hero) => {
+        this.hero = hero;
+      });
+
+    this.content
+      .getAll<StatBlock>("stat_blocks", {
+        match: { page: "services", section: "hero" },
+      })
+      .subscribe((stats) => {
+        this.heroStats = stats;
+      });
+
+    this.content
+      .getAll<Service>("services", { match: { page: "services" } })
+      .subscribe((services) => {
+        this.services = services;
+      });
   }
 
   ngAfterViewInit() {

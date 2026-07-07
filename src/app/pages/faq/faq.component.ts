@@ -1,6 +1,26 @@
-import { Component } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { RouterLink } from "@angular/router";
+import { ContentService } from "../../services/content.service";
+
+interface FaqCategory {
+  id: number;
+  label: string;
+  icon: string;
+  sort_order: number;
+}
+
+interface FaqItem {
+  id: number;
+  category_id: number;
+  question: string;
+  answer: string;
+  sort_order: number;
+}
+
+interface FaqCategoryWithItems extends FaqCategory {
+  items: { q: string; a: string }[];
+}
 
 @Component({
   selector: "app-faq",
@@ -89,136 +109,28 @@ import { RouterLink } from "@angular/router";
   `,
   styleUrls: ["./faq.component.scss"],
 })
-export class FaqComponent {
+export class FaqComponent implements OnInit {
   activeCategory = 0;
   openItem: string = "0-0";
+
+  categories: FaqCategoryWithItems[] = [];
+
+  constructor(private content: ContentService) {}
+
+  ngOnInit(): void {
+    this.content.getAll<FaqCategory>("faq_categories").subscribe((categories) => {
+      this.content.getAll<FaqItem>("faq_items").subscribe((items) => {
+        this.categories = categories.map((cat) => ({
+          ...cat,
+          items: items
+            .filter((item) => item.category_id === cat.id)
+            .map((item) => ({ q: item.question, a: item.answer })),
+        }));
+      });
+    });
+  }
 
   toggle(key: string) {
     this.openItem = this.openItem === key ? "" : key;
   }
-
-  categories = [
-    {
-      label: "Working Internationally",
-      icon: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>`,
-      items: [
-        {
-          q: "Do you work with US clients remotely?",
-          a: "Yes — absolutely. We work with US clients every day. Our team delivers US-level expertise at a competitive rate, with timezone flexibility to overlap with US business hours. We've successfully delivered projects for clients in New York, Texas, California, and across the US.",
-        },
-        {
-          q: "How do you handle the timezone difference?",
-          a: "We operate on UTC+5, which overlaps with US Eastern mornings and US West Coast late evenings. We schedule all calls and standups to suit your timezone, typically at a time that works for you between 8am–12pm EST. Async communication via Slack/email handles the rest seamlessly.",
-        },
-        {
-          q: "How do we communicate during the project?",
-          a: "We use whichever tools you prefer: <strong>Slack</strong> for daily communication, <strong>Zoom / Google Meet</strong> for calls, <strong>Notion or Linear</strong> for project tracking, and <strong>GitHub</strong> for code reviews. You'll always know the project status without needing to chase us.",
-        },
-        {
-          q: "Have you worked with US clients before?",
-          a: "Yes. We have completed 50+ projects for international clients including US-based businesses across e-commerce, SaaS, healthcare, and finance. References are available upon request.",
-        },
-        {
-          q: "Do I need to worry about language barriers?",
-          a: "Not at all. Kamran and the team are fully fluent in English — both written and spoken. All documentation, code comments, and communication are in English.",
-        },
-      ],
-    },
-    {
-      label: "Payments & Pricing",
-      icon: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>`,
-      items: [
-        {
-          q: "How do I pay in USD from the US?",
-          a: "We accept payments via <strong>PayPal</strong>, <strong>Wise (TransferWise)</strong>, and <strong>direct bank wire transfer</strong>. All are safe, standard methods used by US clients daily. You'll receive a proper invoice in USD before any payment is due.",
-        },
-        {
-          q: "What is the payment structure?",
-          a: "Standard structure: <strong>50% upfront</strong> to begin work, <strong>50% on delivery</strong>. For larger projects (over $5K), we use milestone-based payments — you pay per completed phase. We never ask for 100% upfront.",
-        },
-        {
-          q: "Are your prices negotiable?",
-          a: "We price projects based on scope, not arbitrary numbers. During the free consultation, we'll understand exactly what you need and give you a fixed quote. If the scope changes, we discuss it openly — no surprise invoices.",
-        },
-        {
-          q: "Do you charge by the hour or per project?",
-          a: "We prefer <strong>fixed-price projects</strong> — it protects you from runaway costs. For ongoing maintenance or consulting retainers, we offer hourly rates starting at $25/hr. Rates are clearly agreed before any work begins.",
-        },
-        {
-          q: "Is there a refund policy?",
-          a: "Yes. If we fail to deliver what was agreed in the contract, you are entitled to a partial or full refund for undelivered work. We've never had to issue a refund — but the protection is there in writing.",
-        },
-      ],
-    },
-    {
-      label: "Projects & Process",
-      icon: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>`,
-      items: [
-        {
-          q: "What types of projects do you take?",
-          a: "We specialize in web applications, business websites, e-commerce platforms, SaaS products, API development, and legacy system modernization. We also offer technical consulting and code reviews.",
-        },
-        {
-          q: "How long does a project take?",
-          a: "A landing page: 1–2 weeks. A full business website: 3–6 weeks. A web application or SaaS: 2–4 months. Enterprise projects: 6–12 months. We give you a realistic timeline upfront — not one we can't keep.",
-        },
-        {
-          q: "What do you need from me to start?",
-          a: "Just your goals, any existing brand assets (logo, colors), and examples of sites you like. We handle everything else — design, development, deployment. A 30-minute call is usually enough to get started.",
-        },
-        {
-          q: "Do you sign NDAs?",
-          a: "Yes, without hesitation. We take confidentiality seriously. We're happy to sign your NDA before discussing any proprietary details of your project.",
-        },
-        {
-          q: "Who owns the code after the project?",
-          a: "You do — 100%. On final payment, full ownership of all code, design assets, and intellectual property transfers to you. This is written into every contract.",
-        },
-      ],
-    },
-    {
-      label: "Academy / Courses",
-      icon: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>`,
-      items: [
-        {
-          q: "Are the courses self-paced or live?",
-          a: "Courses are taught with a mix of recorded content and live mentorship sessions. You can follow at your own pace, and weekly 1-on-1 mentor calls keep you on track.",
-        },
-        {
-          q: "Do I get a certificate?",
-          a: "Yes. Every course includes a certificate of completion that you can add to your LinkedIn profile and resume.",
-        },
-        {
-          q: "Is the academy only for beginners?",
-          a: "No. We offer courses from complete beginner (HTML & CSS) to professional full-stack development. There's a path for every level.",
-        },
-        {
-          q: "What if I fall behind or need more help?",
-          a: "No problem. You get lifetime access to course materials. If you need extra help, just message your mentor on WhatsApp — we're responsive and want to see you succeed.",
-        },
-        {
-          q: "Can international students enroll?",
-          a: "Yes — students from any country can enroll. Courses are taught in English and available online. Payment can be made via PayPal or Wise.",
-        },
-      ],
-    },
-    {
-      label: "Support & Maintenance",
-      icon: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>`,
-      items: [
-        {
-          q: "What happens after the project launches?",
-          a: "All projects include a post-launch support period (1 month for Starter, 3 months for Business, 6+ months for Enterprise). During this time, we fix any bugs at no extra charge and answer questions.",
-        },
-        {
-          q: "Do you offer ongoing maintenance?",
-          a: "Yes. We offer monthly maintenance retainers starting at $150/month, which includes updates, security patches, performance monitoring, and up to 5 hours of changes per month.",
-        },
-        {
-          q: "What if I find a bug after support ends?",
-          a: "Bug fixes after the support period are billed at our hourly rate ($25/hr). Most fixes are quick and inexpensive. We never leave a client stranded.",
-        },
-      ],
-    },
-  ];
 }

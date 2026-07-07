@@ -7,6 +7,27 @@ import {
   AfterViewInit,
 } from "@angular/core";
 import { CommonModule, isPlatformBrowser } from "@angular/common";
+import { ContentService } from "../../services/content.service";
+
+interface Testimonial {
+  quote: string;
+  author_name: string;
+  author_title: string;
+  company: string;
+  avatar_url?: string;
+  rating?: number;
+  sort_order?: number;
+}
+
+interface StatBlock {
+  page: string;
+  section: string;
+  icon?: string;
+  value: string;
+  label: string;
+  description?: string;
+  sort_order?: number;
+}
 
 @Component({
   selector: "app-testimonials",
@@ -122,12 +143,12 @@ import { CommonModule, isPlatformBrowser } from "@angular/common";
                   <div class="author-section">
                     <div class="author-avatar">
                       <span class="avatar-initials">{{
-                        getInitials(testimonial.author)
+                        getInitials(testimonial.author_name)
                       }}</span>
                     </div>
                     <div class="author-info">
-                      <h4 class="author-name">{{ testimonial.author }}</h4>
-                      <p class="author-title">{{ testimonial.title }}</p>
+                      <h4 class="author-name">{{ testimonial.author_name }}</h4>
+                      <p class="author-title">{{ testimonial.author_title }}</p>
                       <p class="author-company">
                         <svg
                           width="14"
@@ -204,9 +225,9 @@ import { CommonModule, isPlatformBrowser } from "@angular/common";
             [class.active]="i === currentIndex"
             (click)="goToSlide(i)"
           >
-            <div class="mini-avatar">{{ getInitials(testimonial.author) }}</div>
+            <div class="mini-avatar">{{ getInitials(testimonial.author_name) }}</div>
             <div class="mini-info">
-              <span class="mini-name">{{ testimonial.author }}</span>
+              <span class="mini-name">{{ testimonial.author_name }}</span>
               <span class="mini-company">{{ testimonial.company }}</span>
             </div>
             <div class="mini-rating">
@@ -225,89 +246,16 @@ import { CommonModule, isPlatformBrowser } from "@angular/common";
 
         <!-- Trust Stats -->
         <div class="trust-stats">
-          <div class="stat-item">
-            <div class="stat-icon">
-              <svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-              >
-                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-                <circle cx="9" cy="7" r="4" />
-                <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
-                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-              </svg>
+          <ng-container *ngFor="let stat of statBlocks; let last = last">
+            <div class="stat-item">
+              <div class="stat-icon" [innerHTML]="stat.icon"></div>
+              <div class="stat-content">
+                <span class="stat-number">{{ stat.value }}</span>
+                <span class="stat-label">{{ stat.label }}</span>
+              </div>
             </div>
-            <div class="stat-content">
-              <span class="stat-number">50+</span>
-              <span class="stat-label">Happy Clients</span>
-            </div>
-          </div>
-          <div class="stat-divider"></div>
-          <div class="stat-item">
-            <div class="stat-icon">
-              <svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-              >
-                <path
-                  d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
-                />
-              </svg>
-            </div>
-            <div class="stat-content">
-              <span class="stat-number">4.9</span>
-              <span class="stat-label">Avg. Rating</span>
-            </div>
-          </div>
-          <div class="stat-divider"></div>
-          <div class="stat-item">
-            <div class="stat-icon">
-              <svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-              >
-                <polyline points="20 6 9 17 4 12" />
-              </svg>
-            </div>
-            <div class="stat-content">
-              <span class="stat-number">98%</span>
-              <span class="stat-label">Satisfaction</span>
-            </div>
-          </div>
-          <div class="stat-divider"></div>
-          <div class="stat-item">
-            <div class="stat-icon">
-              <svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-              >
-                <path
-                  d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
-                />
-                <polyline points="22 6 12 13 2 6" />
-              </svg>
-            </div>
-            <div class="stat-content">
-              <span class="stat-number">24h</span>
-              <span class="stat-label">Response Time</span>
-            </div>
-          </div>
+            <div class="stat-divider" *ngIf="!last"></div>
+          </ng-container>
         </div>
       </div>
     </section>
@@ -1088,64 +1036,31 @@ export class TestimonialsComponent implements OnInit, OnDestroy, AfterViewInit {
   // TODO: Add real client video testimonials here when available
   // videoTestimonials = [ { id: "REAL_YOUTUBE_ID", title: "...", author: "...", role: "...", duration: "..." } ];
 
-  testimonials = [
-    {
-      quote:
-        "Exceptional work. The modernization of our legacy system exceeded expectations. They delivered on time and under budget while maintaining zero downtime during the transition.",
-      author: "John Smith",
-      company: "Fortune 500 Tech Company",
-      title: "Chief Technology Officer",
-      image: "",
-    },
-    {
-      quote:
-        "A rare combination of technical expertise and business acumen. They understood our challenges and delivered solutions that drove real revenue growth of 40% in the first quarter.",
-      author: "Sarah Johnson",
-      company: "SaaS Startup",
-      title: "Founder & CEO",
-      image: "",
-    },
-    {
-      quote:
-        "Professional, responsive, and brilliant. They took our vague ideas and turned them into a scalable, high-performing system that handles 10x our previous traffic with ease.",
-      author: "Michael Chen",
-      company: "E-Commerce Leader",
-      title: "VP of Engineering",
-      image: "",
-    },
-    {
-      quote:
-        "The technical leadership and mentoring they provided transformed our entire engineering team. The knowledge transfer was exceptional and continues to benefit us.",
-      author: "Emily Rodriguez",
-      company: "Financial Services Corp",
-      title: "Engineering Manager",
-      image: "",
-    },
-    {
-      quote:
-        "Outstanding ROI on the investment. Not just good code, but strategic solutions that aligned perfectly with our business objectives and reduced operational costs by 60%.",
-      author: "David Park",
-      company: "Insurance Corporation",
-      title: "Chief Strategy Officer",
-      image: "",
-    },
-    {
-      quote:
-        "Rare to find someone with this depth of expertise across so many technologies and the wisdom to choose exactly the right tool for each problem we faced.",
-      author: "Lisa Martinez",
-      company: "Healthcare Tech",
-      title: "Product Director",
-      image: "",
-    },
-  ];
+  testimonials: Testimonial[] = [];
+  statBlocks: StatBlock[] = [];
 
   constructor(
     @Inject(PLATFORM_ID) platformId: Object,
+    private content: ContentService,
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
   }
 
   ngOnInit(): void {
+    this.content
+      .getAll<Testimonial>("testimonials", { match: { context: "home" } })
+      .subscribe((testimonials) => {
+        this.testimonials = testimonials;
+      });
+
+    this.content
+      .getAll<StatBlock>("stat_blocks", {
+        match: { page: "home", section: "testimonials_trust" },
+      })
+      .subscribe((statBlocks) => {
+        this.statBlocks = statBlocks;
+      });
+
     if (this.isBrowser) {
       this.startAutoPlay();
     }

@@ -10,8 +10,58 @@ import { CommonModule, isPlatformBrowser } from "@angular/common";
 import { RouterLink } from "@angular/router";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { ContentService } from "../../services/content.service";
 
 gsap.registerPlugin(ScrollTrigger);
+
+export interface PageHero {
+  page: string;
+  badge: string | null;
+  title: string;
+  subtitle: string | null;
+  cta_primary_label: string | null;
+  cta_primary_link: string | null;
+  cta_secondary_label: string | null;
+  cta_secondary_link: string | null;
+  tech_badges: string[] | null;
+  code_snippet: string | null;
+}
+
+export interface FeatureBlock {
+  page: string;
+  section: string;
+  icon: string | null;
+  eyebrow: string | null;
+  title: string;
+  description: string | null;
+  sort_order: number;
+}
+
+export interface StatBlock {
+  page: string;
+  section: string;
+  icon: string | null;
+  value: string;
+  label: string;
+  description: string | null;
+  sort_order: number;
+}
+
+export interface TechStackItem {
+  icon: string | null;
+  name: string;
+  sort_order: number;
+}
+
+export interface HomeService {
+  page: string;
+  icon: string | null;
+  title: string;
+  short_description: string | null;
+  features: string[] | null;
+  benefit_tags: string[] | null;
+  sort_order: number;
+}
 
 @Component({
   selector: "app-home",
@@ -39,7 +89,7 @@ gsap.registerPlugin(ScrollTrigger);
             >
               <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
             </svg>
-            <span>New Agency · 8+ Years Enterprise Experience</span>
+            <span>{{ hero?.badge }}</span>
           </div>
 
           <h1 class="hero-title">
@@ -49,14 +99,14 @@ gsap.registerPlugin(ScrollTrigger);
           </h1>
 
           <p class="hero-subtitle">
-            From concept to deployment, we deliver enterprise-grade software solutions that drive growth. Backed by 8+ years of hands-on Angular, React, .NET Core, and Azure DevOps experience — including US Healthcare SaaS and UAE enterprise ERP — Nexa Web Service brings senior-level expertise at competitive rates.
+            {{ heroSubtitleMain }}
           </p>
           <p class="hero-subtitle-smb">
-            We also help coaches, consultants, and service-based businesses optimize their websites for search, speed, and conversions.
+            {{ heroSubtitleSmb }}
           </p>
 
           <div class="hero-features">
-            <div class="feature-item">
+            <div class="feature-item" *ngFor="let feature of heroFeatures">
               <svg
                 width="20"
                 height="20"
@@ -67,33 +117,7 @@ gsap.registerPlugin(ScrollTrigger);
               >
                 <polyline points="20 6 9 17 4 12" />
               </svg>
-              <span>Enterprise Solutions</span>
-            </div>
-            <div class="feature-item">
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="var(--primary)"
-                stroke-width="2"
-              >
-                <polyline points="20 6 9 17 4 12" />
-              </svg>
-              <span>Cloud Architecture</span>
-            </div>
-            <div class="feature-item">
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="var(--primary)"
-                stroke-width="2"
-              >
-                <polyline points="20 6 9 17 4 12" />
-              </svg>
-              <span>SEO & Optimization</span>
+              <span>{{ feature.title }}</span>
             </div>
           </div>
 
@@ -111,7 +135,7 @@ gsap.registerPlugin(ScrollTrigger);
                   d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
                 />
               </svg>
-              <span>Start a Conversation</span>
+              <span>{{ hero?.cta_primary_label }}</span>
               <svg
                 width="18"
                 height="18"
@@ -136,67 +160,58 @@ gsap.registerPlugin(ScrollTrigger);
                 <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
                 <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
               </svg>
-              <span>Explore Case Studies</span>
+              <span>{{ hero?.cta_secondary_label }}</span>
             </a>
           </div>
 
           <div class="hero-stats">
-            <div class="stat-item">
-              <div class="stat-icon">
-                <svg
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="var(--primary)"
-                  stroke-width="2"
-                >
-                  <circle cx="12" cy="12" r="10" />
-                  <polyline points="12 6 12 12 16 14" />
-                </svg>
+            <ng-container *ngFor="let stat of heroStats; let last = last">
+              <div class="stat-item">
+                <div class="stat-icon">
+                  <svg
+                    *ngIf="stat.label === 'Years Experience'"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="var(--primary)"
+                    stroke-width="2"
+                  >
+                    <circle cx="12" cy="12" r="10" />
+                    <polyline points="12 6 12 12 16 14" />
+                  </svg>
+                  <svg
+                    *ngIf="stat.label === 'Countries Served'"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="var(--primary)"
+                    stroke-width="2"
+                  >
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                    <polyline points="22 4 12 14.01 9 11.01" />
+                  </svg>
+                  <svg
+                    *ngIf="stat.label === 'Client Satisfaction'"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="var(--primary)"
+                    stroke-width="2"
+                  >
+                    <path
+                      d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
+                    />
+                  </svg>
+                </div>
+                <span class="stat-number" [attr.data-count]="stat.value">{{ stat.value }}</span
+                ><span class="stat-plus" *ngIf="stat.label !== 'Countries Served'">{{ stat.label === 'Client Satisfaction' ? '%' : '+' }}</span>
+                <span class="stat-label">{{ stat.label }}</span>
               </div>
-              <span class="stat-number" data-count="8">8</span
-              ><span class="stat-plus">+</span>
-              <span class="stat-label">Years Experience</span>
-            </div>
-            <div class="stat-divider"></div>
-            <div class="stat-item">
-              <div class="stat-icon">
-                <svg
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="var(--primary)"
-                  stroke-width="2"
-                >
-                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
-                  <polyline points="22 4 12 14.01 9 11.01" />
-                </svg>
-              </div>
-              <span class="stat-number" data-count="3">3</span>
-              <span class="stat-label">Countries Served</span>
-            </div>
-            <div class="stat-divider"></div>
-            <div class="stat-item">
-              <div class="stat-icon">
-                <svg
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="var(--primary)"
-                  stroke-width="2"
-                >
-                  <path
-                    d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
-                  />
-                </svg>
-              </div>
-              <span class="stat-number" data-count="98">98</span
-              ><span class="stat-plus">%</span>
-              <span class="stat-label">Client Satisfaction</span>
-            </div>
+              <div class="stat-divider" *ngIf="!last"></div>
+            </ng-container>
           </div>
         </div>
 
@@ -211,24 +226,10 @@ gsap.registerPlugin(ScrollTrigger);
               </div>
               <span class="window-title">success.config.ts</span>
             </div>
-            <div class="window-content">
-              <pre><code><span class="keyword">export const</span> <span class="variable">nexaWebService</span> = {{'{'}}</code></pre>
-              <pre><code>  <span class="property">name</span>: <span class="string">"Nexa Web Service Technologies"</span>,</code></pre>
-              <pre><code>  <span class="property">services</span>: [</code></pre>
-              <pre><code>    <span class="string">"Custom Software"</span>,</code></pre>
-              <pre><code>    <span class="string">"Cloud Solutions"</span>,</code></pre>
-              <pre><code>    <span class="string">"SEO & Optimization"</span></code></pre>
-              <pre><code>  ],</code></pre>
-              <pre><code>  <span class="property">commitment</span>: <span class="string">"Excellence"</span>,</code></pre>
-              <pre><code>  <span class="property">readyToHelp</span>: <span class="boolean">true</span></code></pre>
-              <pre><code>{{'}'}};</code></pre>
-            </div>
+            <div class="window-content"><pre><code>{{ hero?.code_snippet }}</code></pre></div>
           </div>
           <div class="tech-badges">
-            <span class="tech-badge">Angular 17+</span>
-            <span class="tech-badge">React</span>
-            <span class="tech-badge">.NET Core</span>
-            <span class="tech-badge">SEO & CWV</span>
+            <span class="tech-badge" *ngFor="let badge of hero?.tech_badges">{{ badge }}</span>
           </div>
         </div>
       </div>
@@ -275,7 +276,7 @@ gsap.registerPlugin(ScrollTrigger);
         <div class="props-grid">
           <div class="prop-card" *ngFor="let prop of valueProps; let i = index">
             <div class="prop-icon">{{ prop.icon }}</div>
-            <div class="prop-number">{{ prop.number }}</div>
+            <div class="prop-number">{{ prop.eyebrow }}</div>
             <h3>{{ prop.title }}</h3>
             <p>{{ prop.description }}</p>
             <div class="prop-glow"></div>
@@ -306,7 +307,7 @@ gsap.registerPlugin(ScrollTrigger);
               <div class="icon-glow"></div>
             </div>
             <h3>{{ service.title }}</h3>
-            <p>{{ service.description }}</p>
+            <p>{{ service.short_description }}</p>
             <ul class="service-features">
               <li *ngFor="let feature of service.features">{{ feature }}</li>
             </ul>
@@ -388,7 +389,7 @@ gsap.registerPlugin(ScrollTrigger);
         <div class="trust-grid">
           <div class="trust-item" *ngFor="let stat of trustStats">
             <div class="stat-icon">{{ stat.icon }}</div>
-            <div class="stat-number">{{ stat.number }}</div>
+            <div class="stat-number">{{ stat.value }}</div>
             <p>{{ stat.label }}</p>
           </div>
         </div>
@@ -437,138 +438,51 @@ gsap.registerPlugin(ScrollTrigger);
 export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
   private isBrowser: boolean;
 
-  technologies = [
-    { icon: "⚛️", name: "Angular 17+" },
-    { icon: "🎨", name: "React" },
-    { icon: "🔷", name: "TypeScript" },
-    { icon: "💎", name: ".NET Core / C#" },
-    { icon: "🟢", name: "Node.js" },
-    { icon: "☁️", name: "Azure DevOps" },
-    { icon: "⚡", name: "SQL Server" },
-    { icon: "📊", name: "GraphQL" },
-    { icon: "🗄️", name: "MongoDB" },
-    { icon: "🤖", name: "GitHub Copilot" },
-  ];
+  hero: PageHero | null = null;
+  heroSubtitleMain = "";
+  heroSubtitleSmb = "";
+  heroFeatures: FeatureBlock[] = [];
+  heroStats: StatBlock[] = [];
+  trustStats: StatBlock[] = [];
+  technologies: TechStackItem[] = [];
+  valueProps: FeatureBlock[] = [];
+  services: HomeService[] = [];
+  whyChooseUs: FeatureBlock[] = [];
 
-  valueProps = [
-    {
-      icon: "⚡",
-      number: "40%",
-      title: "Faster CI/CD",
-      description:
-        "Reduced deployment cycles by 40% at CareCloud via Azure DevOps pipeline architecture",
-    },
-    {
-      icon: "🗄️",
-      number: "35%",
-      title: "Query Speed Gain",
-      description:
-        "Optimised SQL Server stored procedures cutting critical response times by 35% at Metropolitan",
-    },
-    {
-      icon: "⏱️",
-      number: "30%",
-      title: "Faster Development",
-      description:
-        "Led end-to-end feature cycles at Inspire System, cutting development turnaround by 30%",
-    },
-    {
-      icon: "🤖",
-      number: "AI",
-      title: "Accelerated Delivery",
-      description:
-        "Daily use of GitHub Copilot, Claude, and GPT-4 — faster code, better quality, cleaner docs",
-    },
-  ];
-
-  services = [
-    {
-      icon: "🔍",
-      title: "SEO & Website Optimization",
-      description:
-        "Full technical SEO audits, on-page optimization, Core Web Vitals improvements, and structured data implementation. We help Wix, WordPress, Webflow, and custom-built sites rank higher and load faster.",
-      features: ["Technical SEO Audit", "Core Web Vitals", "Schema Markup", "Page Speed Boost"],
-    },
-    {
-      icon: "🚀",
-      title: "Digital Transformation",
-      description:
-        "Modernize legacy systems and embrace cloud-native architectures for the future",
-      features: ["Cloud Migration", "API Development", "Microservices"],
-    },
-    {
-      icon: "💻",
-      title: "Custom Development",
-      description:
-        "Full-stack enterprise applications built with scalability in mind",
-      features: ["Web Applications", "Mobile Apps", "Enterprise Software"],
-    },
-    {
-      icon: "⚡",
-      title: "Performance Optimization",
-      description: "Unlock speed and efficiency in your existing systems",
-      features: ["Code Optimization", "Database Tuning", "Caching Strategies"],
-    },
-    {
-      icon: "🎯",
-      title: "Strategic Consulting",
-      description:
-        "Expert guidance on technology roadmaps and architecture decisions",
-      features: ["Tech Assessment", "Team Mentoring", "Architecture Review"],
-    },
-  ];
-
-  whyChooseUs = [
-    {
-      icon: "🎯",
-      title: "Senior-Level Expertise",
-      description:
-        "8+ years of hands-on Angular, React, .NET Core, and Azure — not junior talent with your work outsourced.",
-    },
-    {
-      icon: "⚡",
-      title: "Proven Results",
-      description:
-        "40% faster CI/CD at CareCloud, 35% query speed gain at Metropolitan, zero-downtime deployments across 3 countries.",
-    },
-    {
-      icon: "🔍",
-      title: "SEO & Performance First",
-      description:
-        "We don't just build sites — we optimize them. Technical SEO, Core Web Vitals, and speed improvements built into every project.",
-    },
-    {
-      icon: "🤝",
-      title: "Direct Communication",
-      description:
-        "You work directly with the senior developer. No project manager chain, no offshore handoffs — real accountability.",
-    },
-    {
-      icon: "💡",
-      title: "AI-Accelerated Delivery",
-      description:
-        "Daily use of GitHub Copilot, Claude, and GPT-4 means faster delivery, fewer bugs, and more focus on what matters.",
-    },
-    {
-      icon: "🌍",
-      title: "Global Track Record",
-      description:
-        "Enterprise solutions delivered across the US, UAE, and UK — including HIPAA-compliant healthcare and Fortune-level ERP systems.",
-    },
-  ];
-
-  trustStats = [
-    { icon: "📊", number: "8+", label: "Years Experience" },
-    { icon: "🌍", number: "3", label: "Countries Served (US / UAE / UK)" },
-    { icon: "⚡", number: "40%", label: "CI/CD Cycle Improvement (CareCloud)" },
-    { icon: "⭐", number: "98%", label: "Client Satisfaction" },
-  ];
-
-  constructor(@Inject(PLATFORM_ID) platformId: Object) {
+  constructor(
+    @Inject(PLATFORM_ID) platformId: Object,
+    private content: ContentService,
+  ) {
     this.isBrowser = isPlatformBrowser(platformId);
   }
 
   ngOnInit() {
+    this.content.getRow<PageHero>("page_heroes", { page: "home" }).subscribe((hero) => {
+      this.hero = hero;
+      const [main, smb] = (hero?.subtitle ?? "").split("\n\n");
+      this.heroSubtitleMain = main ?? "";
+      this.heroSubtitleSmb = smb ?? "";
+    });
+    this.content
+      .getAll<FeatureBlock>("feature_blocks", { match: { page: "home", section: "hero_features" } })
+      .subscribe((rows) => (this.heroFeatures = rows));
+    this.content
+      .getAll<StatBlock>("stat_blocks", { match: { page: "home", section: "hero" } })
+      .subscribe((rows) => (this.heroStats = rows));
+    this.content
+      .getAll<StatBlock>("stat_blocks", { match: { page: "home", section: "trust" } })
+      .subscribe((rows) => (this.trustStats = rows));
+    this.content.getAll<TechStackItem>("tech_stack_items").subscribe((rows) => (this.technologies = rows));
+    this.content
+      .getAll<FeatureBlock>("feature_blocks", { match: { page: "home", section: "value_props" } })
+      .subscribe((rows) => (this.valueProps = rows));
+    this.content
+      .getAll<HomeService>("services", { match: { page: "home" } })
+      .subscribe((rows) => (this.services = rows));
+    this.content
+      .getAll<FeatureBlock>("feature_blocks", { match: { page: "home", section: "why_choose_us" } })
+      .subscribe((rows) => (this.whyChooseUs = rows));
+
     if (this.isBrowser) {
       // Kill any existing ScrollTrigger instances to prevent conflicts
       ScrollTrigger.getAll().forEach((trigger) => trigger.kill());

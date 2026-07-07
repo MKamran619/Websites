@@ -10,8 +10,72 @@ import { RouterLink } from "@angular/router";
 import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { ContentService } from "../../services/content.service";
 
 gsap.registerPlugin(ScrollTrigger);
+
+interface PageHero {
+  page: string;
+  badge: string;
+  title: string;
+  subtitle: string;
+  cta_primary_label: string;
+  cta_primary_link: string;
+  cta_secondary_label: string;
+  cta_secondary_link: string;
+  tech_badges: string[];
+  code_snippet: string;
+}
+
+interface StatBlock {
+  page: string;
+  section: string;
+  icon: string;
+  value: string;
+  label: string;
+  description: string;
+  sort_order: number;
+}
+
+interface AboutStoryHighlight {
+  icon: string;
+  title: string;
+  description: string;
+}
+
+interface AboutStory {
+  id: number;
+  paragraph_1: string;
+  paragraph_2: string;
+  highlights: AboutStoryHighlight[];
+  quote_text: string;
+  quote_author: string;
+}
+
+interface Milestone {
+  year: string;
+  title: string;
+  description: string;
+  sort_order: number;
+}
+
+interface ExpertiseArea {
+  icon: string;
+  title: string;
+  description: string;
+  tech_stack: string[];
+  sort_order: number;
+}
+
+interface FeatureBlock {
+  page: string;
+  section: string;
+  icon: string;
+  eyebrow: string | null;
+  title: string;
+  description: string;
+  sort_order: number;
+}
 
 @Component({
   selector: "app-about",
@@ -29,31 +93,19 @@ gsap.registerPlugin(ScrollTrigger);
         <div class="hero-content">
           <div class="hero-badge">
             <span class="badge-icon">âœ¨</span>
-            <span>8+ Years of Enterprise Development Experience</span>
+            <span>{{ hero?.badge }}</span>
           </div>
           <h1 class="hero-title">
             Building <span class="gradient-text">Digital Excellence</span>
             <br />With Real Expertise
           </h1>
           <p class="hero-subtitle">
-            Nexa Web Service is a freshly launched agency backed by 8+ years of hands-on enterprise development â€” Angular, React, .NET Core, Azure DevOps, and Healthcare SaaS. Senior-level work, delivered directly to you.
+            {{ hero?.subtitle }}
           </p>
           <div class="hero-stats">
-            <div class="stat-item">
-              <span class="stat-number">8+</span>
-              <span class="stat-label">Years Experience</span>
-            </div>
-            <div class="stat-item">
-              <span class="stat-number">5</span>
-              <span class="stat-label">Companies Served</span>
-            </div>
-            <div class="stat-item">
-              <span class="stat-number">3</span>
-              <span class="stat-label">Countries (US / UAE / PK)</span>
-            </div>
-            <div class="stat-item">
-              <span class="stat-number">2024</span>
-              <span class="stat-label">Agency Founded</span>
+            <div class="stat-item" *ngFor="let stat of heroStats">
+              <span class="stat-number">{{ stat.value }}</span>
+              <span class="stat-label">{{ stat.label }}</span>
             </div>
           </div>
         </div>
@@ -68,31 +120,17 @@ gsap.registerPlugin(ScrollTrigger);
             <span class="section-tag">Our Story</span>
             <h2 class="section-title">From Code to Business Transformation</h2>
             <p class="story-text">
-              Our journey reflects 8+ years of building real enterprise software for US and international clients â€” fully remote. From launching an Angular SSR application for a US logistics company (Metropolitan), to delivering HIPAA-compliant healthcare modules at CareCloud (US), to building complex ERP systems for UAE enterprise clients â€” we have navigated demanding requirements across industries and timezones.
+              {{ story?.paragraph_1 }}
             </p>
             <p class="story-text">
-              In 2024, we launched Nexa Web Service to bring that same senior-level expertise directly to businesses like yours â€” without agency overhead. You work with an experienced senior developer, not a junior who escalates everything. Every project gets clean architecture, real performance, and code built to last.
+              {{ story?.paragraph_2 }}
             </p>
             <div class="story-highlights">
-              <div class="highlight-item">
-                <div class="highlight-icon">ðŸŽ¯</div>
+              <div class="highlight-item" *ngFor="let highlight of story?.highlights">
+                <div class="highlight-icon">{{ highlight.icon }}</div>
                 <div class="highlight-text">
-                  <strong>Mission-Driven</strong>
-                  <span>Solutions that align with your business goals</span>
-                </div>
-              </div>
-              <div class="highlight-item">
-                <div class="highlight-icon">ðŸ¤</div>
-                <div class="highlight-text">
-                  <strong>Partnership Approach</strong>
-                  <span>Your success is our success</span>
-                </div>
-              </div>
-              <div class="highlight-item">
-                <div class="highlight-icon">ðŸš€</div>
-                <div class="highlight-text">
-                  <strong>Results-Focused</strong>
-                  <span>Delivering measurable business value</span>
+                  <strong>{{ highlight.title }}</strong>
+                  <span>{{ highlight.description }}</span>
                 </div>
               </div>
             </div>
@@ -133,7 +171,7 @@ gsap.registerPlugin(ScrollTrigger);
             <h3 class="card-title">{{ area.title }}</h3>
             <p class="card-description">{{ area.description }}</p>
             <div class="tech-tags">
-              <span class="tech-tag" *ngFor="let tech of area.technologies">{{
+              <span class="tech-tag" *ngFor="let tech of area.tech_stack">{{
                 tech
               }}</span>
             </div>
@@ -151,7 +189,7 @@ gsap.registerPlugin(ScrollTrigger);
         </div>
         <div class="values-grid">
           <div class="value-card" *ngFor="let value of coreValues">
-            <div class="value-number">{{ value.number }}</div>
+            <div class="value-number">{{ value.icon }}</div>
             <h3 class="value-title">{{ value.title }}</h3>
             <p class="value-description">{{ value.description }}</p>
           </div>
@@ -181,12 +219,12 @@ gsap.registerPlugin(ScrollTrigger);
             </svg>
           </div>
           <blockquote class="philosophy-quote">
-            Every line of code I write carries 8 years of production experience â€” from HIPAA-compliant healthcare platforms to enterprise ERP systems across three countries. My clients get that senior-level thinking on every task, not just the big ones.
+            {{ story?.quote_text }}
           </blockquote>
           <div class="philosophy-author">
             <div class="author-info">
-              <span class="author-name">Kamran Sohail</span>
-              <span class="author-title">Founder, Nexa Web Service Â· Senior Full Stack Developer</span>
+              <span class="author-name">{{ quoteAuthorName }}</span>
+              <span class="author-title">{{ quoteAuthorTitle }}</span>
             </div>
           </div>
         </div>
@@ -253,169 +291,23 @@ export class AboutComponent implements OnInit, AfterViewInit {
   private isBrowser: boolean = false;
   platformId: Object;
 
-  milestones = [
-    { year: "2017", title: "Started â€” Frontend Developer (Eposelive)" },
-    { year: "2019", title: "Full Stack â€” Angular + Node.js (TakDevs)" },
-    { year: "2021", title: "Remote US Client â€” Full Stack (Metropolitan)" },
-    { year: "2022", title: "Enterprise ERP â€” UAE (Inspire System)" },
-    { year: "2024", title: "US Healthcare SaaS â€” Angular 17 (CareCloud)" },
-    { year: "2024", title: "Nexa Web Service â€” Launched" },
-  ];
-
-  expertiseAreas = [
-    {
-      title: "Frontend â€” Angular & React",
-      description:
-        "8+ years building enterprise Angular and React UIs â€” from healthcare SaaS dashboards to ERP workflows handling thousands of daily users",
-      icon: '<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>',
-      technologies: [
-        "Angular 2â€“17+",
-        "React",
-        "TypeScript",
-        "RxJS",
-        "NgRx / Redux",
-        "HTML5 / CSS3",
-      ],
-    },
-    {
-      title: "UI Frameworks & Design Systems",
-      description:
-        "Hands-on experience with major enterprise UI component libraries, building consistent and accessible design systems",
-      icon: '<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>',
-      technologies: [
-        "Telerik Kendo UI",
-        "Angular Material",
-        "CoreUI",
-        "Bootstrap",
-        "Material UI",
-        "DevExtreme",
-      ],
-    },
-    {
-      title: "Backend â€” .NET Core & Node.js",
-      description:
-        "Production REST APIs and business logic in .NET Core/C# and Node.js, with SQL-optimised data layers for high-volume applications",
-      icon: '<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><circle cx="6" cy="6" r="1"/><circle cx="6" cy="18" r="1"/></svg>',
-      technologies: [
-        ".NET Core / C#",
-        "Node.js",
-        "Strapi",
-        "REST APIs",
-        "GraphQL",
-        "Microservices",
-      ],
-    },
-    {
-      title: "Databases",
-      description:
-        "Relational and NoSQL databases â€” stored procedure optimisation that reduced query response times by 35% in production",
-      icon: '<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>',
-      technologies: [
-        "SQL Server",
-        "MySQL",
-        "PostgreSQL",
-        "MongoDB",
-      ],
-    },
-    {
-      title: "DevOps & Cloud",
-      description:
-        "Azure DevOps CI/CD pipelines that reduced deployment cycles by 40% at CareCloud. Experienced with cloud-native deployments and infrastructure automation",
-      icon: '<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg>',
-      technologies: [
-        "Azure DevOps",
-        "CI/CD Pipelines",
-        "Git / GitHub",
-        "Netlify",
-        "Railway",
-        "FileZilla",
-      ],
-    },
-    {
-      title: "AI-Powered Development",
-      description:
-        "Daily use of AI tools to accelerate development velocity, improve code quality, and deliver better-documented code faster",
-      icon: '<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z"/><path d="M12 6v6l4 2"/></svg>',
-      technologies: [
-        "GitHub Copilot",
-        "ChatGPT (GPT-4)",
-        "Claude (Anthropic)",
-        "OpenAI Codex",
-      ],
-    },
-  ];
-
-  coreValues = [
-    {
-      number: "01",
-      title: "Clean Architecture First",
-      description:
-        "Reusable components, consistent patterns, and code built to be maintained â€” not just to ship. Standards enforced through peer review and clean architecture principles.",
-    },
-    {
-      number: "02",
-      title: "Transparent & Async-Ready",
-      description:
-        "Daily updates, clear timelines, and zero surprises â€” the same async discipline built across 8 years of remote work for US and UAE clients.",
-    },
-    {
-      number: "03",
-      title: "Performance is Non-Negotiable",
-      description:
-        "Lighthouse scores, query response times, CI/CD speed â€” measurable performance matters in production, not just in demos.",
-    },
-    {
-      number: "04",
-      title: "AI-Augmented Quality",
-      description:
-        "Using GitHub Copilot, Claude, and GPT-4 daily means faster delivery and higher quality â€” not shortcuts. AI handles the boilerplate; judgment handles the architecture.",
-    },
-  ];
-
-  advantages = [
-    {
-      icon: "ðŸ‡ºðŸ‡¸",
-      title: "Real US Client Experience",
-      description:
-        "Worked directly with US companies â€” CareCloud (Healthcare SaaS, Hybrid US) and Metropolitan Warehouse & Delivery (Remote, US). We understand American delivery standards, communication norms, and business expectations.",
-    },
-    {
-      icon: "â°",
-      title: "Async-Friendly & Remote-First",
-      description:
-        "Based in Islamabad, Pakistan (UTC+5). 8+ years of async remote collaboration across US, UAE, and UK â€” you receive morning updates every day and replies within hours, not days.",
-    },
-    {
-      icon: "ðŸ’¬",
-      title: "Senior Developer Directly",
-      description:
-        "You work with an 8+ year senior developer, not a project manager or junior who escalates everything. Your vision stays intact from kickoff to launch.",
-    },
-    {
-      icon: "ðŸ¥",
-      title: "Healthcare & Enterprise Grade",
-      description:
-        "HIPAA-aware development experience from CareCloud. Enterprise ERP and complex workflow experience from Inspire System. We know what production-grade means.",
-    },
-    {
-      icon: "ðŸ’°",
-      title: "Competitive Pricing",
-      description:
-        "Senior-level quality at offshore rates. You get the expertise of a US agency without the US agency price tag â€” fully transparent, no hidden costs.",
-    },
-    {
-      icon: "ðŸ¤–",
-      title: "AI-Accelerated Delivery",
-      description:
-        "Daily use of GitHub Copilot, ChatGPT, Claude, and OpenAI Codex means faster delivery, higher code quality, and better documentation â€” without cutting corners.",
-    },
-  ];
+  hero: PageHero | null = null;
+  heroStats: StatBlock[] = [];
+  story: AboutStory | null = null;
+  quoteAuthorName = '';
+  quoteAuthorTitle = '';
+  milestones: Milestone[] = [];
+  expertiseAreas: ExpertiseArea[] = [];
+  coreValues: FeatureBlock[] = [];
+  advantages: FeatureBlock[] = [];
 
   constructor(
     @Inject(PLATFORM_ID) platformId: Object,
     private sanitizer: DomSanitizer,
+    private content: ContentService,
   ) {
     this.platformId = platformId;
+    this.isBrowser = isPlatformBrowser(platformId);
   }
 
   getSafeHtml(html: string): SafeHtml {
@@ -423,6 +315,45 @@ export class AboutComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+    this.content
+      .getRow<PageHero>("page_heroes", { page: "about" })
+      .subscribe((hero) => {
+        this.hero = hero;
+      });
+    this.content
+      .getAll<StatBlock>("stat_blocks", { match: { page: "about", section: "hero" } })
+      .subscribe((stats) => {
+        this.heroStats = stats;
+      });
+    this.content
+      .getRow<AboutStory>("about_story", { id: 1 })
+      .subscribe((story) => {
+        this.story = story;
+        if (story?.quote_author) {
+          const [name, title] = story.quote_author.split("|");
+          this.quoteAuthorName = name ?? story.quote_author;
+          this.quoteAuthorTitle = title ?? "";
+        }
+      });
+    this.content.getAll<Milestone>("milestones").subscribe((milestones) => {
+      this.milestones = milestones;
+    });
+    this.content
+      .getAll<ExpertiseArea>("expertise_areas")
+      .subscribe((areas) => {
+        this.expertiseAreas = areas;
+      });
+    this.content
+      .getAll<FeatureBlock>("feature_blocks", { match: { page: "about", section: "core_values" } })
+      .subscribe((values) => {
+        this.coreValues = values;
+      });
+    this.content
+      .getAll<FeatureBlock>("feature_blocks", { match: { page: "about", section: "why_choose_us" } })
+      .subscribe((advantages) => {
+        this.advantages = advantages;
+      });
+
     if (this.isBrowser) {
       this.animateOnScroll();
     }

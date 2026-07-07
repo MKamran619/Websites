@@ -4,6 +4,52 @@ import { RouterLink } from "@angular/router";
 import { FormsModule } from "@angular/forms";
 import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
 import emailjs from "@emailjs/browser";
+import { ContentService } from "../../services/content.service";
+
+interface PageHero {
+  page: string;
+  badge: string | null;
+  title: string;
+  subtitle: string | null;
+  cta_primary_label: string | null;
+  cta_primary_link: string | null;
+  cta_secondary_label: string | null;
+  cta_secondary_link: string | null;
+  tech_badges: string[] | null;
+  code_snippet: string | null;
+}
+
+interface StatBlock {
+  page: string;
+  section: string;
+  icon: string | null;
+  value: string;
+  label: string;
+  description: string | null;
+  sort_order: number;
+}
+
+interface FeatureBlock {
+  page: string;
+  section: string;
+  icon: string | null;
+  eyebrow: string | null;
+  title: string;
+  description: string | null;
+  sort_order: number;
+}
+
+interface Course {
+  title: string;
+  level: string | null;
+  level_class: string | null;
+  description: string | null;
+  topics: string[];
+  duration: string | null;
+  price: string | null;
+  icon_svg: string | null;
+  sort_order: number;
+}
 
 @Component({
   selector: "app-courses",
@@ -31,37 +77,20 @@ import emailjs from "@emailjs/browser";
               <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
               <path d="M6 12v5c3 3 9 3 12 0v-5" />
             </svg>
-            Nexa Web Service Academy
+            {{ hero?.badge }}
           </span>
-          <h1 class="hero-title">
-            Master <span class="gradient-text">Modern Development</span><br />
-            Build Your Tech Career
-          </h1>
+          <h1 class="hero-title" [innerHTML]="hero?.title"></h1>
           <p class="hero-subtitle">
-            Industry-leading training programs designed by Silicon Valley
-            experts. Learn in-demand skills, build real-world projects, and
-            accelerate your career in tech.
+            {{ hero?.subtitle }}
           </p>
           <div class="hero-stats">
-            <div class="stat-item">
-              <span class="stat-number">500+</span>
-              <span class="stat-label">Graduates</span>
-            </div>
-            <div class="stat-divider"></div>
-            <div class="stat-item">
-              <span class="stat-number">95%</span>
-              <span class="stat-label">Job Placement</span>
-            </div>
-            <div class="stat-divider"></div>
-            <div class="stat-item">
-              <span class="stat-number">4.9/5</span>
-              <span class="stat-label">Student Rating</span>
-            </div>
-            <div class="stat-divider"></div>
-            <div class="stat-item">
-              <span class="stat-number">$85K</span>
-              <span class="stat-label">Avg. Starting Salary</span>
-            </div>
+            <ng-container *ngFor="let stat of heroStats; let last = last">
+              <div class="stat-item">
+                <span class="stat-number">{{ stat.value }}</span>
+                <span class="stat-label">{{ stat.label }}</span>
+              </div>
+              <div class="stat-divider" *ngIf="!last"></div>
+            </ng-container>
           </div>
         </div>
       </div>
@@ -71,87 +100,10 @@ import emailjs from "@emailjs/browser";
     <section class="value-props">
       <div class="container">
         <div class="props-grid">
-          <div class="prop-card">
-            <div class="prop-icon">
-              <svg
-                width="32"
-                height="32"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-              >
-                <path d="M12 2L2 7l10 5 10-5-10-5z" />
-                <path d="M2 17l10 5 10-5" />
-                <path d="M2 12l10 5 10-5" />
-              </svg>
-            </div>
-            <h3>Structured Learning</h3>
-            <p>
-              Carefully designed curriculum that takes you from zero to
-              job-ready in weeks
-            </p>
-          </div>
-          <div class="prop-card">
-            <div class="prop-icon">
-              <svg
-                width="32"
-                height="32"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-              >
-                <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
-                <line x1="8" y1="21" x2="16" y2="21" />
-                <line x1="12" y1="17" x2="12" y2="21" />
-              </svg>
-            </div>
-            <h3>Hands-On Projects</h3>
-            <p>
-              Build 10+ real-world projects for your portfolio that impress
-              employers
-            </p>
-          </div>
-          <div class="prop-card">
-            <div class="prop-icon">
-              <svg
-                width="32"
-                height="32"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-              >
-                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-                <circle cx="9" cy="7" r="4" />
-                <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
-                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-              </svg>
-            </div>
-            <h3>1-on-1 Mentoring</h3>
-            <p>
-              Personalized guidance from a senior developer with 8+ years of real enterprise experience
-            </p>
-          </div>
-          <div class="prop-card">
-            <div class="prop-icon">
-              <svg
-                width="32"
-                height="32"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-              >
-                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-                <circle cx="12" cy="7" r="4" />
-              </svg>
-            </div>
-            <h3>Career Support</h3>
-            <p>
-              Resume review, interview prep, and direct job placement assistance
-            </p>
+          <div class="prop-card" *ngFor="let prop of valueProps">
+            <div class="prop-icon" [innerHTML]="getSafeHtml(prop.icon)"></div>
+            <h3>{{ prop.title }}</h3>
+            <p>{{ prop.description }}</p>
           </div>
         </div>
       </div>
@@ -172,12 +124,12 @@ import emailjs from "@emailjs/browser";
           <div
             class="course-card"
             *ngFor="let course of courses"
-            [class]="'level-' + course.levelClass"
+            [class]="'level-' + course.level_class"
           >
             <div class="card-header">
               <div
                 class="course-icon"
-                [innerHTML]="getSafeHtml(course.svgIcon)"
+                [innerHTML]="getSafeHtml(course.icon_svg)"
               ></div>
               <div class="course-level">{{ course.level }}</div>
             </div>
@@ -607,15 +559,21 @@ export class CoursesComponent implements OnInit {
   isSubmitting = false;
   private isBrowser: boolean;
 
+  hero: PageHero | null = null;
+  heroStats: StatBlock[] = [];
+  valueProps: FeatureBlock[] = [];
+  courses: Course[] = [];
+
   constructor(
     private sanitizer: DomSanitizer,
     @Inject(PLATFORM_ID) platformId: Object,
+    private content: ContentService,
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
   }
 
-  getSafeHtml(html: string): SafeHtml {
-    return this.sanitizer.bypassSecurityTrustHtml(html);
+  getSafeHtml(html: string | null): SafeHtml {
+    return this.sanitizer.bypassSecurityTrustHtml(html || "");
   }
 
   enrollmentData = {
@@ -698,127 +656,41 @@ export class CoursesComponent implements OnInit {
     "Agencies",
   ];
 
-  courses = [
-    {
-      svgIcon: `<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>`,
-      title: "HTML & CSS Fundamentals",
-      description:
-        "Master the building blocks of the web. Learn semantic HTML5, modern CSS3, Flexbox, Grid, and responsive design principles.",
-      topics: [
-        "HTML5 Semantics",
-        "CSS3 Styling",
-        "Flexbox & Grid",
-        "Responsive Design",
-        "Accessibility",
-        "Best Practices",
-      ],
-      duration: "4 weeks",
-      level: "Beginner",
-      levelClass: "beginner",
-      price: "$49",
-    },
-    {
-      svgIcon: `<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>`,
-      title: "Bootstrap Framework",
-      description:
-        "Build beautiful, responsive websites quickly. Master Bootstrap's grid system, components, and customization techniques.",
-      topics: [
-        "Bootstrap Grid",
-        "UI Components",
-        "Responsive Utilities",
-        "Custom Themes",
-        "SASS Integration",
-        "Real Projects",
-      ],
-      duration: "3 weeks",
-      level: "Beginner",
-      levelClass: "beginner",
-      price: "$39",
-    },
-    {
-      svgIcon: `<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>`,
-      title: "JavaScript Essentials",
-      description:
-        "Master the programming language of the web. Learn ES6+, async programming, DOM manipulation, and API integration.",
-      topics: [
-        "ES6+ Features",
-        "DOM Manipulation",
-        "Event Handling",
-        "Async/Await",
-        "Fetch API",
-        "Error Handling",
-      ],
-      duration: "6 weeks",
-      level: "Intermediate",
-      levelClass: "intermediate",
-      price: "$79",
-    },
-    {
-      svgIcon: `<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/><line x1="21.17" y1="8" x2="12" y2="8"/><line x1="3.95" y1="6.06" x2="8.54" y2="14"/><line x1="10.88" y1="21.94" x2="15.46" y2="14"/></svg>`,
-      title: "React Development",
-      description:
-        "Build modern, interactive UIs with React. Master components, hooks, state management, and production-ready patterns.",
-      topics: [
-        "React Fundamentals",
-        "Hooks & State",
-        "Context API",
-        "React Router",
-        "Performance",
-        "Testing",
-      ],
-      duration: "8 weeks",
-      level: "Advanced",
-      levelClass: "advanced",
-      price: "$99",
-    },
-    {
-      svgIcon: `<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"/><line x1="12" y1="22" x2="12" y2="15.5"/><polyline points="22 8.5 12 15.5 2 8.5"/></svg>`,
-      title: "Angular Framework",
-      description:
-        "Build enterprise-grade applications with Angular. Master TypeScript, components, services, and advanced patterns.",
-      topics: [
-        "TypeScript",
-        "Components",
-        "Services & DI",
-        "Routing",
-        "Forms",
-        "RxJS",
-        "NgRx",
-      ],
-      duration: "8 weeks",
-      level: "Advanced",
-      levelClass: "advanced",
-      price: "$99",
-    },
-    {
-      svgIcon: `<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>`,
-      title: "Full Stack Development",
-      description:
-        "Become a complete developer. Master frontend, backend, databases, and deployment to build full applications.",
-      topics: [
-        "Frontend Mastery",
-        "Node.js/Express",
-        "MongoDB/SQL",
-        "Authentication",
-        "REST APIs",
-        "Cloud Deployment",
-      ],
-      duration: "12 weeks",
-      level: "Professional",
-      levelClass: "professional",
-      price: "$149",
-    },
-  ];
-
   ngOnInit() {
+    this.content
+      .getRow<PageHero>("page_heroes", { page: "courses" })
+      .subscribe((hero) => {
+        this.hero = hero;
+      });
+
+    this.content
+      .getAll<StatBlock>("stat_blocks", {
+        match: { page: "courses", section: "hero" },
+      })
+      .subscribe((stats) => {
+        this.heroStats = stats;
+      });
+
+    this.content
+      .getAll<FeatureBlock>("feature_blocks", {
+        match: { page: "courses", section: "value_props" },
+      })
+      .subscribe((props) => {
+        this.valueProps = props;
+      });
+
+    this.content.getAll<Course>("courses").subscribe((courses) => {
+      this.courses = courses;
+    });
+
     if (this.isBrowser) {
       emailjs.init("FiOYICOvKQmtB0P1N");
     }
   }
 
-  openEnrollmentModal(courseName: string, price: string = "") {
+  openEnrollmentModal(courseName: string, price: string | null = "") {
     this.selectedCourse = courseName;
-    this.selectedPrice = price;
+    this.selectedPrice = price || "";
     this.showEnrollmentModal = true;
   }
 

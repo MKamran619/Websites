@@ -1,8 +1,7 @@
-import { Injectable, PLATFORM_ID, Inject } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
-import { BehaviorSubject, Observable, of } from "rxjs";
+import { Injectable } from "@angular/core";
+import { BehaviorSubject, Observable, of, from, forkJoin } from "rxjs";
 import { map, catchError, tap } from "rxjs/operators";
-import { isPlatformBrowser } from "@angular/common";
+import { SupabaseClientService } from "./supabase-client.service";
 
 export interface Author {
   name: string;
@@ -43,28 +42,71 @@ export interface ArticlesIndex {
   topics: Topic[];
 }
 
+const LIST_COLUMNS =
+  "id,title,excerpt,date,category,read_time,icon,tags,featured,sort_order,author_name,author_role,author_avatar";
+
+/**
+ * Formats a Postgres `date` value (e.g. "2024-01-01") back into the
+ * "Mon YYYY" display format that was used by the original static JSON
+ * (e.g. "Jan 2024"), so templates that render `article.date` verbatim
+ * don't need to change.
+ */
+function formatDbDate(value: string | null | undefined): string {
+  if (!value) {
+    return "";
+  }
+  const parsed = new Date(value);
+  if (isNaN(parsed.getTime())) {
+    return value;
+  }
+  return parsed.toLocaleDateString("en-US", {
+    month: "short",
+    year: "numeric",
+    timeZone: "UTC",
+  });
+}
+
 @Injectable({
   providedIn: "root",
 })
 export class ArticleService {
-  private readonly ARTICLES_PATH = "assets/articles";
   private articlesIndexSubject = new BehaviorSubject<ArticlesIndex | null>(
     null,
   );
   private articleCache = new Map<string, BlogArticle>();
-  private isBrowser: boolean;
 
   articlesIndex$ = this.articlesIndexSubject.asObservable();
 
-  constructor(
-    private http: HttpClient,
-    @Inject(PLATFORM_ID) platformId: Object,
-  ) {
-    this.isBrowser = isPlatformBrowser(platformId);
+  constructor(private supabase: SupabaseClientService) {}
+
+  /**
+   * Map a raw `blog_articles` row (snake_case) into the BlogArticle shape
+   * (camelCase, nested `author`) expected by existing templates.
+   */
+  private mapArticleRow(row: any): BlogArticle {
+    return {
+      id: row.id,
+      title: row.title,
+      excerpt: row.excerpt,
+      content: row.content,
+      date: formatDbDate(row.date),
+      category: row.category,
+      readTime: row.read_time,
+      icon: row.icon,
+      tags: row.tags ?? [],
+      featured: row.featured,
+      author: {
+        name: row.author_name,
+        role: row.author_role,
+        avatar: row.author_avatar,
+      },
+    };
   }
 
   /**
-   * Load the articles index containing all article metadata
+   * Load the articles index containing all article metadata, categories,
+   * and topics. Backed by Supabase instead of a static JSON file, but
+   * keeps the same caching semantics (BehaviorSubject + cached emission).
    */
   loadArticlesIndex(): Observable<ArticlesIndex> {
     const cached = this.articlesIndexSubject.getValue();
@@ -72,15 +114,46 @@ export class ArticleService {
       return of(cached);
     }
 
-    return this.http
-      .get<ArticlesIndex>(`${this.ARTICLES_PATH}/index.json`)
-      .pipe(
-        tap((index) => this.articlesIndexSubject.next(index)),
-        catchError((error) => {
-          console.error("Error loading articles index:", error);
-          return of({ articles: [], categories: [], topics: [] });
-        }),
-      );
+    const articles$ = from(
+      this.supabase.client
+        .from("blog_articles")
+        .select(LIST_COLUMNS)
+        .order("sort_order", { ascending: true }),
+    );
+    const categories$ = from(
+      this.supabase.client
+        .from("blog_categories")
+        .select("name,icon")
+        .order("sort_order", { ascending: true }),
+    );
+    const topics$ = from(
+      this.supabase.client
+        .from("blog_topics")
+        .select("icon,name,description,count")
+        .order("sort_order", { ascending: true }),
+    );
+
+    return forkJoin([articles$, categories$, topics$]).pipe(
+      map(([articlesRes, categoriesRes, topicsRes]) => {
+        if (articlesRes.error) throw articlesRes.error;
+        if (categoriesRes.error) throw categoriesRes.error;
+        if (topicsRes.error) throw topicsRes.error;
+
+        const index: ArticlesIndex = {
+          articles: (articlesRes.data ?? []).map((row: any) =>
+            this.mapArticleRow(row),
+          ),
+          categories: (categoriesRes.data ?? []) as Category[],
+          topics: (topicsRes.data ?? []) as Topic[],
+        };
+        return index;
+      }),
+      tap((index) => this.articlesIndexSubject.next(index)),
+      catchError((error) => {
+        console.error("Error loading articles index:", error);
+        return of({ articles: [], categories: [], topics: [] });
+      }),
+    );
   }
 
   /**
@@ -121,8 +194,22 @@ export class ArticleService {
       return of(this.articleCache.get(id)!);
     }
 
-    return this.http.get<BlogArticle>(`${this.ARTICLES_PATH}/${id}.json`).pipe(
-      tap((article) => this.articleCache.set(id, article)),
+    return from(
+      this.supabase.client
+        .from("blog_articles")
+        .select("*")
+        .eq("id", id)
+        .maybeSingle(),
+    ).pipe(
+      map(({ data, error }) => {
+        if (error) throw error;
+        return data ? this.mapArticleRow(data) : null;
+      }),
+      tap((article) => {
+        if (article) {
+          this.articleCache.set(id, article);
+        }
+      }),
       catchError((error) => {
         console.error(`Error loading article ${id}:`, error);
         return of(null);
@@ -134,14 +221,42 @@ export class ArticleService {
    * Get all categories
    */
   getCategories(): Observable<Category[]> {
-    return this.loadArticlesIndex().pipe(map((index) => index.categories));
+    return from(
+      this.supabase.client
+        .from("blog_categories")
+        .select("name,icon")
+        .order("sort_order", { ascending: true }),
+    ).pipe(
+      map(({ data, error }) => {
+        if (error) throw error;
+        return (data ?? []) as Category[];
+      }),
+      catchError((error) => {
+        console.error("Error loading categories:", error);
+        return of([] as Category[]);
+      }),
+    );
   }
 
   /**
    * Get all topics
    */
   getTopics(): Observable<Topic[]> {
-    return this.loadArticlesIndex().pipe(map((index) => index.topics));
+    return from(
+      this.supabase.client
+        .from("blog_topics")
+        .select("icon,name,description,count")
+        .order("sort_order", { ascending: true }),
+    ).pipe(
+      map(({ data, error }) => {
+        if (error) throw error;
+        return (data ?? []) as Topic[];
+      }),
+      catchError((error) => {
+        console.error("Error loading topics:", error);
+        return of([] as Topic[]);
+      }),
+    );
   }
 
   /**

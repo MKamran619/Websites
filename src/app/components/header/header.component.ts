@@ -15,8 +15,21 @@ import {
 import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
 import { ThemeSwitcherComponent } from "../theme-switcher/theme-switcher.component";
 import { ThemeService } from "../../services/theme.service";
+import { ContentService } from "../../services/content.service";
 import { DOCUMENT } from "@angular/common";
 import { isPlatformBrowser } from "@angular/common";
+
+export interface NavItem {
+  path: string;
+  label: string;
+  icon_svg: string;
+  exact_match: boolean;
+  sort_order: number;
+}
+
+interface HeaderSiteInfo {
+  logo_svg_header: string;
+}
 
 @Component({
   selector: "app-header",
@@ -31,183 +44,11 @@ import { isPlatformBrowser } from "@angular/common";
       <nav class="navbar">
         <div class="container">
           <div class="nav-brand">
-            <a routerLink="/" class="logo">
-              <svg
-                width="290"
-                height="58"
-                viewBox="0 0 290 58"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                class="logo-svg responsive-logo"
-              >
-                <defs>
-                  <linearGradient
-                    id="logoGradient"
-                    x1="0%"
-                    y1="0%"
-                    x2="100%"
-                    y2="100%"
-                  >
-                    <stop offset="0%" style="stop-color:var(--primary)" />
-                    <stop
-                      offset="100%"
-                      style="stop-color:var(--primary-light, var(--primary))"
-                    />
-                  </linearGradient>
-                  <linearGradient
-                    id="iconGradient"
-                    x1="0%"
-                    y1="0%"
-                    x2="100%"
-                    y2="100%"
-                  >
-                    <stop offset="0%" style="stop-color:var(--primary)" />
-                    <stop
-                      offset="50%"
-                      style="stop-color:var(--secondary, var(--primary))"
-                    />
-                    <stop
-                      offset="100%"
-                      style="stop-color:var(--primary-light, var(--primary))"
-                    />
-                  </linearGradient>
-                  <linearGradient
-                    id="iconBg"
-                    x1="0%"
-                    y1="0%"
-                    x2="100%"
-                    y2="100%"
-                  >
-                    <stop
-                      offset="0%"
-                      style="stop-color:var(--primary);stop-opacity:0.12"
-                    />
-                    <stop
-                      offset="100%"
-                      style="stop-color:var(--secondary, var(--primary));stop-opacity:0.06"
-                    />
-                  </linearGradient>
-                  <filter
-                    id="softGlow"
-                    x="-30%"
-                    y="-30%"
-                    width="160%"
-                    height="160%"
-                  >
-                    <feGaussianBlur stdDeviation="2" result="blur" />
-                    <feMerge>
-                      <feMergeNode in="blur" />
-                      <feMergeNode in="SourceGraphic" />
-                    </feMerge>
-                  </filter>
-                  <filter
-                    id="softShadow"
-                    x="-20%"
-                    y="-20%"
-                    width="140%"
-                    height="140%"
-                  >
-                    <feDropShadow
-                      dx="0"
-                      dy="2"
-                      stdDeviation="3"
-                      flood-color="var(--primary)"
-                      flood-opacity="0.25"
-                    />
-                  </filter>
-                </defs>
-
-                <!-- Code Brackets Icon -->
-                <g class="logo-icon" filter="url(#softShadow)">
-                  <!-- Background rounded square -->
-                  <rect
-                    x="4"
-                    y="7"
-                    width="44"
-                    height="44"
-                    rx="12"
-                    fill="url(#iconBg)"
-                  />
-                  <rect
-                    x="8"
-                    y="11"
-                    width="36"
-                    height="36"
-                    rx="9"
-                    fill="var(--primary)"
-                    opacity="0.08"
-                  />
-
-                  <!-- Left bracket < -->
-                  <path
-                    d="M22 19L12 29L22 39"
-                    stroke="url(#iconGradient)"
-                    stroke-width="3"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    fill="none"
-                  />
-                  <!-- Right bracket > -->
-                  <path
-                    d="M30 19L40 29L30 39"
-                    stroke="var(--secondary, var(--primary))"
-                    stroke-width="3"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    fill="none"
-                  />
-                  <!-- Center slash / -->
-                  <path
-                    d="M28 21L24 37"
-                    stroke="var(--primary)"
-                    stroke-width="2.5"
-                    stroke-linecap="round"
-                    opacity="0.5"
-                  />
-
-                  <!-- Accent dots -->
-                  <circle
-                    cx="44"
-                    cy="11"
-                    r="3"
-                    fill="var(--secondary, var(--accent))"
-                    opacity="0.9"
-                  />
-                </g>
-
-                <!-- Brand Text -->
-                <g filter="url(#softGlow)">
-                  <text x="58" y="34" font-family="'Poppins', 'Segoe UI', sans-serif" font-size="20"><tspan font-weight="700" fill="#1a202c">Nexa</tspan><tspan font-weight="700" fill="#4f8ef7">Web</tspan></text>
-                  <text x="162" y="34" font-family="'Poppins', 'Segoe UI', sans-serif" font-size="13" font-weight="300" fill="#94a3b8">Service</text>
-                </g>
-
-                <!-- Slogan -->
-                <g transform="translate(0, 2)">
-                  <text
-                    x="58"
-                    y="50"
-                    font-family="'Inter', 'Segoe UI', sans-serif"
-                    font-size="13"
-                    font-weight="500"
-                    fill="var(--text-muted)"
-                    letter-spacing="1.2"
-                    opacity="0.75"
-                  >
-                    <tspan>Build · Launch · </tspan><tspan fill="var(--primary)">Grow</tspan>
-                  </text>
-                  <!-- Accent underline -->
-                  <rect
-                    x="58"
-                    y="52"
-                    width="120"
-                    height="2"
-                    rx="1"
-                    fill="url(#iconGradient)"
-                    opacity="0.25"
-                  />
-                </g>
-              </svg>
-            </a>
+            <a
+              routerLink="/"
+              class="logo"
+              [innerHTML]="siteInfo?.logo_svg_header"
+            ></a>
           </div>
 
           <button
@@ -227,11 +68,11 @@ import { isPlatformBrowser } from "@angular/common";
               <a
                 [routerLink]="item.path"
                 routerLinkActive="active"
-                [routerLinkActiveOptions]="{ exact: item.exact }"
+                [routerLinkActiveOptions]="{ exact: item.exact_match }"
                 (click)="closeMenu()"
                 class="nav-link"
               >
-                <span class="nav-icon" [innerHTML]="item.icon"></span>
+                <span class="nav-icon" [innerHTML]="item.icon_svg"></span>
                 <span class="nav-text">{{ item.label }}</span>
               </a>
             </li>
@@ -275,68 +116,29 @@ export class HeaderComponent implements OnInit {
   private lastScrollTop = 0;
   private isBrowser: boolean;
 
-  // Professional SVG icons for navigation
-  navItems = [
-    {
-      path: "/",
-      label: "Home",
-      icon: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>',
-      exact: true,
-    },
-    {
-      path: "/services",
-      label: "Services",
-      icon: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>',
-      exact: false,
-    },
-    {
-      path: "/portfolio",
-      label: "Case Studies",
-      icon: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>',
-      exact: false,
-    },
-    {
-      path: "/blog",
-      label: "Insights",
-      icon: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>',
-      exact: false,
-    },
-    {
-      path: "/courses",
-      label: "Academy",
-      icon: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg>',
-      exact: false,
-    },
-    {
-      path: "/pricing",
-      label: "Pricing",
-      icon: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>',
-      exact: false,
-    },
-    {
-      path: "/faq",
-      label: "FAQ",
-      icon: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>',
-      exact: false,
-    },
-    {
-      path: "/about",
-      label: "About Us",
-      icon: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>',
-      exact: false,
-    },
-  ];
+  navItems: NavItem[] = [];
+  siteInfo: HeaderSiteInfo | null = null;
 
   constructor(
     @Inject(PLATFORM_ID) platformId: Object,
     @Inject(DOCUMENT) private document: Document,
     private router: Router,
     private themeService: ThemeService,
+    private content: ContentService,
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
   }
 
   ngOnInit() {
+    this.content.getAll<NavItem>("nav_items").subscribe((items) => {
+      this.navItems = items;
+    });
+    this.content
+      .getRow<HeaderSiteInfo>("site_info", { id: 1 })
+      .subscribe((info) => {
+        this.siteInfo = info;
+      });
+
     if (this.isBrowser) {
       // Prevent browser restoring previous scroll position on history navigation
       if ("scrollRestoration" in history) {
@@ -352,15 +154,6 @@ export class HeaderComponent implements OnInit {
       );
 
       this.checkScroll();
-
-      // Move About Us to last in navItems
-      const aboutIndex = this.navItems.findIndex(
-        (item) => item.path === "/about",
-      );
-      if (aboutIndex > -1) {
-        const aboutItem = this.navItems.splice(aboutIndex, 1)[0];
-        this.navItems.push(aboutItem);
-      }
 
       // Set default theme to Clean White
       if (

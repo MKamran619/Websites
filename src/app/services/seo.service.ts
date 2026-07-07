@@ -21,11 +21,11 @@ export class SeoService {
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe(() => {
-        const state = this.router.routerState.root;
+        const state = this.router.routerState.snapshot.root;
         if (state && state.firstChild) {
           const data = state.firstChild.data;
           if (data) {
-            this.setMetaTags(data);
+            this.setMetaTags(data["seo"] ?? data);
           }
         }
       });

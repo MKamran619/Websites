@@ -9,6 +9,36 @@ import { CommonModule, isPlatformBrowser } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
 import emailjs from "@emailjs/browser";
+import { ContentService } from "../../services/content.service";
+
+interface PageHero {
+  page: string;
+  badge: string;
+  title: string;
+  subtitle: string;
+  cta_primary_label: string;
+  cta_primary_link: string;
+  cta_secondary_label: string;
+  cta_secondary_link: string;
+  tech_badges: string[];
+  code_snippet: string;
+}
+
+interface FeatureBlock {
+  page: string;
+  section: string;
+  icon: string;
+  eyebrow: string | null;
+  title: string;
+  description: string;
+  sort_order: number;
+}
+
+interface SiteInfo {
+  contact_email: string;
+  linkedin_url: string;
+  whatsapp_url: string;
+}
 
 @Component({
   selector: "app-contact",
@@ -44,8 +74,7 @@ import emailjs from "@emailjs/browser";
             Start Your <span class="gradient-text">Transformation</span> Journey
           </h1>
           <p class="hero-subtitle">
-            Schedule a free 30-minute strategy session to discuss your project
-            goals and discover how we can work together
+            {{ hero?.subtitle }}
           </p>
         </div>
       </div>
@@ -97,7 +126,7 @@ import emailjs from "@emailjs/browser";
               </h3>
               <div class="contact-list">
                 <a
-                  href="mailto:contact@nexawebservice.com"
+                  [href]="'mailto:' + siteInfo?.contact_email"
                   class="contact-item"
                 >
                   <div class="contact-icon">
@@ -117,9 +146,7 @@ import emailjs from "@emailjs/browser";
                   </div>
                   <div class="contact-details">
                     <span class="contact-label">Email</span>
-                    <span class="contact-value"
-                      >contact&#64;nexawebservice.com</span
-                    >
+                    <span class="contact-value">{{ siteInfo?.contact_email }}</span>
                   </div>
                   <svg
                     class="arrow-icon"
@@ -136,7 +163,7 @@ import emailjs from "@emailjs/browser";
                 </a>
 
                 <a
-                  href="https://www.linkedin.com/in/kamran619/"
+                  [href]="siteInfo?.linkedin_url"
                   target="_blank"
                   rel="noopener"
                   class="contact-item"
@@ -600,36 +627,9 @@ export class ContactComponent implements OnInit, AfterViewInit {
     message: "",
   };
 
-  benefits = [
-    {
-      icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <circle cx="12" cy="12" r="10"/>
-        <polyline points="12 6 12 12 16 14"/>
-      </svg>`,
-      title: "Free 30-Min Strategy Session",
-      description:
-        "No obligation consultation to understand your unique needs and challenges",
-    },
-    {
-      icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
-        <polyline points="22 4 12 14.01 9 11.01"/>
-      </svg>`,
-      title: "Actionable Recommendations",
-      description:
-        "Walk away with concrete next steps and ROI projections for your project",
-    },
-    {
-      icon: `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M12 2L2 7l10 5 10-5-10-5z"/>
-        <path d="M2 17l10 5 10-5"/>
-        <path d="M2 12l10 5 10-5"/>
-      </svg>`,
-      title: "8+ Years of Enterprise Experience",
-      description:
-        "US Healthcare SaaS (CareCloud), UAE Enterprise ERP (Inspire), US Logistics (Metropolitan) — industry-tested solutions tailored to your situation",
-    },
-  ];
+  hero: PageHero | null = null;
+  siteInfo: SiteInfo | null = null;
+  benefits: FeatureBlock[] = [];
 
   stats = [
     {
@@ -698,6 +698,7 @@ export class ContactComponent implements OnInit, AfterViewInit {
   constructor(
     @Inject(PLATFORM_ID) platformId: Object,
     private sanitizer: DomSanitizer,
+    private content: ContentService,
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
   }
@@ -710,6 +711,22 @@ export class ContactComponent implements OnInit, AfterViewInit {
     if (this.isBrowser) {
       emailjs.init("FiOYICOvKQmtB0P1N");
     }
+
+    this.content
+      .getRow<PageHero>("page_heroes", { page: "contact" })
+      .subscribe((hero) => {
+        this.hero = hero;
+      });
+    this.content
+      .getRow<SiteInfo>("site_info", { id: 1 })
+      .subscribe((info) => {
+        this.siteInfo = info;
+      });
+    this.content
+      .getAll<FeatureBlock>("feature_blocks", { match: { page: "contact", section: "benefits" } })
+      .subscribe((benefits) => {
+        this.benefits = benefits;
+      });
   }
 
   ngAfterViewInit() {
