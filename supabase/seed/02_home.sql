@@ -43,12 +43,13 @@ on conflict (page) do update set
   tech_badges = excluded.tech_badges,
   code_snippet = excluded.code_snippet;
 
--- Hero features (3 items, icon is a fixed checkmark svg in the template, not per-item data)
+-- Hero features (4 items, icon is a fixed checkmark svg in the template, not per-item data)
 delete from feature_blocks where page = 'home' and section = 'hero_features';
 insert into feature_blocks (page, section, icon, eyebrow, title, description, sort_order) values
 ('home', 'hero_features', null, null, 'Enterprise Solutions', null, 1),
 ('home', 'hero_features', null, null, 'Cloud Architecture', null, 2),
-('home', 'hero_features', null, null, 'SEO & Optimization', null, 3);
+('home', 'hero_features', null, null, 'SEO & Optimization', null, 3),
+('home', 'hero_features', null, null, '24/7 Support', null, 4);
 
 -- Hero stats
 delete from stat_blocks where page = 'home' and section = 'hero';

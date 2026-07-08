@@ -78,20 +78,6 @@ export interface HomeService {
 
       <div class="container">
         <div class="hero-content">
-          <div class="hero-badge">
-            <svg
-              width="18"
-              height="18"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="var(--primary)"
-              stroke-width="2"
-            >
-              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
-            </svg>
-            <span>{{ hero?.badge }}</span>
-          </div>
-
           <h1 class="hero-title">
             <span class="title-line">We Engineer</span>
             <span class="title-gradient">Build · Launch · <span style="-webkit-text-fill-color:#4f8ef7;color:#4f8ef7">Grow</span></span>
@@ -101,7 +87,7 @@ export interface HomeService {
           <p class="hero-subtitle">
             {{ heroSubtitleMain }}
           </p>
-          <p class="hero-subtitle-smb">
+          <p class="hero-subtitle-smb" *ngIf="heroSubtitleSmb">
             {{ heroSubtitleSmb }}
           </p>
 
@@ -164,55 +150,6 @@ export interface HomeService {
             </a>
           </div>
 
-          <div class="hero-stats">
-            <ng-container *ngFor="let stat of heroStats; let last = last">
-              <div class="stat-item">
-                <div class="stat-icon">
-                  <svg
-                    *ngIf="stat.label === 'Years Experience'"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="var(--primary)"
-                    stroke-width="2"
-                  >
-                    <circle cx="12" cy="12" r="10" />
-                    <polyline points="12 6 12 12 16 14" />
-                  </svg>
-                  <svg
-                    *ngIf="stat.label === 'Countries Served'"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="var(--primary)"
-                    stroke-width="2"
-                  >
-                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
-                    <polyline points="22 4 12 14.01 9 11.01" />
-                  </svg>
-                  <svg
-                    *ngIf="stat.label === 'Client Satisfaction'"
-                    width="24"
-                    height="24"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="var(--primary)"
-                    stroke-width="2"
-                  >
-                    <path
-                      d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
-                    />
-                  </svg>
-                </div>
-                <span class="stat-number" [attr.data-count]="stat.value">{{ stat.value }}</span
-                ><span class="stat-plus" *ngIf="stat.label !== 'Countries Served'">{{ stat.label === 'Client Satisfaction' ? '%' : '+' }}</span>
-                <span class="stat-label">{{ stat.label }}</span>
-              </div>
-              <div class="stat-divider" *ngIf="!last"></div>
-            </ng-container>
-          </div>
         </div>
 
         <div class="hero-visual">
@@ -230,6 +167,60 @@ export interface HomeService {
           </div>
           <div class="tech-badges">
             <span class="tech-badge" *ngFor="let badge of hero?.tech_badges">{{ badge }}</span>
+          </div>
+
+          <div class="hero-stats">
+            <ng-container *ngFor="let stat of heroStats; let last = last">
+              <div class="stat-item">
+                <div class="stat-top">
+                  <div class="stat-icon">
+                    <svg
+                      *ngIf="stat.label === 'Years Experience'"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="var(--primary)"
+                      stroke-width="2"
+                    >
+                      <circle cx="12" cy="12" r="10" />
+                      <polyline points="12 6 12 12 16 14" />
+                    </svg>
+                    <svg
+                      *ngIf="stat.label === 'Countries Served'"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="var(--primary)"
+                      stroke-width="2"
+                    >
+                      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                      <polyline points="22 4 12 14.01 9 11.01" />
+                    </svg>
+                    <svg
+                      *ngIf="stat.label === 'Client Satisfaction'"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="var(--primary)"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
+                      />
+                    </svg>
+                  </div>
+                  <div class="stat-value">
+                    <span class="stat-number" [attr.data-count]="stat.value">{{ stat.value }}</span
+                    ><span class="stat-plus" *ngIf="stat.label !== 'Countries Served'">{{ stat.label === 'Client Satisfaction' ? '%' : '+' }}</span>
+                  </div>
+                </div>
+                <span class="stat-label">{{ stat.label }}</span>
+              </div>
+              <div class="stat-divider" *ngIf="!last"></div>
+            </ng-container>
           </div>
         </div>
       </div>
@@ -549,12 +540,11 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
 
   animateOnScroll() {
     // Hero animations
-    gsap.from(".hero-badge", { opacity: 0, y: 20, duration: 0.6, delay: 0.2 });
     gsap.from(".hero-title .title-line", {
       opacity: 0,
       y: 30,
       duration: 0.8,
-      delay: 0.4,
+      delay: 0.2,
     });
     gsap.from(".hero-title .title-gradient", {
       opacity: 0,
