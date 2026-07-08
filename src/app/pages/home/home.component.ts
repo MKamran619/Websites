@@ -164,6 +164,25 @@ export interface HomeService {
             </a>
           </div>
 
+        </div>
+
+        <div class="hero-visual">
+          <div class="visual-glow"></div>
+          <div class="code-window">
+            <div class="window-header">
+              <div class="window-dots">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+              </div>
+              <span class="window-title">success.config.ts</span>
+            </div>
+            <div class="window-content"><pre><code>{{ hero?.code_snippet }}</code></pre></div>
+          </div>
+          <div class="tech-badges">
+            <span class="tech-badge" *ngFor="let badge of hero?.tech_badges">{{ badge }}</span>
+          </div>
+
           <div class="hero-stats">
             <ng-container *ngFor="let stat of heroStats; let last = last">
               <div class="stat-item">
@@ -206,30 +225,14 @@ export interface HomeService {
                     />
                   </svg>
                 </div>
-                <span class="stat-number" [attr.data-count]="stat.value">{{ stat.value }}</span
-                ><span class="stat-plus" *ngIf="stat.label !== 'Countries Served'">{{ stat.label === 'Client Satisfaction' ? '%' : '+' }}</span>
+                <div class="stat-value">
+                  <span class="stat-number" [attr.data-count]="stat.value">{{ stat.value }}</span
+                  ><span class="stat-plus" *ngIf="stat.label !== 'Countries Served'">{{ stat.label === 'Client Satisfaction' ? '%' : '+' }}</span>
+                </div>
                 <span class="stat-label">{{ stat.label }}</span>
               </div>
               <div class="stat-divider" *ngIf="!last"></div>
             </ng-container>
-          </div>
-        </div>
-
-        <div class="hero-visual">
-          <div class="visual-glow"></div>
-          <div class="code-window">
-            <div class="window-header">
-              <div class="window-dots">
-                <span class="dot red"></span>
-                <span class="dot yellow"></span>
-                <span class="dot green"></span>
-              </div>
-              <span class="window-title">success.config.ts</span>
-            </div>
-            <div class="window-content"><pre><code>{{ hero?.code_snippet }}</code></pre></div>
-          </div>
-          <div class="tech-badges">
-            <span class="tech-badge" *ngFor="let badge of hero?.tech_badges">{{ badge }}</span>
           </div>
         </div>
       </div>

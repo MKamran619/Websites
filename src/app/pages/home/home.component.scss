@@ -322,27 +322,37 @@
 .hero-stats {
   display: flex;
   align-items: stretch;
+  justify-content: center;
   gap: 2.5rem;
-  padding: 2rem 0;
+  padding: 2rem 0 0;
+  margin-top: 2rem;
   border-top: 1px solid rgba(0, 212, 170, 0.2);
-  margin-top: 1rem;
 }
 
 .stat-item {
   text-align: left;
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   gap: 0.35rem;
   position: relative;
   padding: 0.5rem 0;
 
   .stat-icon {
+    display: flex;
     margin-bottom: 0.75rem;
 
     svg {
       opacity: 0.9;
       filter: drop-shadow(0 0 10px rgba(0, 212, 170, 0.3));
     }
+  }
+
+  .stat-value {
+    display: flex;
+    align-items: baseline;
+    gap: 0.15rem;
+    line-height: 1;
   }
 
   .stat-number {
@@ -1218,7 +1228,11 @@
   }
 
   .hero-visual {
-    display: none;
+    .visual-glow,
+    .code-window,
+    .tech-badges {
+      display: none;
+    }
   }
 
   .scroll-indicator {
