@@ -5,13 +5,14 @@ import { provideAnimations } from "@angular/platform-browser/animations";
 import { provideRouter } from "@angular/router";
 import { provideHttpClient, withInterceptors } from "@angular/common/http";
 import { routes } from "./app.routes";
+import { loadingInterceptor } from "./interceptors/loading.interceptor";
 
 export const serverConfig: ApplicationConfig = {
   providers: [
     provideServerRendering(),
     provideAnimations(),
     provideRouter(routes),
-    provideHttpClient(),
+    provideHttpClient(withInterceptors([loadingInterceptor])),
     { provide: APP_BASE_HREF, useValue: "/" },
   ],
 };

@@ -641,29 +641,93 @@
         position: fixed;
         inset: 0;
         display: flex;
+        flex-direction: column;
         align-items: center;
         justify-content: center;
+        gap: 1.5rem;
         background: var(--bg-dark-1);
         z-index: 9999;
       }
-      .loader-spinner {
-        width: 50px;
-        height: 50px;
-        border: 3px solid rgba(255, 255, 255, 0.1);
-        border-top-color: var(--accent-cyan);
-        border-radius: 50%;
-        animation: spin 1s linear infinite;
+      .initial-loader .loader-icon {
+        animation: initialLoaderPulse 1.5s ease-in-out infinite;
       }
-      @keyframes spin {
-        to {
-          transform: rotate(360deg);
+      .initial-loader .loader-text {
+        color: #94a3b8;
+        font-family: "Inter", "Segoe UI", sans-serif;
+        font-size: 0.9rem;
+        font-weight: 500;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        margin: 0;
+        animation: initialLoaderTextPulse 1.5s ease-in-out infinite;
+      }
+      @keyframes initialLoaderPulse {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.05);
+        }
+      }
+      @keyframes initialLoaderTextPulse {
+        0%,
+        100% {
+          opacity: 0.7;
+        }
+        50% {
+          opacity: 1;
         }
       }
     </style>
   </head>
   <body>
     <div class="initial-loader" id="initial-loader">
-      <div class="loader-spinner"></div>
+      <svg
+        class="loader-icon"
+        width="80"
+        height="80"
+        viewBox="0 0 80 80"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <defs>
+          <linearGradient
+            id="initialLoaderGradient"
+            x1="0%"
+            y1="0%"
+            x2="100%"
+            y2="100%"
+          >
+            <stop offset="0%" style="stop-color:var(--accent-cyan)" />
+            <stop offset="100%" style="stop-color:var(--accent-cyan)" />
+          </linearGradient>
+        </defs>
+        <path
+          d="M30 20L10 40L30 60"
+          stroke="url(#initialLoaderGradient)"
+          stroke-width="5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          fill="none"
+        />
+        <path
+          d="M50 20L70 40L50 60"
+          stroke="var(--accent-cyan)"
+          stroke-width="5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          fill="none"
+        />
+        <path
+          d="M45 25L35 55"
+          stroke="var(--accent-cyan)"
+          stroke-width="4"
+          stroke-linecap="round"
+          opacity="0.6"
+        />
+      </svg>
+      <p class="loader-text">Loading...</p>
     </div>
     <app-root></app-root>
     <script>

@@ -1,12 +1,5 @@
-import {
-  Component,
-  OnInit,
-  OnDestroy,
-  HostListener,
-  PLATFORM_ID,
-  Inject,
-} from "@angular/core";
-import { CommonModule, isPlatformBrowser } from "@angular/common";
+import { Component, OnInit, OnDestroy } from "@angular/core";
+import { CommonModule } from "@angular/common";
 import {
   RouterOutlet,
   Router,
@@ -59,34 +52,12 @@ import { Subscription } from "rxjs";
 export class AppComponent implements OnInit, OnDestroy {
   title = "Professional Portfolio";
   private routerSubscription: Subscription | undefined;
-  private isBrowser: boolean;
 
   constructor(
     private seoService: SeoService,
     private router: Router,
     private loaderService: LoaderService,
-    @Inject(PLATFORM_ID) platformId: Object,
-  ) {
-    this.isBrowser = isPlatformBrowser(platformId);
-  }
-
-  // Listen for clicks on links and buttons
-  @HostListener("document:click", ["$event"])
-  onClick(event: MouseEvent): void {
-    if (!this.isBrowser) return;
-
-    const target = event.target as HTMLElement;
-
-    // Check if clicked element is a link, button, or inside one
-    const clickableElement = target.closest(
-      "a, button, [routerLink], .btn, .nav-link, .card, .clickable",
-    );
-
-    if (clickableElement) {
-      // Show loader with random duration
-      this.loaderService.showWithRandomDuration();
-    }
-  }
+  ) {}
 
   ngOnInit() {
     // SEO service is initialized automatically
@@ -101,11 +72,7 @@ export class AppComponent implements OnInit, OnDestroy {
         event instanceof NavigationCancel ||
         event instanceof NavigationError
       ) {
-        // Random delay for variety
-        const randomDelay = Math.floor(Math.random() * 400) + 200;
-        setTimeout(() => {
-          this.loaderService.hide();
-        }, randomDelay);
+        this.loaderService.hide();
       }
     });
   }

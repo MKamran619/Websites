@@ -1,6 +1,11 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
 
+/**
+ * Tracks in-flight async work (route navigation, HTTP requests, Supabase
+ * queries) via a pending-request counter, so overlapping loading sources
+ * compose correctly — the loader only hides once every source has finished.
+ */
 @Injectable({
   providedIn: "root",
 })
@@ -8,40 +13,19 @@ export class LoaderService {
   private loadingSubject = new BehaviorSubject<boolean>(false);
   public isLoading$ = this.loadingSubject.asObservable();
 
-  // Min and max loading time in milliseconds
-  private minLoadTime = 300;
-  private maxLoadTime = 800;
+  private pending = 0;
 
   show(): void {
-    this.loadingSubject.next(true);
+    this.pending++;
+    if (this.pending === 1) {
+      this.loadingSubject.next(true);
+    }
   }
 
   hide(): void {
-    this.loadingSubject.next(false);
-  }
-
-  // Show loader for a random duration
-  showWithRandomDuration(): void {
-    this.show();
-    const randomDuration = this.getRandomDuration();
-    setTimeout(() => {
-      this.hide();
-    }, randomDuration);
-  }
-
-  // Get a random duration between min and max
-  private getRandomDuration(): number {
-    return (
-      Math.floor(Math.random() * (this.maxLoadTime - this.minLoadTime + 1)) +
-      this.minLoadTime
-    );
-  }
-
-  // Show loader and hide after specified duration
-  showForDuration(duration: number): void {
-    this.show();
-    setTimeout(() => {
-      this.hide();
-    }, duration);
+    this.pending = Math.max(0, this.pending - 1);
+    if (this.pending === 0) {
+      this.loadingSubject.next(false);
+    }
   }
 }

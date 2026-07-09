@@ -84,10 +84,6 @@ gsap.registerPlugin(ScrollTrigger);
             *ngIf="!isLoadingContent && sanitizedContent"
             [innerHTML]="sanitizedContent"
           ></div>
-          <div class="loading-content" *ngIf="isLoadingContent">
-            <div class="loading-spinner"></div>
-            <p>Loading article...</p>
-          </div>
           <div
             class="no-content"
             *ngIf="!isLoadingContent && !sanitizedContent"
@@ -272,10 +268,6 @@ gsap.registerPlugin(ScrollTrigger);
     <!-- Blog Grid -->
     <section class="blog-content">
       <div class="container">
-        <div class="loading-state" *ngIf="isLoading">
-          <div class="loading-spinner"></div>
-          <p>Loading articles...</p>
-        </div>
         <div class="blog-grid" *ngIf="!isLoading">
           <article
             class="blog-card"
