@@ -10,6 +10,7 @@ import { FormsModule } from "@angular/forms";
 import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
 import emailjs from "@emailjs/browser";
 import { ContentService } from "../../services/content.service";
+import { RegionService, Region } from "../../services/region.service";
 
 interface PageHero {
   page: string;
@@ -695,10 +696,13 @@ export class ContactComponent implements OnInit, AfterViewInit {
     },
   ];
 
+  currentRegion: Region = "US";
+
   constructor(
     @Inject(PLATFORM_ID) platformId: Object,
     private sanitizer: DomSanitizer,
     private content: ContentService,
+    private regionService: RegionService,
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
   }
@@ -708,6 +712,9 @@ export class ContactComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+    this.regionService.currentRegion$.subscribe((region) => {
+      this.currentRegion = region.id;
+    });
     if (this.isBrowser) {
       emailjs.init("FiOYICOvKQmtB0P1N");
     }
@@ -809,6 +816,7 @@ export class ContactComponent implements OnInit, AfterViewInit {
       timeline: this.formData.timeline,
       message: this.formData.message,
       to_email: "contact@nexawebservice.com",
+      region: this.currentRegion,
     };
 
     emailjs.send("service_websites", "template_yh2wuhe", templateParams).then(

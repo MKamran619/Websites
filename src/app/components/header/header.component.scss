@@ -187,6 +187,10 @@
   margin-left: 0.5rem;
 }
 
+.nav-region {
+  margin-left: 0.5rem;
+}
+
 .cta-btn {
   display: inline-flex;
   align-items: center;
@@ -427,6 +431,15 @@
   }
 
   .nav-theme {
+    margin-left: 0;
+    margin-top: 0.5rem;
+    width: 100%;
+    max-width: 300px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .nav-region {
     margin-left: 0;
     margin-top: 0.5rem;
     width: 100%;

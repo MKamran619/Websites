@@ -14,6 +14,7 @@ import {
 } from "@angular/router";
 import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
 import { ThemeSwitcherComponent } from "../theme-switcher/theme-switcher.component";
+import { RegionSwitcherComponent } from "../region-switcher/region-switcher.component";
 import { ThemeService } from "../../services/theme.service";
 import { ContentService } from "../../services/content.service";
 import { DOCUMENT } from "@angular/common";
@@ -34,7 +35,13 @@ interface HeaderSiteInfo {
 @Component({
   selector: "app-header",
   standalone: true,
-  imports: [CommonModule, RouterLink, RouterLinkActive, ThemeSwitcherComponent],
+  imports: [
+    CommonModule,
+    RouterLink,
+    RouterLinkActive,
+    ThemeSwitcherComponent,
+    RegionSwitcherComponent,
+  ],
   template: `
     <header
       class="header"
@@ -81,6 +88,9 @@ interface HeaderSiteInfo {
               <app-theme-switcher></app-theme-switcher>
             </li>
             }
+            <li class="nav-region">
+              <app-region-switcher></app-region-switcher>
+            </li>
             <li class="nav-cta">
               <a
                 routerLink="/contact"

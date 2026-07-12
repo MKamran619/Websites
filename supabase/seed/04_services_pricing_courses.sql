@@ -105,29 +105,29 @@ insert into services (page, icon, title, short_description, features, benefit_ta
 
 -- Service plans
 truncate table pricing_plans restart identity cascade;
-insert into pricing_plans (name, description, price, unit, featured, icon, features, sort_order) values
-('Starter', $txt$Perfect for small businesses needing a professional web presence$txt$, '$500', '/ project', false,
+insert into pricing_plans (name, description, prices, unit, featured, icon, features, sort_order) values
+('Starter', $txt$Perfect for small businesses needing a professional web presence$txt$, '{"US": 500, "UAE": 0, "PAK": 0}'::jsonb, '/ project', false,
   $svg$<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>$svg$,
   array['Landing page or portfolio site', 'Responsive mobile design', 'Contact form integration', 'Basic SEO setup', '2 rounds of revisions', 'Delivery in 1–2 weeks', '1 month post-launch support'],
   1),
-('Business', $txt$For growing businesses needing a full multi-page website or web app$txt$, '$2,000', '/ project', true,
+('Business', $txt$For growing businesses needing a full multi-page website or web app$txt$, '{"US": 2000, "UAE": 0, "PAK": 0}'::jsonb, '/ project', true,
   $svg$<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 21h18"/><path d="M5 21V7l8-4v18"/><path d="M19 21V11l-6-4"/></svg>$svg$,
   array['5–10 page website or web app', 'Custom design & branding', 'CMS or admin dashboard', 'API / backend integration', 'Full SEO optimization', 'Performance optimization', '3 months post-launch support', 'Google Analytics setup'],
   2),
-('Enterprise', $txt$Complex platforms, digital transformation, and legacy modernization$txt$, '$10,000', '+ / project', false,
+('Enterprise', $txt$Complex platforms, digital transformation, and legacy modernization$txt$, '{"US": 10000, "UAE": 0, "PAK": 0}'::jsonb, '+ / project', false,
   $svg$<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>$svg$,
   array['Full-stack enterprise application', 'Cloud architecture (AWS / Azure)', 'Microservices / API design', 'Legacy system modernization', 'CI/CD pipeline setup', 'Security & compliance review', 'Team training & documentation', '6+ months ongoing support', 'Dedicated project manager'],
   3);
 
 -- Course pricing tiers
 truncate table course_pricing_tiers restart identity cascade;
-insert into course_pricing_tiers (name, level, level_class, duration, price, sort_order) values
-('HTML & CSS Fundamentals', 'Beginner', 'beginner', '4 weeks', '$79', 1),
-('Bootstrap Framework', 'Beginner', 'beginner', '3 weeks', '$59', 2),
-('JavaScript Essentials', 'Intermediate', 'intermediate', '6 weeks', '$119', 3),
-('React Development', 'Advanced', 'advanced', '8 weeks', '$169', 4),
-('Angular Framework', 'Advanced', 'advanced', '8 weeks', '$169', 5),
-('Full Stack Development', 'Professional', 'professional', '12 weeks', '$249', 6);
+insert into course_pricing_tiers (name, level, level_class, duration, prices, sort_order) values
+('HTML & CSS Fundamentals', 'Beginner', 'beginner', '4 weeks', '{"US": 79, "UAE": 0, "PAK": 0}'::jsonb, 1),
+('Bootstrap Framework', 'Beginner', 'beginner', '3 weeks', '{"US": 59, "UAE": 0, "PAK": 0}'::jsonb, 2),
+('JavaScript Essentials', 'Intermediate', 'intermediate', '6 weeks', '{"US": 119, "UAE": 0, "PAK": 0}'::jsonb, 3),
+('React Development', 'Advanced', 'advanced', '8 weeks', '{"US": 169, "UAE": 0, "PAK": 0}'::jsonb, 4),
+('Angular Framework', 'Advanced', 'advanced', '8 weeks', '{"US": 169, "UAE": 0, "PAK": 0}'::jsonb, 5),
+('Full Stack Development', 'Professional', 'professional', '12 weeks', '{"US": 249, "UAE": 0, "PAK": 0}'::jsonb, 6);
 
 -- 5-step process
 delete from feature_blocks where page = 'pricing' and section = 'process';
@@ -201,40 +201,40 @@ insert into feature_blocks (page, section, icon, eyebrow, title, description, so
 
 -- Courses
 truncate table courses restart identity cascade;
-insert into courses (title, level, level_class, description, topics, duration, price, icon_svg, sort_order) values
+insert into courses (title, level, level_class, description, topics, duration, prices, icon_svg, sort_order) values
 ('HTML & CSS Fundamentals', 'Beginner', 'beginner',
   $txt$Master the building blocks of the web. Learn semantic HTML5, modern CSS3, Flexbox, Grid, and responsive design principles.$txt$,
   array['HTML5 Semantics', 'CSS3 Styling', 'Flexbox & Grid', 'Responsive Design', 'Accessibility', 'Best Practices'],
-  '4 weeks', '$49',
+  '4 weeks', '{"US": 49, "UAE": 0, "PAK": 0}'::jsonb,
   $svg$<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>$svg$,
   1),
 ('Bootstrap Framework', 'Beginner', 'beginner',
   $txt$Build beautiful, responsive websites quickly. Master Bootstrap's grid system, components, and customization techniques.$txt$,
   array['Bootstrap Grid', 'UI Components', 'Responsive Utilities', 'Custom Themes', 'SASS Integration', 'Real Projects'],
-  '3 weeks', '$39',
+  '3 weeks', '{"US": 39, "UAE": 0, "PAK": 0}'::jsonb,
   $svg$<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>$svg$,
   2),
 ('JavaScript Essentials', 'Intermediate', 'intermediate',
   $txt$Master the programming language of the web. Learn ES6+, async programming, DOM manipulation, and API integration.$txt$,
   array['ES6+ Features', 'DOM Manipulation', 'Event Handling', 'Async/Await', 'Fetch API', 'Error Handling'],
-  '6 weeks', '$79',
+  '6 weeks', '{"US": 79, "UAE": 0, "PAK": 0}'::jsonb,
   $svg$<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>$svg$,
   3),
 ('React Development', 'Advanced', 'advanced',
   $txt$Build modern, interactive UIs with React. Master components, hooks, state management, and production-ready patterns.$txt$,
   array['React Fundamentals', 'Hooks & State', 'Context API', 'React Router', 'Performance', 'Testing'],
-  '8 weeks', '$99',
+  '8 weeks', '{"US": 99, "UAE": 0, "PAK": 0}'::jsonb,
   $svg$<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/><line x1="21.17" y1="8" x2="12" y2="8"/><line x1="3.95" y1="6.06" x2="8.54" y2="14"/><line x1="10.88" y1="21.94" x2="15.46" y2="14"/></svg>$svg$,
   4),
 ('Angular Framework', 'Advanced', 'advanced',
   $txt$Build enterprise-grade applications with Angular. Master TypeScript, components, services, and advanced patterns.$txt$,
   array['TypeScript', 'Components', 'Services & DI', 'Routing', 'Forms', 'RxJS', 'NgRx'],
-  '8 weeks', '$99',
+  '8 weeks', '{"US": 99, "UAE": 0, "PAK": 0}'::jsonb,
   $svg$<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"/><line x1="12" y1="22" x2="12" y2="15.5"/><polyline points="22 8.5 12 15.5 2 8.5"/></svg>$svg$,
   5),
 ('Full Stack Development', 'Professional', 'professional',
   $txt$Become a complete developer. Master frontend, backend, databases, and deployment to build full applications.$txt$,
   array['Frontend Mastery', 'Node.js/Express', 'MongoDB/SQL', 'Authentication', 'REST APIs', 'Cloud Deployment'],
-  '12 weeks', '$149',
+  '12 weeks', '{"US": 149, "UAE": 0, "PAK": 0}'::jsonb,
   $svg$<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>$svg$,
   6);

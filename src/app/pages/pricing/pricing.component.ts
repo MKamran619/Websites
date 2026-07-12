@@ -5,11 +5,12 @@ import { FormsModule } from "@angular/forms";
 import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
 import emailjs from "@emailjs/browser";
 import { ContentService } from "../../services/content.service";
+import { RegionService, Region } from "../../services/region.service";
 
 interface PricingPlan {
   name: string;
   description: string | null;
-  price: string;
+  prices: Record<Region, number>;
   unit: string | null;
   featured: boolean;
   icon: string | null;
@@ -22,7 +23,7 @@ interface CoursePricingTier {
   level: string | null;
   level_class: string | null;
   duration: string | null;
-  price: string | null;
+  prices: Record<Region, number> | null;
   sort_order: number;
 }
 
@@ -75,7 +76,7 @@ interface FeatureBlock {
               <p class="plan-desc">{{ plan.description }}</p>
               <div class="plan-price">
                 <span class="price-from">Starting from</span>
-                <span class="price-amount">{{ plan.price }}</span>
+                <span class="price-amount">{{ priceFor(plan.prices) }}</span>
                 <span class="price-unit">{{ plan.unit }}</span>
               </div>
             </div>
@@ -90,7 +91,7 @@ interface FeatureBlock {
             <a routerLink="/contact" class="plan-cta" [class.cta-primary]="plan.featured" [class.cta-outline]="!plan.featured">
               Get Free Quote
             </a>
-            <button class="plan-subscribe" (click)="openSubscriptionModal(plan.name, plan.price)">
+            <button class="plan-subscribe" (click)="openSubscriptionModal(plan.name, priceFor(plan.prices))">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
                 <polyline points="22 4 12 14.01 9 11.01"/>
@@ -199,10 +200,10 @@ interface FeatureBlock {
             <h4>{{ course.name }}</h4>
             <div class="course-duration">{{ course.duration }}</div>
             <div class="course-fee">
-              <span class="fee-amount">{{ course.price }}</span>
+              <span class="fee-amount">{{ priceFor(course.prices) }}</span>
               <span class="fee-note">one-time</span>
             </div>
-            <button class="course-cta" (click)="openEnrollmentModal(course.name, course.price)">Enroll Now</button>
+            <button class="course-cta" (click)="openEnrollmentModal(course.name, priceFor(course.prices))">Enroll Now</button>
           </div>
         </div>
       </div>
@@ -348,10 +349,13 @@ export class PricingComponent implements OnInit {
   enrollmentData = { name: "", email: "", phone: "", experience: "", availability: "", message: "" };
   subscriptionData = { name: "", email: "", phone: "", company: "", timeline: "", message: "" };
 
+  currentRegion: Region = "US";
+
   constructor(
     @Inject(PLATFORM_ID) platformId: Object,
     private content: ContentService,
     private sanitizer: DomSanitizer,
+    private regionService: RegionService,
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
   }
@@ -360,8 +364,16 @@ export class PricingComponent implements OnInit {
     return this.sanitizer.bypassSecurityTrustHtml(html || "");
   }
 
+  priceFor(prices: Record<Region, number> | null | undefined): string {
+    return this.regionService.formatPrice(prices?.[this.currentRegion]);
+  }
+
   ngOnInit() {
     if (this.isBrowser) emailjs.init("FiOYICOvKQmtB0P1N");
+
+    this.regionService.currentRegion$.subscribe((region) => {
+      this.currentRegion = region.id;
+    });
 
     this.content.getAll<PricingPlan>("pricing_plans").subscribe((plans) => {
       this.plans = plans;
@@ -382,7 +394,7 @@ export class PricingComponent implements OnInit {
       });
   }
 
-  openEnrollmentModal(courseName: string, price: string | null) {
+  openEnrollmentModal(courseName: string, price: string) {
     this.selectedCourse = courseName;
     this.selectedPrice = price || "";
     this.showEnrollmentModal = true;
@@ -417,6 +429,7 @@ export class PricingComponent implements OnInit {
       timeline: this.enrollmentData.phone || "Not provided",
       message: this.enrollmentData.message,
       to_email: "contact@nexawebservice.com",
+      region: this.currentRegion,
     };
     emailjs.send("service_websites", "template_yh2wuhe", templateParams).then(
       () => {
@@ -482,6 +495,7 @@ export class PricingComponent implements OnInit {
       timeline: this.subscriptionData.timeline,
       message: this.subscriptionData.message,
       to_email: "contact@nexawebservice.com",
+      region: this.currentRegion,
     };
     emailjs.send("service_websites", "template_yh2wuhe", templateParams).then(
       () => {

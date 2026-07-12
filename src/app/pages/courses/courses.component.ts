@@ -5,6 +5,7 @@ import { FormsModule } from "@angular/forms";
 import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
 import emailjs from "@emailjs/browser";
 import { ContentService } from "../../services/content.service";
+import { RegionService, Region } from "../../services/region.service";
 
 interface PageHero {
   page: string;
@@ -46,7 +47,7 @@ interface Course {
   description: string | null;
   topics: string[];
   duration: string | null;
-  price: string | null;
+  prices: Record<Region, number> | null;
   icon_svg: string | null;
   sort_order: number;
 }
@@ -181,7 +182,7 @@ interface Course {
 
             <button
               class="btn-enroll"
-              (click)="openEnrollmentModal(course.title, course.price)"
+              (click)="openEnrollmentModal(course.title, priceFor(course.prices))"
             >
               Enroll Now
               <svg
@@ -564,16 +565,23 @@ export class CoursesComponent implements OnInit {
   valueProps: FeatureBlock[] = [];
   courses: Course[] = [];
 
+  currentRegion: Region = "US";
+
   constructor(
     private sanitizer: DomSanitizer,
     @Inject(PLATFORM_ID) platformId: Object,
     private content: ContentService,
+    private regionService: RegionService,
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
   }
 
   getSafeHtml(html: string | null): SafeHtml {
     return this.sanitizer.bypassSecurityTrustHtml(html || "");
+  }
+
+  priceFor(prices: Record<Region, number> | null | undefined): string {
+    return this.regionService.formatPrice(prices?.[this.currentRegion]);
   }
 
   enrollmentData = {
@@ -657,6 +665,10 @@ export class CoursesComponent implements OnInit {
   ];
 
   ngOnInit() {
+    this.regionService.currentRegion$.subscribe((region) => {
+      this.currentRegion = region.id;
+    });
+
     this.content
       .getRow<PageHero>("page_heroes", { page: "courses" })
       .subscribe((hero) => {
@@ -688,7 +700,7 @@ export class CoursesComponent implements OnInit {
     }
   }
 
-  openEnrollmentModal(courseName: string, price: string | null = "") {
+  openEnrollmentModal(courseName: string, price: string = "") {
     this.selectedCourse = courseName;
     this.selectedPrice = price || "";
     this.showEnrollmentModal = true;
@@ -751,6 +763,7 @@ export class CoursesComponent implements OnInit {
       timeline: this.enrollmentData.phone || "Not provided",
       message: this.enrollmentData.message,
       to_email: "contact@nexawebservice.com",
+      region: this.currentRegion,
     };
 
     emailjs.send("service_websites", "template_yh2wuhe", templateParams).then(

@@ -186,13 +186,17 @@ create table if not exists pricing_plans (
   id serial primary key,
   name text not null,
   description text,
-  price text not null,
+  prices jsonb not null default '{}'::jsonb,
   unit text,
   featured boolean not null default false,
   icon text,
   features text[],
   sort_order int not null default 0
 );
+comment on column pricing_plans.prices is
+  'Per-region numeric amounts, e.g. {"US": 500, "UAE": 1835, "PAK": 65000}. Raw numbers (major currency units), NOT formatted strings — formatting is applied client-side per region via RegionService.';
+alter table pricing_plans add constraint pricing_plans_prices_keys_chk
+  check (prices ?& array['US', 'UAE', 'PAK']);
 
 create table if not exists course_pricing_tiers (
   id serial primary key,
@@ -200,9 +204,13 @@ create table if not exists course_pricing_tiers (
   level text,
   level_class text,
   duration text,
-  price text,
+  prices jsonb not null default '{}'::jsonb,
   sort_order int not null default 0
 );
+comment on column course_pricing_tiers.prices is
+  'Per-region numeric amounts. See pricing_plans.prices for format.';
+alter table course_pricing_tiers add constraint course_pricing_tiers_prices_keys_chk
+  check (prices ?& array['US', 'UAE', 'PAK']);
 
 create table if not exists courses (
   id serial primary key,
@@ -212,10 +220,12 @@ create table if not exists courses (
   description text,
   topics text[],
   duration text,
-  price text,
+  prices jsonb,
   icon_svg text,
   sort_order int not null default 0
 );
+comment on column courses.prices is
+  'Per-region numeric amounts, nullable. See pricing_plans.prices for format.';
 
 -- ============================================================================
 -- FAQ
