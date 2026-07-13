@@ -193,10 +193,18 @@ create table if not exists pricing_plans (
   features text[],
   sort_order int not null default 0
 );
+-- Migrate an already-existing table (create table if not exists is a no-op
+-- once the table exists, so the column must be added explicitly here).
+alter table pricing_plans add column if not exists prices jsonb not null default '{}'::jsonb;
+alter table pricing_plans drop column if exists price;
 comment on column pricing_plans.prices is
   'Per-region numeric amounts, e.g. {"US": 500, "UAE": 1835, "PAK": 65000}. Raw numbers (major currency units), NOT formatted strings — formatting is applied client-side per region via RegionService.';
+-- "not valid" skips checking pre-existing rows (which still have the old
+-- data at this point in the migration, before the seed re-truncates and
+-- re-inserts them) while still enforcing the check on all new writes.
+alter table pricing_plans drop constraint if exists pricing_plans_prices_keys_chk;
 alter table pricing_plans add constraint pricing_plans_prices_keys_chk
-  check (prices ?& array['US', 'UAE', 'PAK']);
+  check (prices ?& array['US', 'UAE', 'PAK']) not valid;
 
 create table if not exists course_pricing_tiers (
   id serial primary key,
@@ -207,10 +215,13 @@ create table if not exists course_pricing_tiers (
   prices jsonb not null default '{}'::jsonb,
   sort_order int not null default 0
 );
+alter table course_pricing_tiers add column if not exists prices jsonb not null default '{}'::jsonb;
+alter table course_pricing_tiers drop column if exists price;
 comment on column course_pricing_tiers.prices is
   'Per-region numeric amounts. See pricing_plans.prices for format.';
+alter table course_pricing_tiers drop constraint if exists course_pricing_tiers_prices_keys_chk;
 alter table course_pricing_tiers add constraint course_pricing_tiers_prices_keys_chk
-  check (prices ?& array['US', 'UAE', 'PAK']);
+  check (prices ?& array['US', 'UAE', 'PAK']) not valid;
 
 create table if not exists courses (
   id serial primary key,
@@ -224,6 +235,8 @@ create table if not exists courses (
   icon_svg text,
   sort_order int not null default 0
 );
+alter table courses add column if not exists prices jsonb;
+alter table courses drop column if exists price;
 comment on column courses.prices is
   'Per-region numeric amounts, nullable. See pricing_plans.prices for format.';
 
