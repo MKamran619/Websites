@@ -24,6 +24,7 @@ export interface NavItem {
   label: string;
   icon_svg: string;
   exact_match: boolean;
+  visible: boolean;
   sort_order: number;
 }
 
@@ -135,9 +136,11 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.content.getAll<NavItem>("nav_items").subscribe((items) => {
-      this.navItems = items;
-    });
+    this.content
+      .getAll<NavItem>("nav_items", { match: { visible: true } })
+      .subscribe((items) => {
+        this.navItems = items;
+      });
     this.content
       .getRow<HeaderSiteInfo>("site_info", { id: 1 })
       .subscribe((info) => {

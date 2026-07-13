@@ -14,8 +14,12 @@ create table if not exists nav_items (
   path text not null,
   icon_svg text,
   exact_match boolean not null default false,
+  visible boolean not null default true,
   sort_order int not null default 0
 );
+-- Migrate an already-existing table (create table if not exists is a no-op
+-- once the table exists, so the column must be added explicitly here).
+alter table nav_items add column if not exists visible boolean not null default true;
 
 create table if not exists footer_links (
   id serial primary key,
