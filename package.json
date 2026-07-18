@@ -5,12 +5,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "prebuild": "node scripts/generate-og-images.js && node scripts/generate-prerender-routes.js && node scripts/generate-sitemaps.js",
     "build": "ng build",
-    "build:ssr": "ng build --configuration production && npm run build:ssr:compile",
-    "build:ssr:compile": "npm run build:ssr:server && npm run build:ssr:prerender",
-    "build:ssr:server": "ng run portfolio-ssr:server:production",
-    "build:ssr:prerender": "node dist/portfolio-ssr/server/prerender.js",
-    "serve:ssr": "node dist/portfolio-ssr/server/main.js",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "ng lint",

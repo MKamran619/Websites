@@ -49,6 +49,20 @@
       href="assets/Nexa Web Service.png"
     />
     <link rel="manifest" href="manifest.json" />
+    <!--
+      NOTE: the legacy `favicon.ico` <link> and its matching Angular asset
+      entry were removed - that file never existed in the repo (src/favicon.ico
+      was 404ing in production). The SVG + PNG icons above give full modern
+      browser coverage; see TECHNICAL_SEO_IMPLEMENTATION_REPORT.md.
+    -->
+    <!--
+      NOTE: the Google-verification / Bing-verification / Yandex-verification
+      meta tags a few lines below are still unfilled placeholders. They are
+      left in place intentionally (see TECHNICAL_SEO_IMPLEMENTATION_REPORT.md,
+      "Remaining Issues") - filling them in requires the site owner's own
+      Search Console / Bing Webmaster / Yandex Webmaster account, which
+      cannot be done from source code.
+    -->
     <meta
       name="robots"
       content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
@@ -346,15 +360,19 @@
           /* noop */
         }
       })();
-
-    <script>
-      if (!window.simulateLeadEvent) {
-        window.simulateLeadEvent = function () {
-          console.warn('simulateLeadEvent helper not available or analytics not initialized.');
-        };
-      }
     </script>
-    </script>
+    <!--
+      FIX: this block used to contain a second, nested <script> tag opened
+      without closing the first one. HTML's tokenizer does not support nested
+      <script> elements - it scans forward for the *first* literal
+      `</script>` regardless of any `<script>`-looking text in between, so
+      everything through that first `</script>` (including the literal text
+      "<script>") was parsed as ONE script body. The stray `<script>` text
+      sitting inside that body was invalid JavaScript syntax, which threw a
+      SyntaxError and silently prevented this entire block - the cookie
+      consent banner, GA4, and Meta Pixel loaders - from ever running. It is
+      now a single, well-formed <script> element.
+    -->
 
     <!-- Preconnect for performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -421,13 +439,51 @@
         "aggregateRating": {
           "@type": "AggregateRating",
           "ratingValue": "4.9",
-          "reviewCount": "47",
+          "reviewCount": "6",
           "bestRating": "5",
           "worstRating": "1"
         }
       }
     </script>
-    <!-- Structured Data - Person -->
+    <!--
+      Structured Data - LocalBusiness
+      Deliberately omits `telephone` and a street `address`: this is a fully
+      remote/service-area business with no public office, and fabricating
+      either would be worse than omitting them (Google's guidance is to omit
+      unknown LocalBusiness properties rather than invent them). `areaServed`
+      plus `@type: ["LocalBusiness", "ProfessionalService"]` is the correct,
+      defensible shape for a remote consultancy. See
+      TECHNICAL_SEO_IMPLEMENTATION_REPORT.md for the reasoning and how to
+      add a real address later if the business registers one.
+    -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": ["LocalBusiness", "ProfessionalService"],
+        "name": "Nexa Web Service - Software Solutions",
+        "image": "https://nexawebservice.com/assets/og-image.jpg",
+        "url": "https://nexawebservice.com",
+        "email": "contact@nexawebservice.com",
+        "priceRange": "$$$$",
+        "areaServed": [
+          { "@type": "Country", "name": "United States" },
+          { "@type": "Country", "name": "United Arab Emirates" },
+          { "@type": "Country", "name": "United Kingdom" }
+        ],
+        "sameAs": [
+          "https://www.linkedin.com/in/kamran619/",
+          "https://github.com/MKamran619",
+          "https://twitter.com/kamransawan"
+        ]
+      }
+    </script>
+    <!--
+      Structured Data - Person
+      `image` intentionally omitted: assets/profile-image.jpg does not exist
+      in this repo, and a synthetic photo of a real named person should never
+      be fabricated. Add a real headshot at that path and this field back in
+      when one is available - see TECHNICAL_SEO_IMPLEMENTATION_REPORT.md.
+    -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -443,7 +499,6 @@
           "https://github.com/MKamran619",
           "https://twitter.com/kamransawan"
         ],
-        "image": "https://nexawebservice.com/assets/profile-image.jpg",
         "worksFor": {
           "@type": "Organization",
           "name": "Nexa Web Service - Software Solutions",
@@ -536,89 +591,18 @@
       }
     </script>
 
-    <!-- Structured Data - BreadcrumbList -->
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-          {
-            "@type": "ListItem",
-            "position": 1,
-            "name": "Home",
-            "item": "https://nexawebservice.com/"
-          },
-          {
-            "@type": "ListItem",
-            "position": 2,
-            "name": "Services",
-            "item": "https://nexawebservice.com/services"
-          },
-          {
-            "@type": "ListItem",
-            "position": 3,
-            "name": "Portfolio",
-            "item": "https://nexawebservice.com/portfolio"
-          },
-          {
-            "@type": "ListItem",
-            "position": 4,
-            "name": "Contact",
-            "item": "https://nexawebservice.com/contact"
-          }
-        ]
-      }
-    </script>
-
-    <!-- Structured Data - FAQPage -->
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "FAQPage",
-        "mainEntity": [
-          {
-            "@type": "Question",
-            "name": "How long does a typical digital transformation project take?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Project timelines vary based on scope and complexity, typically ranging from 3-12 months. During our free consultation, we'll provide a detailed assessment and timeline for your specific needs."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "What industries do you specialize in?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "We serve diverse industries including finance, healthcare, e-commerce, manufacturing, insurance, and SaaS. Our 50+ completed projects demonstrate expertise across multiple sectors with consistent 98% client satisfaction."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Do you work with startups or only enterprise clients?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "We work with organizations of all sizes, from ambitious startups to established Fortune 500 enterprises. Our solutions are designed to scale with your business needs and budget."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "What technologies do you specialize in?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "We specialize in modern tech stacks including Angular, React, .NET Core, Node.js, Azure, AWS, Docker, Kubernetes, and more. We choose the best technology for each project's specific requirements."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "How much does a custom software project cost?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Project costs depend on scope, complexity, and timeline. We offer transparent pricing starting from $500 for smaller projects to $250K+ for enterprise solutions. Schedule a free consultation for a detailed quote."
-            }
-          }
-        ]
-      }
-    </script>
+    <!--
+      BreadcrumbList and FAQPage schema used to be hardcoded here, identical
+      on every single route (a generic Home>Services>Portfolio>Contact trail
+      on pages that aren't Services/Portfolio/Contact at all, and 5 canned
+      Q&As that don't match the real 23-question /faq page). Both are now
+      generated dynamically, per-route, with real data:
+        - Breadcrumb: SeoService.updateDefaultBreadcrumb() / setBreadcrumbSchema()
+          (src/app/services/seo.service.ts), driven off the actual route.
+        - FAQPage: FaqComponent (src/app/pages/faq/faq.component.ts), built
+          from the real faq_categories/faq_items content, only on /faq.
+      See TECHNICAL_SEO_IMPLEMENTATION_REPORT.md.
+    -->
 
     <!-- Critical CSS for above-the-fold content -->
     <style>

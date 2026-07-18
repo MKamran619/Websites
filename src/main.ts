@@ -1,10 +1,9 @@
 import { bootstrapApplication } from "@angular/platform-browser";
-import { provideAnimations } from "@angular/platform-browser/animations";
-import { provideRouter } from "@angular/router";
-import { provideHttpClient, withInterceptors } from "@angular/common/http";
 import { AppComponent } from "./app/app.component";
-import { routes } from "./app/app.routes";
+import { appConfig } from "./app/app.config";
 
-bootstrapApplication(AppComponent, {
-  providers: [provideAnimations(), provideRouter(routes), provideHttpClient()],
-}).catch((err) => console.error(err));
+// Previously this duplicated its own inline provider list instead of using
+// appConfig, which meant `loadingInterceptor` (registered in app.config.ts)
+// was never actually wired up client-side. Bootstrapping from the single
+// shared appConfig keeps client and server (main.server.ts) in sync.
+bootstrapApplication(AppComponent, appConfig).catch((err) => console.error(err));

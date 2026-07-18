@@ -3,6 +3,7 @@ import { CommonModule } from "@angular/common";
 import { RouterLink } from "@angular/router";
 import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
 import { ContentService } from "../../services/content.service";
+import { SeoService } from "../../services/seo.service";
 
 interface FaqCategory {
   id: number;
@@ -119,6 +120,7 @@ export class FaqComponent implements OnInit {
   constructor(
     private content: ContentService,
     private sanitizer: DomSanitizer,
+    private seoService: SeoService,
   ) {}
 
   getSafeHtml(html: string | null | undefined): SafeHtml {
@@ -134,6 +136,13 @@ export class FaqComponent implements OnInit {
             .filter((item) => item.category_id === cat.id)
             .map((item) => ({ q: item.question, a: item.answer })),
         }));
+
+        // Real FAQPage schema built from this page's actual ~23 Q&As,
+        // replacing the generic 5-question block that used to be hardcoded
+        // sitewide in index.html and never matched this page's real content.
+        this.seoService.setFaqPageSchema(
+          items.map((item) => ({ question: item.question, answer: item.answer })),
+        );
       });
     });
   }

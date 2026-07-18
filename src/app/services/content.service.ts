@@ -1,7 +1,8 @@
-import { Injectable, TransferState, makeStateKey } from "@angular/core";
+import { ExperimentalPendingTasks, Injectable, TransferState, makeStateKey } from "@angular/core";
 import { Observable, from, of, shareReplay } from "rxjs";
 import { catchError, map } from "rxjs/operators";
 import { SupabaseClientService } from "./supabase-client.service";
+import { withPendingTask } from "../utils/with-pending-task";
 
 export interface QueryOptions {
   /** Equality filters, e.g. { context: 'home' } or { page: 'services' } */
@@ -24,6 +25,7 @@ export class ContentService {
   constructor(
     private supabase: SupabaseClientService,
     private transferState: TransferState,
+    private pendingTasks: ExperimentalPendingTasks,
   ) {}
 
   /** Ordered list query, optionally filtered, e.g. all nav items, testimonials for one context. */
@@ -85,6 +87,7 @@ export class ContentService {
       source = of(transferred);
     } else {
       source = factory().pipe(
+        withPendingTask(this.pendingTasks),
         map((result) => {
           this.transferState.set(stateKey, result);
           return result;

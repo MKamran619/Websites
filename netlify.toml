@@ -7,10 +7,19 @@
     NPM_CONFIG_PRODUCTION = "false"
 
 # Redirects for SEO and UX
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
+#
+# The blanket `/* -> /index.html status=200` SPA-fallback rewrite that used
+# to live here has been removed. It made every URL on the domain - typos,
+# old links, bots probing for /wp-admin, literally anything - return HTTP
+# 200 with the homepage's content (a "soft 404" that actively hurts SEO and
+# that Search Console flags). It's no longer needed: every real route
+# (including every individual /blog/:slug article) is now its own
+# prerendered index.html file at build time (see angular.json's
+# build.options.prerender + prerender-routes.txt), and Netlify serves those
+# "pretty URL" style automatically. Any path that matches neither a redirect
+# below nor an actual prerendered file now correctly falls through to
+# public/404.html with a real HTTP 404 status - Netlify's standard
+# static-site 404 convention, no custom rewrite required.
 
 # HTTP to HTTPS redirect
 [[redirects]]
