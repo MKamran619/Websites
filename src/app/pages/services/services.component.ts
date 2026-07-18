@@ -9,6 +9,7 @@ import { CommonModule, isPlatformBrowser } from "@angular/common";
 import { RouterLink } from "@angular/router";
 import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
 import { ContentService } from "../../services/content.service";
+import { SeoService } from "../../services/seo.service";
 
 interface PageHero {
   page: string;
@@ -508,6 +509,7 @@ export class ServicesComponent implements OnInit, AfterViewInit {
     @Inject(PLATFORM_ID) platformId: Object,
     private sanitizer: DomSanitizer,
     private content: ContentService,
+    private seoService: SeoService,
   ) {
     this.isBrowser = isPlatformBrowser(platformId);
   }
@@ -535,6 +537,11 @@ export class ServicesComponent implements OnInit, AfterViewInit {
       .getAll<Service>("services", { match: { page: "services" } })
       .subscribe((services) => {
         this.services = services;
+        this.seoService.setServiceCatalogSchema(
+          services
+            .filter((s) => !!s.short_description)
+            .map((s) => ({ name: s.title, description: s.short_description! })),
+        );
       });
   }
 

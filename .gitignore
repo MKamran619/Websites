@@ -2,6 +2,10 @@
 node_modules/
 dist/
 out-tsc/
+
+# Regenerated on every build by scripts/generate-prerender-routes.js from
+# live Supabase data - see angular.json's build.options.prerender.routesFile.
+prerender-routes.txt
 .DS_Store
 Thumbs.db
 *.log

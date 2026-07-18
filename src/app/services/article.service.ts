@@ -1,7 +1,8 @@
-import { Injectable } from "@angular/core";
+import { ExperimentalPendingTasks, Injectable } from "@angular/core";
 import { BehaviorSubject, Observable, of, from, forkJoin } from "rxjs";
 import { map, catchError, tap } from "rxjs/operators";
 import { SupabaseClientService } from "./supabase-client.service";
+import { withPendingTask } from "../utils/with-pending-task";
 
 export interface Author {
   name: string;
@@ -15,6 +16,8 @@ export interface BlogArticle {
   excerpt: string;
   content?: string;
   date: string;
+  /** Raw ISO date (e.g. "2024-01-01") for schema.org datePublished - `date` above is display-formatted ("Jan 2024"). */
+  dateISO?: string;
   category: string;
   readTime: number;
   icon: string;
@@ -77,7 +80,10 @@ export class ArticleService {
 
   articlesIndex$ = this.articlesIndexSubject.asObservable();
 
-  constructor(private supabase: SupabaseClientService) {}
+  constructor(
+    private supabase: SupabaseClientService,
+    private pendingTasks: ExperimentalPendingTasks,
+  ) {}
 
   /**
    * Map a raw `blog_articles` row (snake_case) into the BlogArticle shape
@@ -90,6 +96,7 @@ export class ArticleService {
       excerpt: row.excerpt,
       content: row.content,
       date: formatDbDate(row.date),
+      dateISO: row.date,
       category: row.category,
       readTime: row.read_time,
       icon: row.icon,
@@ -134,6 +141,7 @@ export class ArticleService {
     );
 
     return forkJoin([articles$, categories$, topics$]).pipe(
+      withPendingTask(this.pendingTasks),
       map(([articlesRes, categoriesRes, topicsRes]) => {
         if (articlesRes.error) throw articlesRes.error;
         if (categoriesRes.error) throw categoriesRes.error;
@@ -201,6 +209,7 @@ export class ArticleService {
         .eq("id", id)
         .maybeSingle(),
     ).pipe(
+      withPendingTask(this.pendingTasks),
       map(({ data, error }) => {
         if (error) throw error;
         return data ? this.mapArticleRow(data) : null;

@@ -8,7 +8,7 @@ import {
 } from "@angular/core";
 import { CommonModule, isPlatformBrowser } from "@angular/common";
 import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
-import { RouterLink } from "@angular/router";
+import { ActivatedRoute, Router, RouterLink } from "@angular/router";
 import { FormsModule } from "@angular/forms";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -20,6 +20,9 @@ import {
   Category,
   Topic,
 } from "../../services/article.service";
+import { SeoService } from "../../services/seo.service";
+
+const BLOG_OG_IMAGE = "https://nexawebservice.com/assets/blog-og-image.jpg";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -626,6 +629,9 @@ export class BlogComponent implements OnInit, AfterViewInit, OnDestroy {
     @Inject(PLATFORM_ID) platformId: Object,
     private articleService: ArticleService,
     private sanitizer: DomSanitizer,
+    private route: ActivatedRoute,
+    private router: Router,
+    private seoService: SeoService,
   ) {
     this.platformId = platformId;
     this.isBrowser = isPlatformBrowser(platformId);
@@ -636,6 +642,26 @@ export class BlogComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.isBrowser) {
       this.animateOnScroll();
     }
+
+    // Drives the article-detail overlay from the URL (/blog/:slug) rather
+    // than only from in-page click state, so every article has a real,
+    // shareable, individually-crawlable URL. Subscribing to paramMap
+    // (not just reading route.snapshot once) matters because Angular reuses
+    // this same component instance when navigating between two /blog/:slug
+    // URLs, or between /blog and /blog/:slug - ngOnInit does not re-run.
+    this.route.paramMap.pipe(takeUntil(this.destroy$)).subscribe((params) => {
+      const slug = params.get("slug");
+      if (slug) {
+        this.loadArticleDetail(slug);
+      } else {
+        this.selectedArticle = null;
+        this.sanitizedContent = null;
+        this.seoService.clearBlogPostingSchema();
+        if (this.isBrowser) {
+          document.body.style.overflow = "";
+        }
+      }
+    });
   }
 
   ngAfterViewInit() {
@@ -705,8 +731,18 @@ export class BlogComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
+  /** Click handler from list/featured cards - navigates to the article's real URL; the paramMap subscription does the actual loading. */
   openArticle(post: BlogArticle) {
-    this.selectedArticle = { ...post };
+    this.router.navigate(["/blog", post.id]);
+  }
+
+  private loadArticleDetail(slug: string) {
+    // Fast path: show title/excerpt immediately from the already-loaded
+    // list/featured data while the full-content fetch below resolves.
+    const preview =
+      this.blogPosts.find((p) => p.id === slug) ??
+      (this.featuredPost?.id === slug ? this.featuredPost : null);
+    this.selectedArticle = preview;
     this.sanitizedContent = null;
     this.isLoadingContent = true;
 
@@ -714,36 +750,59 @@ export class BlogComponent implements OnInit, AfterViewInit, OnDestroy {
       document.body.style.overflow = "hidden";
     }
 
-    // Load full article content from JSON
     this.articleService
-      .getArticleById(post.id)
+      .getArticleById(slug)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (fullArticle) => {
-          if (fullArticle && this.selectedArticle) {
-            this.selectedArticle = fullArticle;
-            // Sanitize the HTML content to bypass Angular security
-            if (fullArticle.content) {
-              this.sanitizedContent = this.sanitizer.bypassSecurityTrustHtml(
-                fullArticle.content,
-              );
-            }
-          }
+          this.selectedArticle = fullArticle;
           this.isLoadingContent = false;
+
+          if (!fullArticle) {
+            // Unknown slug - don't leave a broken empty overlay up.
+            this.router.navigate(["/blog"]);
+            return;
+          }
+
+          if (fullArticle.content) {
+            this.sanitizedContent = this.sanitizer.bypassSecurityTrustHtml(
+              fullArticle.content,
+            );
+          }
+
+          const url = `https://nexawebservice.com/blog/${fullArticle.id}`;
+          this.seoService.setBlogPostMetaTags(
+            fullArticle.title,
+            fullArticle.excerpt,
+            BLOG_OG_IMAGE,
+            url,
+            fullArticle.author?.name || "Kamran Sohail",
+            fullArticle.dateISO || fullArticle.date,
+          );
+          this.seoService.setBlogPostingSchema({
+            title: fullArticle.title,
+            description: fullArticle.excerpt,
+            image: BLOG_OG_IMAGE,
+            url,
+            authorName: fullArticle.author?.name || "Kamran Sohail",
+            datePublished: fullArticle.dateISO || fullArticle.date,
+          });
+          this.seoService.setBreadcrumbSchema([
+            { name: "Home", url: "https://nexawebservice.com/" },
+            { name: "Insights", url: "https://nexawebservice.com/blog" },
+            { name: fullArticle.title, url },
+          ]);
         },
         error: (error) => {
           console.error("Error loading article content:", error);
           this.isLoadingContent = false;
+          this.router.navigate(["/blog"]);
         },
       });
   }
 
   closeArticle() {
-    this.selectedArticle = null;
-    this.sanitizedContent = null;
-    if (this.isBrowser) {
-      document.body.style.overflow = "";
-    }
+    this.router.navigate(["/blog"]);
   }
 
   loadMoreTopics() {
@@ -781,14 +840,12 @@ export class BlogComponent implements OnInit, AfterViewInit, OnDestroy {
 
   openArticleFromTopic(article: BlogArticle) {
     this.closeTopic();
-    setTimeout(() => {
-      this.openArticle(article);
-    }, 100);
+    this.router.navigate(["/blog", article.id]);
   }
 
   copyLink() {
     if (this.isBrowser && this.selectedArticle) {
-      const url = `${window.location.origin}/blog#${this.selectedArticle.id}`;
+      const url = `${window.location.origin}/blog/${this.selectedArticle.id}`;
       navigator.clipboard.writeText(url);
       alert("Link copied to clipboard!");
     }
@@ -797,7 +854,7 @@ export class BlogComponent implements OnInit, AfterViewInit, OnDestroy {
   shareOnLinkedIn() {
     if (this.isBrowser && this.selectedArticle) {
       const url = encodeURIComponent(
-        `${window.location.origin}/blog#${this.selectedArticle.id}`,
+        `${window.location.origin}/blog/${this.selectedArticle.id}`,
       );
       const title = encodeURIComponent(this.selectedArticle.title);
       window.open(
@@ -810,7 +867,7 @@ export class BlogComponent implements OnInit, AfterViewInit, OnDestroy {
   shareOnTwitter() {
     if (this.isBrowser && this.selectedArticle) {
       const url = encodeURIComponent(
-        `${window.location.origin}/blog#${this.selectedArticle.id}`,
+        `${window.location.origin}/blog/${this.selectedArticle.id}`,
       );
       const text = encodeURIComponent(this.selectedArticle.title);
       window.open(
