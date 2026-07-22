@@ -1,9 +1,24 @@
 # Live Post-Deployment SEO Validation — nexawebservice.com
 
-**Date:** 2026-07-18 (original validation); **updated 2026-07-22** after applying and re-verifying fixes.
+**Date:** 2026-07-18 (original validation); updated 2026-07-22 after applying and re-verifying fixes; **updated again 2026-07-22/23** after a Netlify build-log excerpt the site owner shared confirmed the exact root cause of the remaining issue and revealed a self-inflicted deploy-breaking bug that has since been fixed.
 **Method:** Every result below was obtained with direct HTTP requests (`curl` / raw Node `https` requests) against the **live production domain**, with no JavaScript execution — the same lens a non-rendering crawler uses. Nothing here was inferred from the local build or from source code. Where a check requires a tool this environment couldn't complete (rate-limited API, login-gated validator), that is stated explicitly rather than assumed to pass.
 
-## Update (2026-07-22): fix outcomes
+## Update (2026-07-22/23): root cause confirmed, and a deploy pipeline break fixed
+
+The site owner shared a Netlify build log that resolved the open question at the bottom of §2.2. Two things came out of it:
+
+1. **The 404-returns-200 root cause is now a confirmed fact, not a hypothesis.** The build log's plugin list shows:
+   ```
+   Loading plugins
+    - @netlify/angular-runtime@3.0.1 from Netlify app
+   ```
+   This is an account-level Netlify build plugin (installed via the Netlify UI/marketplace, not by anything in this repo) that automatically wires up an **Angular SSR Edge Function**. It's exactly the mechanism the earlier header-comparison evidence pointed to: any request that isn't a prerendered static file gets live-rendered by this Edge Function instead of falling through to `404.html`, and it returns 200 with no logic to detect "this resolved to the not-found route, respond 404."
+
+2. **A change made while testing this (`ssr: false` in `angular.json`) broke the deploy pipeline entirely.** That plugin's `onBuild` step requires `dist/websites/server/index.server.html` to exist to set up its Edge Function; with `ssr: false`, Angular stops generating that file, and the plugin threw `ENOENT` and failed the build with exit code 4 - **every deploy from that commit onward failed**, silently leaving the site stuck serving a stale build. This is also why the Google Search Console verification code appeared not to be taking effect: it genuinely wasn't deployed yet. Reverted `ssr` back to `true`; confirmed locally that `index.server.html` is generated again and all 58 routes still prerender correctly; deployed, and confirmed live that the verification code (and everything else) is now serving correctly.
+
+**Given this plugin is account-level (installed "from Netlify app"), fixing the 404 status now has to happen in the Netlify dashboard** - see the updated §3 (Needs Manual Action) below for exact steps.
+
+## Update (2026-07-22): earlier fix outcomes
 
 Three fixes were deployed after the original validation below. Re-tested live, with real `curl` results:
 
@@ -11,7 +26,7 @@ Three fixes were deployed after the original validation below. Re-tested live, w
 |---|---|
 | Removed the stale `_redirects` catch-all (`src/_redirects` + duplicate root file) | Fixed the broken logo asset (§2.3) - `/assets/nexa-web-service-logo.png` now returns real `image/png`. Did **not** fix §2.1/§2.2 on its own. |
 | Disabled Netlify's "Pretty URLs" post-processing (`build.processing.html.pretty_urls = false` in `netlify.toml`) | **Fixed §2.1 completely.** `curl -I https://nexawebservice.com/about` now returns `200` directly (no 301), and its canonical (`/about`) now matches the URL that actually served it. Verified across `/about` and a blog article; the same mechanism applies to all 58 routes. |
-| Disabled Angular's runtime SSR bundle (`ssr: false` in `angular.json`, build-time prerendering only) | Confirmed harmless (all 58 routes still prerender correctly) but **did not fix §2.2.** |
+| Disabled Angular's runtime SSR bundle (`ssr: false` in `angular.json`, build-time prerendering only) | **Reverted** - this broke the Netlify build pipeline entirely (see above). Not a viable fix; `ssr: true` is back. |
 
 **§2.2 (404 test) is still unresolved and now has a much more specific diagnosis** (see the added note at the end of §2.2 below) — it requires Netlify dashboard access to resolve further, which this session doesn't have. Sections 2.1 and 2.3 below are now historical (the bugs they describe are fixed); left in place for the record.
 
@@ -131,6 +146,20 @@ Referenced in every page's `<head>` (favicon links) and in the `Organization`/`L
 ---
 
 ## 3. NEEDS MANUAL ACTION
+
+### 3.0 Fix the 404-returns-200 issue via the Netlify dashboard (confirmed root cause)
+
+The `@netlify/angular-runtime@3.0.1` build plugin, installed at the account level ("from Netlify app" per the build log — not something in this repo's `netlify.toml` or `package.json`), automatically provisions an Angular SSR Edge Function that live-renders the app for any request that doesn't match a prerendered static file. It has no logic to return HTTP 404 when that render resolves to the app's not-found route, so it always responds 200.
+
+**Steps to check/fix:**
+1. Log into the Netlify dashboard for this site.
+2. Go to **Site settings → Build & deploy → Build plugins** (or **Integrations**, depending on the current dashboard layout).
+3. Find **Angular Runtime** (`@netlify/angular-runtime`) in the installed plugins list.
+4. Since every real route on this site is already a prerendered static file — the plugin's live-rendering fallback is providing no benefit, only this bug — the simplest fix is to **uninstall/remove it**. After removing it, unmatched paths should fall through correctly to `public/404.html` with a genuine 404 status.
+5. If removing it isn't desired for some other reason, check whether the plugin exposes a configuration option (inputs) for its fallback/not-found behavior instead — the plugin's page in the Netlify marketplace or its GitHub repo (https://github.com/netlify/angular-runtime) would document this if it exists.
+6. After making a change, redeploy and re-run: `curl -I https://nexawebservice.com/this-page-does-not-exist` — should return `404`.
+
+Also worth noting: the build log mentioned the plugin has a newer version available (4.0.0 vs. the installed 3.0.1) — upgrading it (via the Netlify plugins directory, uninstall + reinstall) is worth trying before removing it outright, in case the newer version handles this correctly out of the box.
 
 ### 3.1 Facebook Sharing Debugger / LinkedIn Post Inspector
 Both tools require being logged into the respective platform to run a live check (LinkedIn's Post Inspector loaded a blank/auth-gated page when accessed without a session; Facebook's Sharing Debugger is the same). I did not attempt to log in with any credentials, per policy. **What I can confirm instead:** the underlying data these tools read — `og:title`, `og:description`, `og:image`, `og:type` — is present, correct, and unique per page (verified directly in raw HTML in §1). That's the actual determinant of what these tools will show; a manual click-through by the site owner is the remaining step to see the rendered preview card itself.
