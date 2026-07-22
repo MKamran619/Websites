@@ -5,6 +5,19 @@
   publish = "dist/websites/browser"
   [build.environment]
     NPM_CONFIG_PRODUCTION = "false"
+  # Netlify's "Pretty URLs" post-processing was 301-redirecting every
+  # non-homepage route (e.g. /about -> /about/) before serving it, and
+  # appears to also be what was intercepting unknown paths ahead of the
+  # site's own 404.html (see LIVE_POST_DEPLOYMENT_SEO_VALIDATION.md).
+  # Every real route is already its own prerendered index.html at its exact
+  # sitemap/canonical URL, so no post-processing rewrite is needed here -
+  # disabling it should make /about (no trailing slash) serve 200 directly
+  # and let unmatched paths fall through to a real 404 correctly. If this
+  # setting is also toggled on in the Netlify dashboard (Site settings ->
+  # Build & deploy -> Post processing -> Pretty URLs), that takes precedence
+  # over this file and needs to be turned off there too.
+  [build.processing.html]
+    pretty_urls = false
 
 # Redirects for SEO and UX
 #
