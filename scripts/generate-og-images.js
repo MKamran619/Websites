@@ -172,6 +172,9 @@ for (const card of CARDS) {
   svgToJpeg(buildOgCardSvg(card), path.join(ASSETS_DIR, card.file));
 }
 
-svgToPng(buildLogoIconSvg(), path.join(ASSETS_DIR, "Nexa Web Service.png"), 512);
+// Filename deliberately has no spaces - a literal space in a publicly
+// referenced asset path was a real source of encoding/deployment fragility
+// (see LIVE_POST_DEPLOYMENT_SEO_VALIDATION.md).
+svgToPng(buildLogoIconSvg(), path.join(ASSETS_DIR, "nexa-web-service-logo.png"), 512);
 // favicon.ico intentionally not (re)created here - see index.html comment;
 // the raster PNG above plus the existing favicon.svg cover every browser.
