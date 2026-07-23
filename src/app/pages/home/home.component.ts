@@ -302,7 +302,11 @@ export interface HomeService {
             <ul class="service-features">
               <li *ngFor="let feature of service.features">{{ feature }}</li>
             </ul>
-            <a routerLink="/services" class="service-link">
+            <a
+              routerLink="/services"
+              class="service-link"
+              [attr.aria-label]="'Learn more about ' + service.title"
+            >
               Learn more
               <svg
                 width="16"

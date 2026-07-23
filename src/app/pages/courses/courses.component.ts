@@ -392,7 +392,7 @@ interface Course {
       (click)="closeEnrollmentModal()"
     >
       <div class="enrollment-modal" (click)="$event.stopPropagation()">
-        <button class="modal-close" (click)="closeEnrollmentModal()">
+        <button class="modal-close" aria-label="Close" (click)="closeEnrollmentModal()">
           <svg
             width="24"
             height="24"

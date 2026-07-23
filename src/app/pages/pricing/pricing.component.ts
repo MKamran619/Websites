@@ -106,7 +106,7 @@ interface FeatureBlock {
     <!-- Subscription Modal -->
     <div class="subscription-modal-overlay" *ngIf="showSubscriptionModal" (click)="closeSubscriptionModal()">
       <div class="subscription-modal" (click)="$event.stopPropagation()">
-        <button class="modal-close" (click)="closeSubscriptionModal()">
+        <button class="modal-close" aria-label="Close" (click)="closeSubscriptionModal()">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
           </svg>
@@ -251,7 +251,7 @@ interface FeatureBlock {
     <!-- Enrollment Modal -->
     <div class="enrollment-modal-overlay" *ngIf="showEnrollmentModal" (click)="closeEnrollmentModal()">
       <div class="enrollment-modal" (click)="$event.stopPropagation()">
-        <button class="modal-close" (click)="closeEnrollmentModal()">
+        <button class="modal-close" aria-label="Close" (click)="closeEnrollmentModal()">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
           </svg>

@@ -1,40 +1,49 @@
 import { Routes } from "@angular/router";
-import { HomeComponent } from "./pages/home/home.component";
-import { AboutComponent } from "./pages/about/about.component";
-import { ServicesComponent } from "./pages/services/services.component";
-import { PortfolioComponent } from "./pages/portfolio/portfolio.component";
-import { ContactComponent } from "./pages/contact/contact.component";
-import { BlogComponent } from "./pages/blog/blog.component";
-import { CoursesComponent } from "./pages/courses/courses.component";
-import { PricingComponent } from "./pages/pricing/pricing.component";
-import { FaqComponent } from "./pages/faq/faq.component";
-import { NotFoundComponent } from "./pages/not-found/not-found.component";
 import { pageSeoResolver } from "./services/page-seo.resolver";
 
+// Every route below is lazy-loaded (loadComponent) instead of statically
+// imported. Previously all 10 page components were eagerly bundled into
+// main.js, so visiting the homepage downloaded the code for every other
+// page too - Lighthouse flagged ~201 KiB of unused JavaScript on first
+// load, matching this exactly. Lazy loading is fully compatible with
+// build-time prerendering: each route still gets its own fully-rendered
+// static HTML file (prerendering dynamically imports whatever component a
+// given route needs during that route's own render pass) - this only
+// changes how much JS ships up front to a real browser, not what's in the
+// prerendered HTML.
 export const routes: Routes = [
   {
     path: "",
-    component: HomeComponent,
+    loadComponent: () =>
+      import("./pages/home/home.component").then((m) => m.HomeComponent),
     resolve: { seo: pageSeoResolver },
   },
   {
     path: "about",
-    component: AboutComponent,
+    loadComponent: () =>
+      import("./pages/about/about.component").then((m) => m.AboutComponent),
     resolve: { seo: pageSeoResolver },
   },
   {
     path: "services",
-    component: ServicesComponent,
+    loadComponent: () =>
+      import("./pages/services/services.component").then(
+        (m) => m.ServicesComponent,
+      ),
     resolve: { seo: pageSeoResolver },
   },
   {
     path: "portfolio",
-    component: PortfolioComponent,
+    loadComponent: () =>
+      import("./pages/portfolio/portfolio.component").then(
+        (m) => m.PortfolioComponent,
+      ),
     resolve: { seo: pageSeoResolver },
   },
   {
     path: "blog",
-    component: BlogComponent,
+    loadComponent: () =>
+      import("./pages/blog/blog.component").then((m) => m.BlogComponent),
     resolve: { seo: pageSeoResolver },
   },
   {
@@ -44,26 +53,37 @@ export const routes: Routes = [
     // since page_seo is keyed by static route path and has no concept of a
     // blog slug.
     path: "blog/:slug",
-    component: BlogComponent,
+    loadComponent: () =>
+      import("./pages/blog/blog.component").then((m) => m.BlogComponent),
   },
   {
     path: "contact",
-    component: ContactComponent,
+    loadComponent: () =>
+      import("./pages/contact/contact.component").then(
+        (m) => m.ContactComponent,
+      ),
     resolve: { seo: pageSeoResolver },
   },
   {
     path: "courses",
-    component: CoursesComponent,
+    loadComponent: () =>
+      import("./pages/courses/courses.component").then(
+        (m) => m.CoursesComponent,
+      ),
     resolve: { seo: pageSeoResolver },
   },
   {
     path: "pricing",
-    component: PricingComponent,
+    loadComponent: () =>
+      import("./pages/pricing/pricing.component").then(
+        (m) => m.PricingComponent,
+      ),
     resolve: { seo: pageSeoResolver },
   },
   {
     path: "faq",
-    component: FaqComponent,
+    loadComponent: () =>
+      import("./pages/faq/faq.component").then((m) => m.FaqComponent),
     resolve: { seo: pageSeoResolver },
   },
   // Previously `redirectTo: ""`, which meant an invalid URL silently served
@@ -72,5 +92,11 @@ export const routes: Routes = [
   // A real 404 status for unknown URLs is now handled by public/404.html
   // (see netlify.toml); this component is only what a user sees if they hit
   // a bad route while already navigating client-side inside the app.
-  { path: "**", component: NotFoundComponent },
+  {
+    path: "**",
+    loadComponent: () =>
+      import("./pages/not-found/not-found.component").then(
+        (m) => m.NotFoundComponent,
+      ),
+  },
 ];

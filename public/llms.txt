@@ -1,0 +1,29 @@
+# Nexa Web Service
+
+> Software engineering and digital transformation consultancy. Custom software development, cloud migration, legacy system modernization, technical consulting, and SEO/website optimization for US, UAE, and UK clients, plus a coding academy for individual learners.
+
+Founded by Kamran Sohail, a senior full-stack developer with 8+ years of experience across Angular, React, .NET Core, Node.js, and Azure DevOps, including US healthcare SaaS (CareCloud) and UAE enterprise ERP (Inspire System) engagements. Fully remote, based in Islamabad, Pakistan (UTC+5), serving clients across the US, UAE, and UK.
+
+## Core pages
+
+- [Home](https://nexawebservice.com/): Overview of services, track record, and technology stack.
+- [About](https://nexawebservice.com/about): Founder background, career timeline, expertise areas, and core values.
+- [Services](https://nexawebservice.com/services): SEO & website optimization, digital transformation, custom development, performance optimization, strategic consulting, and cloud & DevOps.
+- [Portfolio](https://nexawebservice.com/portfolio): Case studies covering e-commerce, fintech, healthcare, insurance, manufacturing, and government projects.
+- [Pricing](https://nexawebservice.com/pricing): Transparent project pricing (Starter/Business/Enterprise tiers) and the engagement process.
+- [Contact](https://nexawebservice.com/contact): Free 30-minute consultation booking and direct contact details.
+- [FAQ](https://nexawebservice.com/faq): Answers on working internationally, payments, project process, the academy, and support.
+
+## Academy
+
+- [Courses](https://nexawebservice.com/courses): Web development courses from HTML/CSS fundamentals through full-stack development, with mentoring and career support.
+
+## Blog
+
+- [Insights](https://nexawebservice.com/blog): 49 in-depth technical articles on software architecture, cloud computing, performance, AI/ML, security, modern frontend development, and DevOps. Each article has its own URL at `https://nexawebservice.com/blog/<article-slug>`.
+
+## Notes for automated agents
+
+- Full site structure is listed in [sitemap.xml](https://nexawebservice.com/sitemap.xml) (a sitemap index referencing [sitemap-pages.xml](https://nexawebservice.com/sitemap-pages.xml) and [sitemap-blog.xml](https://nexawebservice.com/sitemap-blog.xml)).
+- All pages are fully server-rendered (static HTML) with no JavaScript required to read content.
+- Contact for business inquiries: contact@nexawebservice.com
