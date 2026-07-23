@@ -53,7 +53,13 @@
   // Text Colors
   --text-primary: #f8fafc;
   --text-secondary: #94a3b8;
-  --text-muted: #64748b;
+  // --text-muted was redeclared here with #64748b, silently overriding the
+  // compliant #94a3b8 defined above (line 17, same :root block - later
+  // wins). #64748b only reaches ~4.0:1 contrast against --background and
+  // ~2.8:1 against --surface-alt, failing WCAG AA (needs 4.5:1) - this is
+  // what Lighthouse's accessibility contrast check was flagging. Removed;
+  // the earlier --text-muted: #94a3b8 (~7.5:1 against --background) is now
+  // the only definition and applies everywhere this variable is used.
 
   // Shadows
   --shadow-glow: 0 0 40px rgba(0, 212, 170, 0.15);

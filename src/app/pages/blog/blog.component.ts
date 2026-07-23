@@ -38,7 +38,11 @@ gsap.registerPlugin(ScrollTrigger);
       (click)="closeArticle()"
     >
       <article class="article-detail" (click)="$event.stopPropagation()">
-        <button class="close-btn" (click)="closeArticle()">
+        <button
+          class="close-btn"
+          aria-label="Close article"
+          (click)="closeArticle()"
+        >
           <svg
             width="24"
             height="24"
@@ -102,6 +106,7 @@ gsap.registerPlugin(ScrollTrigger);
               <button
                 class="share-btn"
                 title="Share on LinkedIn"
+                aria-label="Share on LinkedIn"
                 (click)="shareOnLinkedIn()"
               >
                 <svg
@@ -118,6 +123,7 @@ gsap.registerPlugin(ScrollTrigger);
               <button
                 class="share-btn"
                 title="Share on Twitter"
+                aria-label="Share on Twitter"
                 (click)="shareOnTwitter()"
               >
                 <svg
@@ -131,7 +137,12 @@ gsap.registerPlugin(ScrollTrigger);
                   />
                 </svg>
               </button>
-              <button class="share-btn" title="Copy link" (click)="copyLink()">
+              <button
+                class="share-btn"
+                title="Copy link"
+                aria-label="Copy article link"
+                (click)="copyLink()"
+              >
                 <svg
                   width="20"
                   height="20"
@@ -414,7 +425,7 @@ gsap.registerPlugin(ScrollTrigger);
     <div class="topic-overlay" *ngIf="selectedTopic" (click)="closeTopic()">
       <div class="topic-articles-panel" (click)="$event.stopPropagation()">
         <div class="topic-panel-header">
-          <button class="back-btn" (click)="closeTopic()">
+          <button class="back-btn" aria-label="Back" (click)="closeTopic()">
             <svg
               width="24"
               height="24"
@@ -433,7 +444,11 @@ gsap.registerPlugin(ScrollTrigger);
               <p>{{ selectedTopic.description }}</p>
             </div>
           </div>
-          <button class="close-btn" (click)="closeTopic()">
+          <button
+            class="close-btn"
+            aria-label="Close topic"
+            (click)="closeTopic()"
+          >
             <svg
               width="24"
               height="24"

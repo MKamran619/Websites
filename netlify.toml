@@ -67,6 +67,18 @@
     X-XSS-Protection = "1; mode=block"
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "geolocation=(), microphone=(), camera=()"
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains"
+    # Scoped to the real third-party origins this app uses: Supabase (all
+    # page content), EmailJS (contact/newsletter forms), Google Fonts, GA4 +
+    # Google Tag Manager, and the Meta/Facebook Pixel. 'unsafe-inline' is
+    # kept for script-src/style-src rather than attempting a nonce/hash-based
+    # policy - this app has several legitimate inline <script>/<style> blocks
+    # (the analytics/consent-banner loader, Angular's per-component styles,
+    # critical CSS) and locking those down safely would need a much larger,
+    # riskier refactor. The real, meaningful protection this adds is
+    # preventing arbitrary *external* script/connection origins beyond the
+    # ones explicitly listed - it was entirely absent before.
+    Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://connect.facebook.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://www.facebook.com https://www.google-analytics.com; connect-src 'self' https://enijmkzmranhirwajvms.supabase.co https://api.emailjs.com https://www.google-analytics.com https://www.googletagmanager.com https://connect.facebook.net; frame-ancestors 'self'; base-uri 'self'; form-action 'self'"
     
     # Performance & Caching
     Cache-Control = "public, max-age=3600, must-revalidate"
@@ -77,9 +89,12 @@
     # CORS for API calls
     Access-Control-Allow-Origin = "*"
     Access-Control-Allow-Methods = "GET, POST, OPTIONS"
-    
-    # DNS Prefetch
-    Link = "</assets/fonts/>; rel=preconnect, <https://cdn.jsdelivr.net>; rel=preconnect"
+    # NOTE: a `Link: rel=preconnect` header used to live here, preconnecting
+    # to `/assets/fonts/` (same-origin - a no-op, already connected) and
+    # `cdn.jsdelivr.net` (not referenced anywhere in the app at all - dead
+    # weight). Lighthouse flagged this site for having more than 4
+    # preconnect hints in total; removing this cut it back to the 2 that
+    # are actually used (Google Fonts, in index.html).
 
 # Cache static assets longer
 [[headers]]

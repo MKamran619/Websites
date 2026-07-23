@@ -374,12 +374,20 @@
       now a single, well-formed <script> element.
     -->
 
-    <!-- Preconnect for performance -->
+    <!--
+      Preconnect for performance. Only the two Google Fonts origins are
+      preconnected - they're needed immediately for the render-blocking
+      font request below. Lighthouse flags overusing preconnect (more than
+      ~4 total, combined with the ones netlify.toml used to add) as
+      counterproductive; analytics origins use the lighter dns-prefetch
+      instead since GA4/Meta Pixel only load after cookie consent, not on
+      every page load, and cdn.jsdelivr.net was removed entirely - nothing
+      in this app ever requests anything from it.
+    -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
     <link rel="dns-prefetch" href="https://www.google-analytics.com" />
-    <link rel="preconnect" href="https://www.googletagmanager.com" />
+    <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
 
     <!-- Preload critical assets -->
     <link
@@ -715,19 +723,26 @@
     </div>
     <app-root></app-root>
     <script>
-      // Remove loader when app is ready
-      window.addEventListener("load", function () {
-        setTimeout(function () {
-          var loader = document.getElementById("initial-loader");
-          if (loader) {
-            loader.style.opacity = "0";
-            loader.style.transition = "opacity 0.3s ease";
-            setTimeout(function () {
-              loader.remove();
-            }, 300);
-          }
-        }, 100);
-      });
+      // Remove the loader as soon as this script runs, instead of waiting
+      // for the `load` event. This script tag sits after <app-root> in
+      // document order, and critical CSS is already inlined in <head>, so
+      // by the time this executes, the prerendered content underneath is
+      // already parsed and paintable - `load` doesn't fire until every
+      // resource (images, fonts, third-party analytics scripts) has
+      // finished downloading, which held this full-screen overlay in
+      // front of already-visible content for 5+ seconds on a throttled
+      // connection in Lighthouse testing, directly inflating LCP/FCP.
+      // Real SSR/prerendering content doesn't need to wait for that.
+      (function () {
+        var loader = document.getElementById("initial-loader");
+        if (loader) {
+          loader.style.opacity = "0";
+          loader.style.transition = "opacity 0.2s ease";
+          setTimeout(function () {
+            loader.remove();
+          }, 200);
+        }
+      })();
     </script>
     <noscript>
       <div
