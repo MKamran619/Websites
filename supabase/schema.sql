@@ -374,3 +374,58 @@ drop policy if exists "Public read access for media" on storage.objects;
 create policy "Public read access for media"
   on storage.objects for select
   using (bucket_id = 'media');
+
+-- ============================================================================
+-- CHAT ASSISTANT — conversations, transcripts and captured leads
+-- ============================================================================
+-- Deliberately NOT in the public-read loop above. These tables hold visitor
+-- messages and contact details, so the publishable key must not be able to
+-- read or write them. RLS is enabled with no policies at all, which denies
+-- anon/authenticated everything; the chat Netlify function writes with the
+-- service-role key, which bypasses RLS. Read them in the Supabase Table
+-- Editor (which runs as the table owner).
+
+create table if not exists chat_conversations (
+  id uuid primary key default gen_random_uuid(),
+  started_at timestamptz not null default now(),
+  last_message_at timestamptz not null default now(),
+  -- Route the visitor opened the chat on, for spotting which pages raise
+  -- questions the site itself should be answering.
+  entry_page text,
+  -- Salted SHA-256 of the client IP. Enough to spot one abusive source or
+  -- count unique visitors without storing an identifier we do not need.
+  client_hash text,
+  message_count int not null default 0,
+  lead_captured boolean not null default false
+);
+
+create table if not exists chat_messages (
+  id bigserial primary key,
+  conversation_id uuid not null references chat_conversations(id) on delete cascade,
+  role text not null check (role in ('user', 'assistant')),
+  content text not null,
+  -- Which knowledge-base entry answered this turn (retrieval mode), or the
+  -- model id (LLM mode). Null for user turns.
+  answer_source text,
+  created_at timestamptz not null default now()
+);
+create index if not exists chat_messages_conversation_idx
+  on chat_messages (conversation_id, created_at);
+
+create table if not exists chat_leads (
+  id bigserial primary key,
+  conversation_id uuid references chat_conversations(id) on delete set null,
+  name text,
+  email text,
+  phone text,
+  interest text,
+  -- Mirrors the consent flag the contact form already sends to track-lead.
+  consent boolean not null default false,
+  entry_page text,
+  created_at timestamptz not null default now()
+);
+create index if not exists chat_leads_created_idx on chat_leads (created_at desc);
+
+alter table chat_conversations enable row level security;
+alter table chat_messages enable row level security;
+alter table chat_leads enable row level security;
