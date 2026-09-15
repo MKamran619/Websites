@@ -8,7 +8,10 @@
   "orientation": "portrait-primary",
   "background_color": "#ffffff",
   "theme_color": "#0f1729",
-  "categories": ["business", "technology"],
+  "categories": [
+    "business",
+    "technology"
+  ],
   "icons": [
     {
       "src": "assets/icons/icon-192x192.png",
@@ -45,20 +48,6 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
-    }
-  ],
-  "screenshots": [
-    {
-      "src": "assets/screenshots/screenshot-540x720.png",
-      "sizes": "540x720",
-      "type": "image/png",
-      "form_factor": "narrow"
-    },
-    {
-      "src": "assets/screenshots/screenshot-1280x720.png",
-      "sizes": "1280x720",
-      "type": "image/png",
-      "form_factor": "wide"
     }
   ],
   "shortcuts": [

@@ -30,29 +30,16 @@
       content="black-translucent"
     />
     <meta name="apple-mobile-web-app-title" content="Nexa Web Service" />
-    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="32x32"
-      href="assets/nexa-web-service-logo.png"
-    />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="16x16"
-      href="assets/nexa-web-service-logo.png"
-    />
-    <link
-      rel="apple-touch-icon"
-      sizes="180x180"
-      href="assets/nexa-web-service-logo.png"
-    />
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png" />
+    <!-- Safari pinned tab: must be a single-colour SVG silhouette. -->
+    <link rel="mask-icon" href="assets/mask-icon.svg" color="#1F86F9" />
     <link rel="manifest" href="manifest.json" />
     <!--
-      NOTE: the legacy `favicon.ico` <link> and its matching Angular asset
-      entry were removed - that file never existed in the repo (src/favicon.ico
-      was 404ing in production). The SVG + PNG icons above give full modern
+      NOTE: there is deliberately no `favicon.ico` - that file has never
+      existed in this repo and every <link> to it was a 404 in production. The
+      SVG + 16/32/48 PNG + apple-touch + mask-icon set above gives full modern
       browser coverage; see TECHNICAL_SEO_IMPLEMENTATION_REPORT.md.
     -->
     <!--
@@ -159,27 +146,11 @@
       href="https://nexawebservice.com/"
     />
 
-    <!-- Favicon & Icons -->
-    <link rel="icon" type="image/x-icon" href="favicon.ico" />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="32x32"
-      href="assets/nexa-web-service-logo.png"
-    />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="16x16"
-      href="assets/nexa-web-service-logo.png"
-    />
-    <link
-      rel="apple-touch-icon"
-      sizes="180x180"
-      href="assets/nexa-web-service-logo.png"
-    />
-
-    <link rel="mask-icon" href="assets/nexa-web-service-logo.png" color="#00d4aa" />
+    <!--
+      Favicon / icon links live in a single block near the top of <head>; a
+      second, conflicting copy used to sit here (and linked a favicon.ico that
+      has never existed in this repo).
+    -->
 
     <!-- Analytics IDs (managed here) -->
     <meta name="meta-pixel-id" content="1506148861255042" />
@@ -398,6 +369,24 @@
     />
     <noscript>
       <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    </noscript>
+
+    <!--
+      Brand typeface. The logo lockup is set in Poppins (a geometric sans with
+      the single-storey "a" the artwork uses); the codebase has named Poppins in
+      its SVGs for a long time without ever loading it, so it silently fell back
+      to Segoe UI. Requested with Google Fonts' `text=` subsetting - A-Z, a-z,
+      space and the middot only - so it costs a few KB rather than a full Latin
+      face, and it is scoped to the logo so nothing else depends on it.
+    -->
+    <link
+      rel="preload"
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap&text=%20%C2%B7ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+      as="style"
+      onload="this.rel='stylesheet'"
+    />
+    <noscript>
+      <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap&text=%20%C2%B7ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz" rel="stylesheet" />
     </noscript>
 
     <!-- Google Verification -->

@@ -279,7 +279,9 @@ export class SeoService {
           name: "Nexa Web Service",
           logo: {
             "@type": "ImageObject",
-            url: `${this.baseUrl}/assets/og-image.jpg`,
+            url: `${this.baseUrl}/assets/nexa-web-service-logo.png`,
+            width: 512,
+            height: 512,
           },
         },
       },

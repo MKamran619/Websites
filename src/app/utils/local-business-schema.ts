@@ -7,7 +7,7 @@ export const localBusinessSchemas = {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
     name: "Software Solutions",
-    image: "https://nexawebservice.com/assets/logo.png",
+    image: "https://nexawebservice.com/assets/nexa-web-service-logo.png",
     description:
       "Digital transformation and custom software development solutions for American businesses",
     url: "https://nexawebservice.com",
