@@ -562,47 +562,56 @@ export class ServicesComponent implements OnInit, AfterViewInit {
 
     // Animate service cards
     gsap.utils.toArray<HTMLElement>(".service-card").forEach((card, index) => {
-      gsap.from(card, {
-        scrollTrigger: {
+      gsap.fromTo(
+        card,
+        { opacity: 0, y: 50 },
+        {
+          opacity: 1, y: 0,
+          scrollTrigger: {
           trigger: card,
           start: "top 85%",
           once: true,
         },
-        opacity: 0,
-        y: 50,
-        duration: 0.6,
-        delay: index * 0.1,
-      });
+          duration: 0.6,
+          delay: index * 0.1,
+        }
+      );
     });
 
     // Animate process steps
     gsap.utils.toArray<HTMLElement>(".process-step").forEach((step, index) => {
-      gsap.from(step, {
-        scrollTrigger: {
+      gsap.fromTo(
+        step,
+        { opacity: 0, x: index % 2 === 0 ? -30 : 30 },
+        {
+          opacity: 1, x: 0,
+          scrollTrigger: {
           trigger: step,
           start: "top 80%",
           once: true,
         },
-        opacity: 0,
-        x: index % 2 === 0 ? -30 : 30,
-        duration: 0.6,
-        delay: index * 0.15,
-      });
+          duration: 0.6,
+          delay: index * 0.15,
+        }
+      );
     });
 
     // Animate pricing cards
     gsap.utils.toArray<HTMLElement>(".pricing-card").forEach((card, index) => {
-      gsap.from(card, {
-        scrollTrigger: {
+      gsap.fromTo(
+        card,
+        { opacity: 0, y: 40 },
+        {
+          opacity: 1, y: 0,
+          scrollTrigger: {
           trigger: card,
           start: "top 85%",
           once: true,
         },
-        opacity: 0,
-        y: 40,
-        duration: 0.5,
-        delay: index * 0.1,
-      });
+          duration: 0.5,
+          delay: index * 0.1,
+        }
+      );
     });
   }
 }

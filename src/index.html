@@ -30,6 +30,7 @@
       content="black-translucent"
     />
     <meta name="apple-mobile-web-app-title" content="Nexa Web Service" />
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
     <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png" />
@@ -138,13 +139,27 @@
     <!-- Canonical -->
     <link rel="canonical" href="https://nexawebservice.com/" />
 
-    <!-- Alternate links for mobile and languages -->
-    <link rel="alternate" hreflang="en-us" href="https://nexawebservice.com/" />
-    <link
-      rel="alternate"
-      hreflang="x-default"
-      href="https://nexawebservice.com/"
-    />
+    <!--
+      No hreflang tags here, deliberately.
+
+      Two of them used to live at this spot and, because index.html is the
+      prerender template, they were baked into all 58 output pages - so every
+      URL (/services, /pricing, every /blog/:slug) declared the HOMEPAGE as its
+      only alternate while its own canonical pointed at itself. Google discards
+      a whole hreflang cluster when it is that self-contradicting.
+
+      With one set of English URLs serving every market there is no alternate to
+      declare, so the correct markup is none; the per-page canonical already
+      does the job.
+
+      Reintroduce hreflang ONLY once per-market URLs exist (e.g. a /uk and /ae
+      prefix). At that point every page in a cluster must list every variant
+      including itself, reciprocally, plus one x-default - and it has to be
+      emitted per route from seo.service.ts, never statically from this file.
+      (Deliberately described in prose rather than shown as example markup:
+      literal alternate-link syntax here would be inert to browsers but is
+      still picked up by regex-based SEO crawlers.)
+    -->
 
     <!--
       Favicon / icon links live in a single block near the top of <head>; a
@@ -199,6 +214,36 @@
         }
       }
 
+      // Google Consent Mode v2. Required since March 2024 for UK/EEA traffic:
+      // without an explicit consent signal Google discards UK/EEA Ads
+      // measurement and GA4 cannot model the gap. This is "basic" consent mode
+      // - no Google script is fetched until the visitor accepts - so these
+      // calls only queue into dataLayer locally and send nothing.
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      window.gtag = gtag;
+      gtag("consent", "default", {
+        ad_storage: "denied",
+        ad_user_data: "denied",
+        ad_personalization: "denied",
+        analytics_storage: "denied",
+        functionality_storage: "granted",
+        security_storage: "granted",
+        wait_for_update: 500,
+      });
+
+      function setConsent(granted) {
+        var v = granted ? "granted" : "denied";
+        gtag("consent", "update", {
+          ad_storage: v,
+          ad_user_data: v,
+          ad_personalization: v,
+          analytics_storage: v,
+        });
+      }
+
       function loadGA4(measurementId) {
         if (!measurementId) return;
         if (window.gtag) {
@@ -211,13 +256,10 @@
         s.async = true;
         s.src = "https://www.googletagmanager.com/gtag/js?id=" + measurementId;
         document.head.appendChild(s);
-        window.dataLayer = window.dataLayer || [];
-        function gtag() {
-          dataLayer.push(arguments);
-        }
-        window.gtag = gtag;
+        // dataLayer/gtag are already defined by the consent bootstrap above;
+        // redefining them here would discard the queued consent defaults.
         gtag("js", new Date());
-        gtag("config", measurementId);
+        gtag("config", measurementId, { send_page_view: true });
       }
 
       // Consent banner logic
@@ -241,13 +283,14 @@
             '<span id="cookie-text">We use cookies and tracking (Google Analytics &amp; Meta Pixel) to improve site experience and measure campaign performance.' +
             privacyLink +
             "</span>" +
-            '<button id="cookie-accept" style="margin-left:12px;padding:8px 14px;background:#1d4ed8;color:#fff;border:none;border-radius:6px;cursor:pointer;">Accept</button>' +
-            '<button id="cookie-decline" style="margin-left:8px;padding:8px 14px;background:#374151;color:#fff;border:none;border-radius:6px;cursor:pointer;">Decline</button>';
+            '<button id="cookie-accept" style="margin-left:12px;padding:10px 20px;min-width:104px;font:inherit;font-weight:600;background:#1d4ed8;color:#fff;border:2px solid #1d4ed8;border-radius:6px;cursor:pointer;">Accept</button>' +
+            '<button id="cookie-decline" style="margin-left:8px;padding:10px 20px;min-width:104px;font:inherit;font-weight:600;background:transparent;color:#fff;border:2px solid #fff;border-radius:6px;cursor:pointer;">Reject</button>';
           document.body.appendChild(div);
           document
             .getElementById("cookie-accept")
             .addEventListener("click", function () {
               localStorage.setItem("cookieConsent", "granted");
+              setConsent(true);
               initAnalyticsFromMeta();
               div.style.display = "none";
             });
@@ -255,6 +298,7 @@
             .getElementById("cookie-decline")
             .addEventListener("click", function () {
               localStorage.setItem("cookieConsent", "denied");
+              setConsent(false);
               div.style.display = "none";
             });
         }
@@ -275,6 +319,7 @@
           document.readyState === "interactive"
         ) {
           if (localStorage.getItem("cookieConsent") === "granted") {
+            setConsent(true);
             initAnalyticsFromMeta();
           } else if (localStorage.getItem("cookieConsent") !== "denied") {
             createBanner();
@@ -426,20 +471,15 @@
           "@type": "ContactPoint",
           "contactType": "Customer Service",
           "email": "contact@nexawebservice.com",
-          "areaServed": ["US", "CA", "GB", "AU"],
+          "areaServed": ["US", "GB", "AE", "PK"],
           "availableLanguage": ["en"]
         },
-        "address": {
-          "@type": "PostalAddress",
-          "addressCountry": "US"
-        },
-        "aggregateRating": {
-          "@type": "AggregateRating",
-          "ratingValue": "4.9",
-          "reviewCount": "6",
-          "bestRating": "5",
-          "worstRating": "1"
-        }
+        "areaServed": [
+          { "@type": "Country", "name": "United States" },
+          { "@type": "Country", "name": "United Kingdom" },
+          { "@type": "Country", "name": "United Arab Emirates" },
+          { "@type": "Country", "name": "Pakistan" }
+        ]
       }
     </script>
     <!--
@@ -464,8 +504,9 @@
         "priceRange": "$$$$",
         "areaServed": [
           { "@type": "Country", "name": "United States" },
+          { "@type": "Country", "name": "United Kingdom" },
           { "@type": "Country", "name": "United Arab Emirates" },
-          { "@type": "Country", "name": "United Kingdom" }
+          { "@type": "Country", "name": "Pakistan" }
         ],
         "sameAs": [
           "https://www.linkedin.com/in/kamran619/",

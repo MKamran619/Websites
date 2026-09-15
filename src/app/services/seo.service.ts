@@ -1,5 +1,5 @@
-import { DOCUMENT } from "@angular/common";
-import { Inject, Injectable } from "@angular/core";
+import { DOCUMENT, isPlatformBrowser } from "@angular/common";
+import { Inject, Injectable, PLATFORM_ID } from "@angular/core";
 import { Meta, Title } from "@angular/platform-browser";
 import { Router, NavigationEnd } from "@angular/router";
 import { filter } from "rxjs";
@@ -58,6 +58,7 @@ export class SeoService {
     private title: Title,
     private router: Router,
     @Inject(DOCUMENT) private document: Document,
+    @Inject(PLATFORM_ID) private platformId: Object,
   ) {
     this.initializeSeoOnRouteChange();
   }
@@ -77,7 +78,31 @@ export class SeoService {
         // specific trail (e.g. a blog article's Home > Insights > Title)
         // call setBreadcrumbSchema() themselves afterwards, which wins.
         this.updateDefaultBreadcrumb(this.router.url);
+
+        this.trackPageView();
       });
+  }
+
+  /**
+   * GA4 only ever saw the landing page. gtag("config") fires a single
+   * page_view on script load; in a SPA every subsequent route change is a
+   * pushState with no new document, so nothing further was ever reported -
+   * pageviews, funnels and engagement metrics were all measuring first hits
+   * only. Fires after the title/canonical above have been updated so the
+   * event carries the correct page_title and page_location.
+   *
+   * No-ops until the visitor has accepted cookies, because gtag is only
+   * loaded then (see the consent bootstrap in index.html).
+   */
+  private trackPageView(): void {
+    if (!isPlatformBrowser(this.platformId)) return;
+    const gtag = (globalThis as any).gtag;
+    if (typeof gtag !== "function") return;
+    gtag("event", "page_view", {
+      page_title: this.title.getTitle(),
+      page_location: this.document.location.href,
+      page_path: this.router.url,
+    });
   }
 
   setMetaTags(data: any) {

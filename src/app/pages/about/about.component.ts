@@ -92,7 +92,7 @@ interface FeatureBlock {
       <div class="container">
         <div class="hero-content">
           <div class="hero-badge">
-            <span class="badge-icon">âœ¨</span>
+            <span class="badge-icon">✨</span>
             <span>{{ hero?.badge }}</span>
           </div>
           <h1 class="hero-title">
@@ -369,109 +369,133 @@ export class AboutComponent implements OnInit, AfterViewInit {
 
   animateOnScroll() {
     // Hero animations
-    gsap.from(".hero-content > *", {
-      opacity: 0,
-      y: 30,
-      duration: 0.8,
-      stagger: 0.1,
-      ease: "power2.out",
-    });
+    gsap.fromTo(
+      ".hero-content > *",
+      { opacity: 0, y: 30 },
+      {
+        opacity: 1, y: 0,
+        duration: 0.8,
+        stagger: 0.1,
+        ease: "power2.out",
+      }
+    );
 
     // Story section
-    gsap.from(".story-content", {
-      scrollTrigger: {
+    gsap.fromTo(
+      ".story-content",
+      { opacity: 0, y: 50 },
+      {
+        opacity: 1, y: 0,
+        scrollTrigger: {
         trigger: ".story-section",
         start: "top 80%",
         once: true,
       },
-      opacity: 0,
-      y: 50,
-      duration: 0.8,
-    });
+        duration: 0.8,
+      }
+    );
 
-    gsap.from(".story-visual", {
-      scrollTrigger: {
+    gsap.fromTo(
+      ".story-visual",
+      { opacity: 0, y: 50 },
+      {
+        opacity: 1, y: 0,
+        scrollTrigger: {
         trigger: ".story-section",
         start: "top 80%",
         once: true,
       },
-      opacity: 0,
-      y: 50,
-      duration: 0.8,
-    });
+        duration: 0.8,
+      }
+    );
 
     // Expertise cards
     gsap.utils
       .toArray<HTMLElement>(".expertise-card")
       .forEach((card, index) => {
-        gsap.from(card, {
-          scrollTrigger: {
+        gsap.fromTo(
+          card,
+          { opacity: 0, y: 50 },
+          {
+            opacity: 1, y: 0,
+            scrollTrigger: {
             trigger: card,
             start: "top 85%",
             once: true,
           },
-          opacity: 0,
-          y: 50,
-          duration: 0.6,
-          delay: index * 0.1,
-        });
+            duration: 0.6,
+            delay: index * 0.1,
+          }
+        );
       });
 
     // Value cards
     gsap.utils.toArray<HTMLElement>(".value-card").forEach((card, index) => {
-      gsap.from(card, {
-        scrollTrigger: {
+      gsap.fromTo(
+        card,
+        { opacity: 0, y: 40 },
+        {
+          opacity: 1, y: 0,
+          scrollTrigger: {
           trigger: card,
           start: "top 85%",
           once: true,
         },
-        opacity: 0,
-        y: 40,
-        duration: 0.6,
-        delay: index * 0.15,
-      });
+          duration: 0.6,
+          delay: index * 0.15,
+        }
+      );
     });
 
     // Advantage cards
     gsap.utils
       .toArray<HTMLElement>(".advantage-card")
       .forEach((card, index) => {
-        gsap.from(card, {
-          scrollTrigger: {
+        gsap.fromTo(
+          card,
+          { opacity: 0, scale: 0.9 },
+          {
+            opacity: 1, scale: 1,
+            scrollTrigger: {
             trigger: card,
             start: "top 85%",
             once: true,
           },
-          opacity: 0,
-          scale: 0.9,
-          duration: 0.5,
-          delay: index * 0.08,
-        });
+            duration: 0.5,
+            delay: index * 0.08,
+          }
+        );
       });
 
     // Philosophy section
-    gsap.from(".philosophy-card", {
-      scrollTrigger: {
+    gsap.fromTo(
+      ".philosophy-card",
+      { opacity: 0, y: 40 },
+      {
+        opacity: 1, y: 0,
+        scrollTrigger: {
         trigger: ".philosophy-section",
         start: "top 80%",
         once: true,
       },
-      opacity: 0,
-      y: 40,
-      duration: 0.8,
-    });
+        duration: 0.8,
+      }
+    );
 
     // CTA section
-    gsap.from(".cta-card", {
-      scrollTrigger: {
+    gsap.fromTo(
+      ".cta-card",
+      { opacity: 0, y: 40 },
+      {
+        opacity: 1, y: 0,
+        scrollTrigger: {
         trigger: ".cta-section",
         start: "top 80%",
         once: true,
       },
-      opacity: 0,
-      y: 40,
-      duration: 0.8,
-    });
+        duration: 0.8,
+      }
+    );
 
     // Refresh ScrollTrigger to ensure all animations are properly registered
     ScrollTrigger.refresh();

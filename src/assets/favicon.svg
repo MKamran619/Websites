@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 355 355" width="355" height="355" role="img" aria-label="NexaWeb Service">
+  <defs><linearGradient id="fav-0" gradientUnits="userSpaceOnUse" x1="24" y1="186" x2="24" y2="65.7"><stop offset="0%" stop-color="#044DE3"/><stop offset="50%" stop-color="#0F6BF3"/><stop offset="100%" stop-color="#2089F9"/></linearGradient>
+    <linearGradient id="fav-1" gradientUnits="userSpaceOnUse" x1="24" y1="65.7" x2="95.2" y2="36.2"><stop offset="0%" stop-color="#2089F9"/><stop offset="55%" stop-color="#35A6FB"/><stop offset="100%" stop-color="#2C98FA"/></linearGradient>
+    <linearGradient id="fav-2" gradientUnits="userSpaceOnUse" x1="95.2" y1="36.2" x2="146" y2="87"><stop offset="0%" stop-color="#2C98FA"/><stop offset="50%" stop-color="#187AF6"/><stop offset="100%" stop-color="#085AE8"/></linearGradient>
+    <linearGradient id="fav-3" gradientUnits="userSpaceOnUse" x1="215" y1="24" x2="215" y2="144.3"><stop offset="0%" stop-color="#35B2FB"/><stop offset="50%" stop-color="#1474F5"/><stop offset="100%" stop-color="#064EE0"/></linearGradient>
+    <linearGradient id="fav-4" gradientUnits="userSpaceOnUse" x1="215" y1="144.3" x2="143.8" y2="173.8"><stop offset="0%" stop-color="#064EE0"/><stop offset="25%" stop-color="#0341D3"/><stop offset="100%" stop-color="#2C97FB"/></linearGradient>
+    <linearGradient id="fav-5" gradientUnits="userSpaceOnUse" x1="143.8" y1="173.8" x2="93" y2="123"><stop offset="0%" stop-color="#2C97FB"/><stop offset="70%" stop-color="#43C2FD"/><stop offset="100%" stop-color="#3FB6FD"/></linearGradient></defs>
+  <rect width="355" height="355" rx="76" fill="#0A1628"/>
+  <g transform="translate(58 72.5)">
+    <path d="M 24 186 L 24 65.7" stroke="url(#fav-0)" fill="none" stroke-width="48" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M 24 65.7 A 41.7 41.7 0 0 1 95.2 36.2" stroke="url(#fav-1)" fill="none" stroke-width="48" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M 95.2 36.2 L 146 87" stroke="url(#fav-2)" fill="none" stroke-width="48" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M 215 24 L 215 144.3" stroke="url(#fav-3)" fill="none" stroke-width="48" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M 215 144.3 A 41.7 41.7 0 0 1 143.8 173.8" stroke="url(#fav-4)" fill="none" stroke-width="48" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M 143.8 173.8 L 93 123" stroke="url(#fav-5)" fill="none" stroke-width="48" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+</svg>

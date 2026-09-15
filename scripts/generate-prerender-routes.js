@@ -19,6 +19,8 @@ const STATIC_ROUTES = [
   "/courses",
   "/pricing",
   "/faq",
+  "/privacy",
+  "/terms",
 ];
 
 async function main() {

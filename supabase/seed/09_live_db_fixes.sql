@@ -1,46 +1,39 @@
--- Seed: site-wide nav, footer, and site_info
--- Transcribed verbatim from header.component.ts / footer.component.ts
+-- ===========================================================================
+-- Run this ONCE against the live database (Supabase Dashboard -> SQL Editor).
+--
+-- The site reads its content from Supabase at build and run time, so these
+-- values are NOT fixed by deploying the repo.
+--
+-- Safe to re-run: five UPDATEs, no truncate / delete / drop, all idempotent.
+-- ===========================================================================
 
-truncate table nav_items restart identity cascade;
-insert into nav_items (label, path, icon_svg, exact_match, visible, sort_order) values
-('Home', '/', $svg$<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>$svg$, true, true, 1),
-('Services', '/services', $svg$<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>$svg$, false, true, 2),
-('Case Studies', '/portfolio', $svg$<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>$svg$, false, true, 3),
-('Insights', '/blog', $svg$<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>$svg$, false, true, 4),
-('Academy', '/courses', $svg$<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg>$svg$, false, true, 5),
-('Pricing', '/pricing', $svg$<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"></line><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>$svg$, false, true, 6),
-('FAQ', '/faq', $svg$<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>$svg$, false, true, 7),
-('About Us', '/about', $svg$<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>$svg$, false, true, 8);
 
-truncate table footer_links restart identity cascade;
-insert into footer_links (group_name, label, path, sort_order) values
-('quick_links', 'Home', '/', 1),
-('quick_links', 'About', '/about', 2),
-('quick_links', 'Services', '/services', 3),
-('quick_links', 'Portfolio', '/portfolio', 4),
-('quick_links', 'Blog', '/blog', 5),
-('quick_links', 'Courses', '/courses', 6),
-('services', 'Digital Transformation', '/services', 1),
-('services', 'Custom Development', '/services', 2),
-('services', 'Cloud Migration', '/services', 3),
-('services', 'Performance Optimization', '/services', 4),
-('services', 'Technical Consulting', '/services', 5),
-('legal', 'Privacy Policy', '/privacy', 1),
-('legal', 'Terms of Service', '/terms', 2),
-('legal', 'Sitemap', '/sitemap.xml', 3);
-
-truncate table social_links restart identity cascade;
-insert into social_links (context, platform, url, icon_svg, sort_order) values
-('footer', 'LinkedIn', 'https://www.linkedin.com/in/kamran619/', $svg$<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>$svg$, 1),
-('footer', 'Twitter', 'https://twitter.com/kamransawan', $svg$<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>$svg$, 2),
-('footer', 'Email', 'mailto:contact@nexawebservice.com', $svg$<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>$svg$, 3);
-
-insert into site_info (id, brand_name, brand_description, logo_svg_header, logo_svg_footer, contact_email, hours, location, whatsapp_url, linkedin_url, twitter_url, copyright_start_year)
-values (
-  1,
-  'Nexa Web Service',
-  $txt$Transforming businesses with cutting-edge software solutions and digital consulting services. Your trusted technology partner.$txt$,
-  $svg$<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1500 300" width="200" height="40" class="logo-svg responsive-logo" style="height:clamp(28px,3.2vw,40px);width:auto;max-width:none" role="img" aria-label="NexaWeb Service - Build, Launch, Grow">
+-- 1. BRAND LOGO ------------------------------------------------------------
+-- header.component.ts / footer.component.ts render these through [innerHTML].
+--
+-- Inline SVG, not an <img>. Three reasons, all of which bit the raster version:
+--
+--   * The supplied artwork is CROPPED. Ink runs onto column 1359 of a 1360px
+--     canvas, so the final "e" of "Service" and "w" of "Grow" are sliced off and
+--     the underline rule is missing. Those pixels do not exist; no sizing
+--     recovers them. This is rebuilt from the vector definition in brand.js -
+--     the monogram was measured off the original and overlays it 1:1, and the
+--     wordmark is set in Poppins (loaded as a subset from index.html).
+--
+--   * Transparency is structural. There is no background element at all, so the
+--     logo always takes whatever is behind it. The raster needed its white matte
+--     knocked out and still needed a separate light/dark pair.
+--
+--   * The wordmark uses var(--text) / var(--text-muted), so it follows all 26
+--     themes in theme.service.ts by itself. The raster could not, which is why
+--     "Nexa" measured 1.32:1 - invisible - on the dark themes.
+--
+-- Sizing is self-contained because Angular-scoped CSS never reaches injected
+-- markup, and `display` is deliberately NOT set inline: an inline display
+-- outranks every stylesheet rule and silently broke this markup twice.
+-- About 23% smaller than the previous lockup, as requested.
+update site_info set
+  logo_svg_header = $svg$<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1500 300" width="200" height="40" class="logo-svg responsive-logo" style="height:clamp(28px,3.2vw,40px);width:auto;max-width:none" role="img" aria-label="NexaWeb Service - Build, Launch, Grow">
   <defs>
     <linearGradient id="nwsHeaderMark-0" gradientUnits="userSpaceOnUse" x1="24" y1="186" x2="24" y2="65.7"><stop offset="0%" stop-color="#044DE3"/><stop offset="50%" stop-color="#0F6BF3"/><stop offset="100%" stop-color="#2089F9"/></linearGradient>
     <linearGradient id="nwsHeaderMark-1" gradientUnits="userSpaceOnUse" x1="24" y1="65.7" x2="95.2" y2="36.2"><stop offset="0%" stop-color="#2089F9"/><stop offset="55%" stop-color="#35A6FB"/><stop offset="100%" stop-color="#2C98FA"/></linearGradient>
@@ -67,7 +60,7 @@ values (
   <text x="336" y="238" font-family="'Poppins','Segoe UI',Arial,sans-serif" font-size="84" font-weight="500" letter-spacing="8" fill="var(--text-muted, #7D94AC)">Build<tspan dx="26">·</tspan><tspan dx="26">Launch</tspan><tspan dx="26">·</tspan><tspan dx="26" fill="#1B78FC" font-weight="600">Grow</tspan></text>
   <rect x="336" y="268" width="1036" height="5" rx="2.5" fill="url(#nwsHeaderRule)"/>
 </svg>$svg$,
-  $svg$<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1500 300" width="190" height="38" class="logo-svg" style="height:clamp(28px,3.2vw,40px);width:auto;max-width:none" role="img" aria-label="NexaWeb Service - Build, Launch, Grow">
+  logo_svg_footer = $svg$<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1500 300" width="190" height="38" class="logo-svg" style="height:clamp(28px,3.2vw,40px);width:auto;max-width:none" role="img" aria-label="NexaWeb Service - Build, Launch, Grow">
   <defs>
     <linearGradient id="nwsFooterMark-0" gradientUnits="userSpaceOnUse" x1="24" y1="186" x2="24" y2="65.7"><stop offset="0%" stop-color="#044DE3"/><stop offset="50%" stop-color="#0F6BF3"/><stop offset="100%" stop-color="#2089F9"/></linearGradient>
     <linearGradient id="nwsFooterMark-1" gradientUnits="userSpaceOnUse" x1="24" y1="65.7" x2="95.2" y2="36.2"><stop offset="0%" stop-color="#2089F9"/><stop offset="55%" stop-color="#35A6FB"/><stop offset="100%" stop-color="#2C98FA"/></linearGradient>
@@ -93,24 +86,37 @@ values (
   <text x="336" y="139" font-family="'Poppins','Segoe UI',Arial,sans-serif" font-size="140" font-weight="700" fill="var(--text, #1B2A3D)">Nexa<tspan fill="#3393FD">Web</tspan><tspan dx="38" font-size="100" font-weight="400" fill="var(--text-muted, #7D94AC)">Service</tspan></text>
   <text x="336" y="238" font-family="'Poppins','Segoe UI',Arial,sans-serif" font-size="84" font-weight="500" letter-spacing="8" fill="var(--text-muted, #7D94AC)">Build<tspan dx="26">·</tspan><tspan dx="26">Launch</tspan><tspan dx="26">·</tspan><tspan dx="26" fill="#1B78FC" font-weight="600">Grow</tspan></text>
   <rect x="336" y="268" width="1036" height="5" rx="2.5" fill="url(#nwsFooterRule)"/>
-</svg>$svg$,
-  'contact@nexawebservice.com',
-  'Mon - Fri: 9AM - 6PM EST',
-  'Serving Clients Worldwide',
-  'https://wa.me/923447510711',
-  'https://www.linkedin.com/in/kamran619/',
-  'https://twitter.com/kamransawan',
-  2014
-)
-on conflict (id) do update set
-  brand_name = excluded.brand_name,
-  brand_description = excluded.brand_description,
-  logo_svg_header = excluded.logo_svg_header,
-  logo_svg_footer = excluded.logo_svg_footer,
-  contact_email = excluded.contact_email,
-  hours = excluded.hours,
-  location = excluded.location,
-  whatsapp_url = excluded.whatsapp_url,
-  linkedin_url = excluded.linkedin_url,
-  twitter_url = excluded.twitter_url,
-  copyright_start_year = excluded.copyright_start_year;
+</svg>$svg$
+where id = 1;
+
+
+-- 2. FOOTER LEGAL LINKS ----------------------------------------------------
+-- These were stored as '#'. The cookie banner also links to /privacy, which
+-- did not exist - a UK PECR / UK GDPR problem, since a consent banner has to
+-- link to a reachable privacy notice. /privacy and /terms now exist in the app.
+update footer_links set path = '/privacy'     where group_name = 'legal' and label = 'Privacy Policy';
+update footer_links set path = '/terms'       where group_name = 'legal' and label = 'Terms of Service';
+update footer_links set path = '/sitemap.xml' where group_name = 'legal' and label = 'Sitemap';
+
+
+-- 3. US-ONLY PAGE TITLES ---------------------------------------------------
+-- Three titles ended "| USA", which is what Google shows in the SERP for every
+-- market. Harmless in the US, off-putting in the UK, UAE and Pakistan.
+update page_seo set title = replace(title, ' | USA', '') where title like '%| USA%';
+
+
+-- 4. BUSINESS HOURS (REVIEW BEFORE RUNNING) --------------------------------
+-- site_info.hours is 'Mon - Fri: 9AM - 6PM EST'. A single US-Eastern window is
+-- wrong for three of the four target markets, and the only real phone number on
+-- the site is a Pakistani WhatsApp (+92). Left commented out: only the owner
+-- knows the real hours. Pick one and uncomment.
+--
+-- update site_info set hours = 'Mon - Fri, 9:00-18:00 PKT (UTC+5)' where id = 1;
+-- update site_info set hours = 'Mon - Fri, 9:00-18:00 GST (UTC+4)' where id = 1;
+-- update site_info set hours = 'Mon - Fri, 9:00-18:00 - UK / UAE / PK by arrangement' where id = 1;
+
+
+-- 5. VERIFY ----------------------------------------------------------------
+-- select label, path from footer_links where group_name = 'legal';
+-- select slug, title from page_seo where title like '%USA%';   -- expect 0 rows
+-- select left(logo_svg_header, 70) from site_info where id = 1;

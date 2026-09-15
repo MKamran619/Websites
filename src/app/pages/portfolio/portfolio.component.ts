@@ -401,82 +401,99 @@ export class PortfolioComponent implements OnInit {
 
   animateOnScroll() {
     // Hero animations
-    gsap.from(".hero-content > *", {
-      opacity: 0,
-      y: 30,
-      duration: 0.8,
-      stagger: 0.1,
-      ease: "power2.out",
-    });
+    gsap.fromTo(
+      ".hero-content > *",
+      { opacity: 0, y: 30 },
+      {
+        opacity: 1, y: 0,
+        duration: 0.8,
+        stagger: 0.1,
+        ease: "power2.out",
+      }
+    );
 
     // Case studies
     gsap.utils.toArray<HTMLElement>(".case-study").forEach((study, index) => {
-      gsap.from(study, {
-        scrollTrigger: {
+      gsap.fromTo(
+        study,
+        { opacity: 0, y: 60 },
+        {
+          opacity: 1, y: 0,
+          scrollTrigger: {
           trigger: study,
           start: "top 85%",
           once: true,
         },
-        opacity: 0,
-        y: 60,
-        duration: 0.8,
-      });
+          duration: 0.8,
+        }
+      );
     });
 
     // Stats cards
     gsap.utils.toArray<HTMLElement>(".stat-card").forEach((card, index) => {
-      gsap.from(card, {
-        scrollTrigger: {
+      gsap.fromTo(
+        card,
+        { opacity: 0, y: 40, scale: 0.95 },
+        {
+          opacity: 1, y: 0, scale: 1,
+          scrollTrigger: {
           trigger: card,
           start: "top 85%",
           once: true,
         },
-        opacity: 0,
-        y: 40,
-        scale: 0.95,
-        duration: 0.6,
-        delay: index * 0.1,
-      });
+          duration: 0.6,
+          delay: index * 0.1,
+        }
+      );
     });
 
     // Industry cards
     gsap.utils.toArray<HTMLElement>(".industry-card").forEach((card, index) => {
-      gsap.from(card, {
-        scrollTrigger: {
+      gsap.fromTo(
+        card,
+        { opacity: 0, y: 30 },
+        {
+          opacity: 1, y: 0,
+          scrollTrigger: {
           trigger: card,
           start: "top 85%",
           once: true,
         },
-        opacity: 0,
-        y: 30,
-        duration: 0.5,
-        delay: index * 0.08,
-      });
+          duration: 0.5,
+          delay: index * 0.08,
+        }
+      );
     });
 
     // Testimonial
-    gsap.from(".testimonial-card", {
-      scrollTrigger: {
+    gsap.fromTo(
+      ".testimonial-card",
+      { opacity: 0, y: 40 },
+      {
+        opacity: 1, y: 0,
+        scrollTrigger: {
         trigger: ".testimonial-section",
         start: "top 80%",
         once: true,
       },
-      opacity: 0,
-      y: 40,
-      duration: 0.8,
-    });
+        duration: 0.8,
+      }
+    );
 
     // CTA
-    gsap.from(".cta-card", {
-      scrollTrigger: {
+    gsap.fromTo(
+      ".cta-card",
+      { opacity: 0, y: 40 },
+      {
+        opacity: 1, y: 0,
+        scrollTrigger: {
         trigger: ".cta-section",
         start: "top 80%",
         once: true,
       },
-      opacity: 0,
-      y: 40,
-      duration: 0.8,
-    });
+        duration: 0.8,
+      }
+    );
   }
 
   loadMoreCaseStudies() {

@@ -86,6 +86,36 @@ export const routes: Routes = [
       import("./pages/faq/faq.component").then((m) => m.FaqComponent),
     resolve: { seo: pageSeoResolver },
   },
+  // Privacy Policy and Terms of Service. The cookie banner and the footer both
+  // linked to these and neither existed: footer_links held href="#" and
+  // /privacy fell through to the app shell. A consent banner that links to a
+  // missing privacy notice is a UK PECR/UK GDPR problem, not just a dead link.
+  {
+    path: "privacy",
+    loadComponent: () =>
+      import("./pages/legal/legal.component").then((m) => m.LegalComponent),
+    data: {
+      doc: "privacy",
+      seo: {
+        title: "Privacy Policy | Nexa Web Service",
+        description:
+          "How Nexa Web Service collects and uses personal data, the cookies this site sets, and your rights in the UK, US, UAE and Pakistan.",
+      },
+    },
+  },
+  {
+    path: "terms",
+    loadComponent: () =>
+      import("./pages/legal/legal.component").then((m) => m.LegalComponent),
+    data: {
+      doc: "terms",
+      seo: {
+        title: "Terms of Service | Nexa Web Service",
+        description:
+          "The terms that govern use of the Nexa Web Service website and any engagement that references them.",
+      },
+    },
+  },
   // Previously `redirectTo: ""`, which meant an invalid URL silently served
   // the homepage - combined with Netlify's old blanket 200 rewrite, every
   // typo'd or bogus URL on the whole domain returned HTTP 200 (a soft 404).

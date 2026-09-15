@@ -5,7 +5,7 @@ import { FormsModule } from "@angular/forms";
 import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
 import emailjs from "@emailjs/browser";
 import { ContentService } from "../../services/content.service";
-import { RegionService, Region } from "../../services/region.service";
+import { RegionService, Region, PriceMap } from "../../services/region.service";
 
 interface PageHero {
   page: string;
@@ -47,7 +47,7 @@ interface Course {
   description: string | null;
   topics: string[];
   duration: string | null;
-  prices: Record<Region, number> | null;
+  prices: PriceMap | null;
   icon_svg: string | null;
   sort_order: number;
 }
@@ -338,7 +338,7 @@ interface Course {
             <span class="stat-desc">Average Salary Increase</span>
           </div>
           <div class="success-stat">
-            <span class="stat-value">4.9â˜…</span>
+            <span class="stat-value">4.9★</span>
             <span class="stat-desc">Student Satisfaction</span>
           </div>
         </div>
@@ -378,7 +378,7 @@ interface Course {
               </a>
             </div>
             <p class="cta-note">
-              No commitment required â€¢ Free career consultation available
+              No commitment required • Free career consultation available
             </p>
           </div>
         </div>
@@ -580,8 +580,9 @@ export class CoursesComponent implements OnInit {
     return this.sanitizer.bypassSecurityTrustHtml(html || "");
   }
 
-  priceFor(prices: Record<Region, number> | null | undefined): string {
-    return this.regionService.formatPrice(prices?.[this.currentRegion]);
+  /** See RegionService.priceFor - falls back to USD rather than rendering "Rs 0". */
+  priceFor(prices: PriceMap | null | undefined): string {
+    return this.regionService.priceFor(prices);
   }
 
   enrollmentData = {
@@ -757,7 +758,7 @@ export class CoursesComponent implements OnInit {
       from_name: this.enrollmentData.name,
       from_email: this.enrollmentData.email,
       email: "contact@nexawebservice.com",
-      company: `${this.selectedCourse}${this.selectedPrice ? " â€” " + this.selectedPrice : ""}`,
+      company: `${this.selectedCourse}${this.selectedPrice ? " — " + this.selectedPrice : ""}`,
       challenge: this.enrollmentData.experience,
       budget: this.enrollmentData.availability,
       timeline: this.enrollmentData.phone || "Not provided",
@@ -789,7 +790,7 @@ export class CoursesComponent implements OnInit {
     successDiv.innerHTML =
       `
       <div class="success-content">
-        <div class="success-icon">âœ“</div>
+        <div class="success-icon">✓</div>
         <h3>Enrollment Successful!</h3>
         <p>Thank you for your interest. We'll review your enrollment and contact you within 24 hours at ` +
       email +

@@ -1,101 +1,238 @@
-// Brand artwork = the supplied file, used verbatim.
+// Single source of truth for the NexaWeb Service brand mark.
 //
-// src/assets/brand/nexaweb-logo.svg is a byte-for-byte copy of
-// NexaWeb_Service_Logo_Exact.svg. That file is not vector art: it is a single
-// 1360x260 opaque PNG wrapped in an <image> tag, base64-inlined (375 KB).
-// nexaweb-logo.png below is that exact same PNG extracted from the wrapper -
-// identical pixels, ~25% smaller because it skips the base64 inflation - and is
-// what everything actually references.
+// The supplied "NexaWeb_Service_Logo_Exact.svg" was not vector art - it was a
+// 1360x260 PNG wrapped in an <image> tag (and cropped: the trailing "e" of
+// "Service" and "w" of "Grow" were clipped off at the right edge). Everything
+// below is a true-vector reconstruction measured off that raster.
 //
-// Things to know about the source artwork, measured from its pixels:
-//   * background is FULLY OPAQUE #FEFDFD, so it shows as a white block on any
-//     dark surface (the footer, the OG cards, dark themes)
-//   * it is CROPPED at the right edge - the final "e" of "Service" and "w" of
-//     "Grow" are cut off, and the underline rule is missing
-//   * the monogram occupies x 43..281, y 26..235 (239x210) - MARK_BOX below.
-//     Square slots (favicons, PWA icons) crop to that rather than letterboxing
-//     a 5.2:1 banner into a square, but the pixels are still the original's.
-const fs = require("fs");
-const path = require("path");
+// The monogram is two congruent strokes related by an exact 180-degree
+// rotation about the centre of the box. Each stroke is: a straight stem, a
+// 135-degree arc elbow, then a 45-degree diagonal. Measured from the source:
+//   stroke width 48, stem centrelines at x=24 / x=215, arc radius 41.7,
+//   arch apex at x=65.7 (pixel-measured 65.5 - the model is exact).
+// Because it is stroke geometry rather than filled outlines it stays crisp at
+// any size and needs no font, which is what makes the favicon/PWA/OG raster
+// pipeline work (no webfont is installed on the build machine).
 
-const ASSETS = path.join(__dirname, "..", "src", "assets");
-const SOURCE_SVG = path.join(ASSETS, "brand", "nexaweb-logo.svg");
+const MARK = {
+  width: 239,
+  height: 210,
+  strokeWidth: 48,
+  // Each ribbon is stem -> 135-degree arc elbow -> 45-degree diagonal. They are
+  // kept as three separate segments (rather than one path) so each can carry the
+  // colour actually measured along that part of the supplied artwork; the
+  // artwork's shading is hand-painted and runs along the ribbon, which a single
+  // linear gradient cannot reproduce. Segment ends share a colour and a round
+  // cap at the same point, so the joins are seamless.
+  // Colours below are medians sampled off the source raster at 5 points per
+  // segment (see the trace in the commit that introduced this file).
+  segments: [
+    { d: "M 24 186 L 24 65.7", grad: [[24, 186], [24, 65.7]], stops: [[0, "#044DE3"], [50, "#0F6BF3"], [100, "#2089F9"]] },
+    { d: "M 24 65.7 A 41.7 41.7 0 0 1 95.2 36.2", grad: [[24, 65.7], [95.2, 36.2]], stops: [[0, "#2089F9"], [55, "#35A6FB"], [100, "#2C98FA"]] },
+    { d: "M 95.2 36.2 L 146 87", grad: [[95.2, 36.2], [146, 87]], stops: [[0, "#2C98FA"], [50, "#187AF6"], [100, "#085AE8"]] },
+    { d: "M 215 24 L 215 144.3", grad: [[215, 24], [215, 144.3]], stops: [[0, "#35B2FB"], [50, "#1474F5"], [100, "#064EE0"]] },
+    { d: "M 215 144.3 A 41.7 41.7 0 0 1 143.8 173.8", grad: [[215, 144.3], [143.8, 173.8]], stops: [[0, "#064EE0"], [25, "#0341D3"], [100, "#2C97FB"]] },
+    { d: "M 143.8 173.8 L 93 123", grad: [[143.8, 173.8], [93, 123]], stops: [[0, "#2C97FB"], [70, "#43C2FD"], [100, "#3FB6FD"]] },
+  ],
+  // Flat two-path form, for monochrome uses (Safari mask-icon, tinted shortcuts).
+  pathA: "M 24 186 L 24 65.7 A 41.7 41.7 0 0 1 95.2 36.2 L 146 87",
+  pathB: "M 215 24 L 215 144.3 A 41.7 41.7 0 0 1 143.8 173.8 L 93 123",
+};
 
-const ART = { width: 1360, height: 260, background: "#FEFDFD" };
-const MARK_BOX = { x: 43, y: 26, width: 239, height: 210 };
+// Colours sampled directly from the supplied artwork.
+const COLORS = {
+  markLight: "#4FC3FF",
+  markMid: "#1F86F9",
+  markDeep: "#0A56E2",
+  navy: "#1B2A3D",   // "Nexa"
+  webBlue: "#3393FD", // "Web"
+  muted: "#7D94AC",  // "Service" + tagline
+  growBlue: "#1B78FC", // "Grow"
+  white: "#FFFFFF",
+};
 
-/** The PNG bytes carried inside the supplied SVG wrapper. */
-function sourcePng() {
-  const svg = fs.readFileSync(SOURCE_SVG, "utf8");
-  const m = svg.match(/base64,\s*([A-Za-z0-9+/=]+)/);
-  if (!m) throw new Error("no base64 PNG found inside " + SOURCE_SVG);
-  return Buffer.from(m[1], "base64");
-}
+// The artwork's typeface is a geometric sans with a single-storey "a"
+// (Poppins). The codebase already names Poppins everywhere; see index.html for
+// the subset webfont that finally makes that true in the browser. resvg falls
+// back to a system sans at build time, which only affects raster OG cards.
+const FONT_DISPLAY = "'Poppins','Segoe UI',Arial,sans-serif";
 
-let _b64 = null;
-const sourceB64 = () => (_b64 = _b64 || sourcePng().toString("base64"));
-
-/** <image> element placing the original artwork at the given box. */
-function artImage({ x = 0, y = 0, width = ART.width, height = ART.height } = {}) {
-  return `<image x="${x}" y="${y}" width="${width}" height="${height}" xlink:href="data:image/png;base64,${sourceB64()}"/>`;
-}
-
-/** The full banner, unmodified, as a standalone SVG. */
-function buildBannerSvg() {
-  return `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="${ART.width}" height="${ART.height}" viewBox="0 0 ${ART.width} ${ART.height}" role="img" aria-label="NexaWeb Service">
-  ${artImage()}
-</svg>`;
+/** Gradient defs for the mark. `id` must be unique per inlined document. */
+function markDefs(id) {
+  return MARK.segments.map((seg, n) => {
+    const [[x1, y1], [x2, y2]] = seg.grad;
+    const stops = seg.stops
+      .map(([off, col]) => `<stop offset="${off}%" stop-color="${col}"/>`)
+      .join("");
+    return `<linearGradient id="${id}-${n}" gradientUnits="userSpaceOnUse" x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}">${stops}</linearGradient>`;
+  }).join("\n    ");
 }
 
 /**
- * The monogram, centred on a square. `markB64` is the already-cropped monogram
- * PNG (see generate-brand-assets.js) - embedding just that, rather than the
- * whole banner behind a clip path, keeps these files ~10 KB instead of ~370 KB.
- * `fill` is the fraction of the square the mark spans.
+ * The two monogram strokes. `paint` is any SVG paint value (a url(#id)
+ * gradient reference, a literal colour, or currentColor for monochrome use).
  */
-function buildMarkSquareSvg({ markB64, fill = 0.66, background = ART.background, radius = 0 } = {}) {
-  const S = 1000;
-  const w = S * fill;
-  const h = (w * MARK_BOX.height) / MARK_BOX.width;
-  const x = (S - w) / 2;
-  const y = (S - h) / 2;
-  const bg = background ? `<rect width="${S}" height="${S}" rx="${radius}" fill="${background}"/>` : "";
-  return `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="${S}" height="${S}" viewBox="0 0 ${S} ${S}" role="img" aria-label="NexaWeb Service">
-  ${bg}
-  <image x="${x}" y="${y}" width="${w}" height="${h}" xlink:href="data:image/png;base64,${markB64}"/>
-</svg>`;
+function markPaths(paint) {
+  const common = `fill="none" stroke-width="${MARK.strokeWidth}" stroke-linecap="round" stroke-linejoin="round"`;
+  // A solid override (mask-icon, tinted shortcut icons) collapses to two paths.
+  const solid = paint && !/^url\(#(.*)\)$/.test(paint);
+  if (solid) {
+    return `<path d="${MARK.pathA}" stroke="${paint}" ${common}/>
+    <path d="${MARK.pathB}" stroke="${paint}" ${common}/>`;
+  }
+  const id = (paint || "").replace(/^url\(#/, "").replace(/\)$/, "");
+  return MARK.segments
+    .map((seg, n) => `<path d="${seg.d}" stroke="url(#${id}-${n})" ${common}/>`)
+    .join("\n    ");
 }
 
-/** SVG that crops the monogram out of the original, for rasterising once. */
-function buildMarkCropSvg() {
-  return `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="${MARK_BOX.width}" height="${MARK_BOX.height}" viewBox="${MARK_BOX.x} ${MARK_BOX.y} ${MARK_BOX.width} ${MARK_BOX.height}">
-  <rect x="${MARK_BOX.x}" y="${MARK_BOX.y}" width="${MARK_BOX.width}" height="${MARK_BOX.height}" fill="${ART.background}"/>
-  ${artImage()}
-</svg>`;
-}
-
-/**
- * The banner on a wide canvas. The artwork's own background is opaque white, so
- * on a dark canvas it sits on a white plate with padding - otherwise it reads as
- * a rendering fault rather than a logo.
- */
-function buildBannerOnCanvas({ width, height, dark = true, fill = 0.74, url = "nexawebservice.com" } = {}) {
-  const scale = (width * fill) / ART.width;
-  const w = ART.width * scale;
-  const h = ART.height * scale;
-  const x = (width - w) / 2;
-  const y = (height - h) / 2 - height * 0.05;
-  const pad = Math.round(h * 0.16);
-  const plate = dark
-    ? `<rect x="${x - pad}" y="${y - pad}" width="${w + pad * 2}" height="${h + pad * 2}" rx="${Math.round(h * 0.18)}" fill="${ART.background}"/>`
+/** Standalone monogram, padded into a square. `pad` is in mark units. */
+function buildMarkSvg({ id = "nwsMark", pad = 26, background = null, radius = 0, paint = null } = {}) {
+  const w = MARK.width + pad * 2;
+  const h = MARK.height + pad * 2;
+  const side = Math.max(w, h);
+  const ox = (side - MARK.width) / 2;
+  const oy = (side - MARK.height) / 2;
+  const bg = background
+    ? `<rect width="${side}" height="${side}" rx="${radius}" fill="${background}"/>`
     : "";
-  const bg = `<rect width="${width}" height="${height}" fill="${dark ? "#0A1628" : ART.background}"/>`;
-  return `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" role="img" aria-label="NexaWeb Service">
+  // A solid paint renders as two flat paths, so the gradient defs are dead weight.
+  const defs = paint ? "" : `
+  <defs>${markDefs(id)}</defs>`;
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${side} ${side}" width="${side}" height="${side}" role="img" aria-label="NexaWeb Service">${defs}
   ${bg}
-  ${plate}
-  ${artImage({ x, y, width: w, height: h })}
-  <text x="${width / 2}" y="${height - Math.round(height * 0.07)}" text-anchor="middle" font-family="'Poppins','Segoe UI',Arial,sans-serif" font-size="${Math.round(height * 0.055)}" font-weight="500" fill="${dark ? "#8FA9C4" : "#7D94AC"}">${url}</text>
+  <g transform="translate(${ox} ${oy})">
+    ${markPaths(paint || `url(#${id})`)}
+  </g>
 </svg>`;
 }
 
-module.exports = { ART, MARK_BOX, SOURCE_SVG, sourcePng, sourceB64, artImage, buildBannerSvg, buildMarkCropSvg, buildMarkSquareSvg, buildBannerOnCanvas };
+/**
+ * Resolve wordmark colours for a surface.
+ *  light - dark text, for white/light backgrounds
+ *  dark  - white text, for dark backgrounds (the site footer, OG cards)
+ *  theme - CSS custom properties, so inlined markup follows the live theme
+ *          across all 26 themes in theme.service.ts (with literal fallbacks
+ *          for SSR and for any context that has no cascade, e.g. resvg).
+ */
+function tones(tone) {
+  if (tone === "theme") {
+    return {
+      primary: `var(--text, ${COLORS.navy})`,
+      accent: COLORS.webBlue,
+      muted: `var(--text-muted, ${COLORS.muted})`,
+      grow: COLORS.growBlue,
+    };
+  }
+  if (tone === "dark") {
+    return { primary: COLORS.white, accent: COLORS.webBlue, muted: "#A8BDD4", grow: "#5AA6FF" };
+  }
+  return { primary: COLORS.navy, accent: COLORS.webBlue, muted: COLORS.muted, grow: COLORS.growBlue };
+}
+
+/**
+ * Full horizontal lockup: monogram + "NexaWeb Service" + rule + tagline.
+ * Geometry mirrors the supplied artwork (mark at x=43, text from x=336,
+ * wordmark baseline y=139, tagline baseline y=238), with the clipped
+ * characters restored and the underline rule the crop cut off put back.
+ */
+function buildHorizontalSvg({ id = "nwsLogo", tone = "light", tagline = true, background = null, attrs = "" } = {}) {
+  const c = tones(tone);
+  const h = tagline ? 300 : 180;
+  const w = 1500;
+  const bg = background ? `<rect width="${w}" height="${h}" fill="${background}"/>` : "";
+  const taglineBlock = tagline
+    ? `
+  <text x="336" y="238" font-family="${FONT_DISPLAY}" font-size="84" font-weight="500" letter-spacing="8" fill="${c.muted}">Build<tspan dx="26">·</tspan><tspan dx="26">Launch</tspan><tspan dx="26">·</tspan><tspan dx="26" fill="${c.grow}" font-weight="600">Grow</tspan></text>
+  <rect x="336" y="268" width="1036" height="5" rx="2.5" fill="url(#${id}Rule)"/>`
+    : "";
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}"${attrs ? " " + attrs : ""} role="img" aria-label="NexaWeb Service - Build, Launch, Grow">
+  <defs>
+    ${markDefs(id + "Mark")}
+    <linearGradient id="${id}Rule" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="${COLORS.markLight}" stop-opacity="0.9"/>
+      <stop offset="55%" stop-color="${COLORS.markMid}" stop-opacity="0.75"/>
+      <stop offset="100%" stop-color="${COLORS.markLight}" stop-opacity="0.12"/>
+    </linearGradient>
+  </defs>
+  ${bg}
+  <g transform="translate(43 26)">
+    ${markPaths(`url(#${id}Mark)`)}
+  </g>
+  <text x="336" y="139" font-family="${FONT_DISPLAY}" font-size="140" font-weight="700" fill="${c.primary}">Nexa<tspan fill="${c.accent}">Web</tspan><tspan dx="38" font-size="100" font-weight="400" fill="${c.muted}">Service</tspan></text>${taglineBlock}
+</svg>`;
+}
+
+/** Square stacked lockup - social avatars, app icons at large sizes. */
+function buildStackedSvg({ id = "nwsStack", tone = "dark", background = null, side = 512 } = {}) {
+  const c = tones(tone);
+  const bg = background ? `<rect width="1000" height="1000" fill="${background}"/>` : "";
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" width="${side}" height="${side}" role="img" aria-label="NexaWeb Service">
+  <defs>${markDefs(id + "Mark")}</defs>
+  ${bg}
+  <g transform="translate(${(1000 - MARK.width * 1.62) / 2} 168) scale(1.62)">
+    ${markPaths(`url(#${id}Mark)`)}
+  </g>
+  <text x="500" y="740" text-anchor="middle" font-family="${FONT_DISPLAY}" font-size="150" font-weight="700" fill="${c.primary}">Nexa<tspan fill="${c.accent}">Web</tspan></text>
+  <text x="500" y="838" text-anchor="middle" font-family="${FONT_DISPLAY}" font-size="66" font-weight="500" letter-spacing="17" fill="${c.muted}">SERVICES</text>
+  <rect x="290" y="884" width="420" height="7" rx="3.5" fill="${COLORS.markMid}" opacity="0.85"/>
+</svg>`;
+}
+
+
+/** Width/height of the horizontal lockup, for callers that place it. */
+const HORIZONTAL = { width: 1500, height: 300, heightNoTagline: 180 };
+
+/** The horizontal lockup as an embeddable <g>, for composing into banners. */
+function horizontalGroup({ id, tone = "dark", tagline = true, x = 0, y = 0, scale = 1 }) {
+  const inner = buildHorizontalSvg({ id, tone, tagline })
+    .replace(/^<svg[^>]*>\s*/, "")
+    .replace(/\s*<\/svg>$/, "");
+  return `<g transform="translate(${x} ${y}) scale(${scale})">${inner}</g>`;
+}
+
+/**
+ * Square social avatar (Facebook / LinkedIn profile picture). Full-bleed dark
+ * tile - these are displayed cropped to a circle by both networks, so the
+ * stacked lockup is kept well inside the safe circle.
+ */
+function buildAvatarSvg({ id = "nwsAv", side = 1080, background = "#0A1628" } = {}) {
+  return buildStackedSvg({ id, tone: "dark", background, side });
+}
+
+/**
+ * Wide social banner (Facebook cover 820x312, LinkedIn cover 1584x396).
+ * The lockup is scaled to `fill` of the banner width and centred; both
+ * networks crop banners aggressively on mobile, so nothing sits near an edge.
+ */
+function buildBannerSvg({ id = "nwsBn", width = 1584, height = 396, fill = 0.62, url = "nexawebservice.com" } = {}) {
+  const scale = (width * fill) / HORIZONTAL.width;
+  const lw = HORIZONTAL.width * scale;
+  const lh = HORIZONTAL.height * scale;
+  const x = (width - lw) / 2;
+  const y = (height - lh) / 2 - height * 0.045;
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height}" width="${width}" height="${height}" role="img" aria-label="NexaWeb Service">
+  <defs>
+    <linearGradient id="${id}Bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#030712"/>
+      <stop offset="100%" stop-color="#0A1628"/>
+    </linearGradient>
+    <linearGradient id="${id}Bar" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="${COLORS.markDeep}"/>
+      <stop offset="50%" stop-color="${COLORS.markMid}"/>
+      <stop offset="100%" stop-color="${COLORS.markLight}"/>
+    </linearGradient>
+    <radialGradient id="${id}Glow" cx="50%" cy="45%" r="60%">
+      <stop offset="0%" stop-color="${COLORS.markMid}" stop-opacity="0.16"/>
+      <stop offset="100%" stop-color="${COLORS.markMid}" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="${width}" height="${height}" fill="url(#${id}Bg)"/>
+  <rect width="${width}" height="${height}" fill="url(#${id}Glow)"/>
+  <rect width="${width}" height="${Math.max(4, Math.round(height * 0.022))}" fill="url(#${id}Bar)"/>
+  ${horizontalGroup({ id: id + "L", tone: "dark", x, y, scale })}
+  <text x="${width / 2}" y="${height - Math.round(height * 0.085)}" text-anchor="middle" font-family="${FONT_DISPLAY}" font-size="${Math.round(height * 0.058)}" font-weight="500" letter-spacing="${(height * 0.006).toFixed(1)}" fill="#8FA9C4">${url}</text>
+</svg>`;
+}
+
+module.exports = { MARK, COLORS, FONT_DISPLAY, HORIZONTAL, markDefs, markPaths, buildMarkSvg, buildHorizontalSvg, buildStackedSvg, horizontalGroup, buildAvatarSvg, buildBannerSvg, tones };

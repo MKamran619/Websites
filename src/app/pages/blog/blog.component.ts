@@ -904,66 +904,81 @@ export class BlogComponent implements OnInit, AfterViewInit, OnDestroy {
 
   animateOnScroll() {
     // Hero animations
-    gsap.from(".hero-content > *", {
-      opacity: 0,
-      y: 30,
-      duration: 0.8,
-      stagger: 0.1,
-      ease: "power2.out",
-    });
+    gsap.fromTo(
+      ".hero-content > *",
+      { opacity: 0, y: 30 },
+      {
+        opacity: 1, y: 0,
+        duration: 0.8,
+        stagger: 0.1,
+        ease: "power2.out",
+      }
+    );
 
     // Featured post
-    gsap.from(".featured-post", {
-      scrollTrigger: {
+    gsap.fromTo(
+      ".featured-post",
+      { opacity: 0, y: 50 },
+      {
+        opacity: 1, y: 0,
+        scrollTrigger: {
         trigger: ".featured-section",
         start: "top 80%",
         once: true,
       },
-      opacity: 0,
-      y: 50,
-      duration: 0.8,
-    });
+        duration: 0.8,
+      }
+    );
 
     // Blog cards
     gsap.utils.toArray<HTMLElement>(".blog-card").forEach((card, index) => {
-      gsap.from(card, {
-        scrollTrigger: {
+      gsap.fromTo(
+        card,
+        { opacity: 0, y: 50 },
+        {
+          opacity: 1, y: 0,
+          scrollTrigger: {
           trigger: card,
           start: "top 85%",
           once: true,
         },
-        opacity: 0,
-        y: 50,
-        duration: 0.6,
-        delay: index * 0.1,
-      });
+          duration: 0.6,
+          delay: index * 0.1,
+        }
+      );
     });
 
     // Topic cards
     gsap.utils.toArray<HTMLElement>(".topic-card").forEach((card, index) => {
-      gsap.from(card, {
-        scrollTrigger: {
+      gsap.fromTo(
+        card,
+        { opacity: 0, y: 30 },
+        {
+          opacity: 1, y: 0,
+          scrollTrigger: {
           trigger: card,
           start: "top 85%",
           once: true,
         },
-        opacity: 0,
-        y: 30,
-        duration: 0.5,
-        delay: index * 0.08,
-      });
+          duration: 0.5,
+          delay: index * 0.08,
+        }
+      );
     });
 
     // Newsletter
-    gsap.from(".newsletter-card", {
-      scrollTrigger: {
+    gsap.fromTo(
+      ".newsletter-card",
+      { opacity: 0, y: 40 },
+      {
+        opacity: 1, y: 0,
+        scrollTrigger: {
         trigger: ".newsletter-section",
         start: "top 80%",
         once: true,
       },
-      opacity: 0,
-      y: 40,
-      duration: 0.8,
-    });
+        duration: 0.8,
+      }
+    );
   }
 }

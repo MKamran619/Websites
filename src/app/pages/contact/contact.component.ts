@@ -753,32 +753,38 @@ export class ContactComponent implements OnInit, AfterViewInit {
 
     // Animate benefit cards
     gsap.utils.toArray<HTMLElement>(".benefit-card").forEach((card, index) => {
-      gsap.from(card, {
-        scrollTrigger: {
+      gsap.fromTo(
+        card,
+        { opacity: 0, y: 30 },
+        {
+          opacity: 1, y: 0,
+          scrollTrigger: {
           trigger: card,
           start: "top 85%",
           once: true,
         },
-        opacity: 0,
-        y: 30,
-        duration: 0.5,
-        delay: index * 0.1,
-      });
+          duration: 0.5,
+          delay: index * 0.1,
+        }
+      );
     });
 
     // Animate stat cards
     gsap.utils.toArray<HTMLElement>(".stat-card").forEach((card, index) => {
-      gsap.from(card, {
-        scrollTrigger: {
+      gsap.fromTo(
+        card,
+        { opacity: 0, scale: 0.9 },
+        {
+          opacity: 1, scale: 1,
+          scrollTrigger: {
           trigger: card,
           start: "top 85%",
           once: true,
         },
-        opacity: 0,
-        scale: 0.9,
-        duration: 0.5,
-        delay: index * 0.1,
-      });
+          duration: 0.5,
+          delay: index * 0.1,
+        }
+      );
     });
   }
 

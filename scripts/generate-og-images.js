@@ -51,16 +51,19 @@ function buildOgCardSvg({ eyebrow, title, subtitle }) {
       <stop offset="0%" stop-color="${COLORS.primary}"/>
       <stop offset="100%" stop-color="${COLORS.primaryLight}"/>
     </linearGradient>
+    ${B.markDefs("ogMark")}
   </defs>
 
   <rect width="1200" height="630" fill="url(#bgGradient)"/>
   <rect width="1200" height="10" fill="url(#accentGradient)"/>
 
-  <!-- The supplied artwork, placed verbatim. Its background is opaque white,
-       so on this dark card it sits on a white plate rather than as a bare
-       white rectangle. Scaled to 1:1 aspect (1360x260) at 420px wide. -->
-  <rect x="62" y="62" width="452" height="108" rx="16" fill="#FEFDFD"/>
-  <image x="78" y="78" width="420" height="80" xlink:href="data:image/png;base64,${B.sourceB64()}"/>
+  <!-- Brand lockup from the shared vector definition in brand.js. No white
+       plate needed: the vector has no background, so it sits directly on the
+       dark card. -->
+  <g transform="translate(80 76) scale(0.42)">
+    ${B.markPaths("url(#ogMark)")}
+  </g>
+  <text x="196" y="132" font-family="${B.FONT_DISPLAY}" font-size="44" font-weight="700" fill="${COLORS.text}">Nexa<tspan fill="${B.COLORS.webBlue}">Web</tspan><tspan dx="14" font-size="31" font-weight="400" fill="${COLORS.textMuted}">Service</tspan></text>
 
   <text x="80" y="260" font-family="Inter, 'Segoe UI', sans-serif" font-size="26" font-weight="600" letter-spacing="2" fill="${COLORS.cyan}">${escapeXml(eyebrow.toUpperCase())}</text>
   <text x="80" y="340" font-family="'Space Grotesk', Inter, sans-serif" font-size="64" font-weight="800" fill="${COLORS.text}">${escapeXml(titleLines)}</text>

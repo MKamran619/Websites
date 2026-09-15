@@ -542,78 +542,179 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
+  /**
+   * Elements the hero entrance animation hides before revealing. If those
+   * tweens never finish, this content is invisible - so it needs a floor.
+   */
+  private static readonly HERO_ANIMATED = [
+    ".hero-title .title-line",
+    ".hero-title .title-gradient",
+    ".hero-subtitle",
+    ".hero-subtitle-smb",
+    ".hero-cta",
+    ".hero-stats",
+    ".hero-visual",
+  ];
+
+  /**
+   * Force the hero into its final visible state.
+   *
+   * gsap.from()/fromTo() set opacity:0 the moment they are created and rely on
+   * requestAnimationFrame to animate back to 1. Any environment where rAF does
+   * not run - a background/throttled tab, a device under load, an embedded or
+   * headless viewer, a JS error thrown between tween creation and the first
+   * frame - leaves the H1 and the subtitle permanently invisible. Since this is
+   * the LCP content, "usually fine" is not good enough: this clears the inline
+   * styles GSAP wrote, using setTimeout so it cannot itself depend on rAF.
+   */
+  private revealHero() {
+    // killTweensOf FIRST. Without it the frozen tweens stay live on GSAP's
+    // global timeline and re-apply their interpolated opacity/transform on the
+    // next frame they receive, undoing this reset - observed directly: the
+    // cleared element drifted back to translateY(10.27px) moments later.
+    gsap.killTweensOf(HomeComponent.HERO_ANIMATED);
+    gsap.set(HomeComponent.HERO_ANIMATED, {
+      opacity: 1,
+      y: 0,
+      x: 0,
+      clearProps: "transform",
+    });
+  }
+
   animateOnScroll() {
+    // Respect the OS "reduce motion" setting: skip the entrance animation
+    // entirely rather than play a shortened version (WCAG 2.3.3).
+    const reduceMotion =
+      typeof matchMedia === "function" &&
+      matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduceMotion) {
+      this.revealHero();
+      return;
+    }
+
+    // Failsafe: whatever happens to the tweens above, the hero is visible by
+    // now. 2.5s clears the longest hero delay (1.2s) plus its duration.
+    setTimeout(() => this.revealHero(), 2500);
+
     // Hero animations
-    gsap.from(".hero-title .title-line", {
-      opacity: 0,
-      y: 30,
-      duration: 0.8,
-      delay: 0.2,
-    });
-    gsap.from(".hero-title .title-gradient", {
-      opacity: 0,
-      y: 30,
-      duration: 0.8,
-      delay: 0.6,
-    });
-    gsap.from(".hero-subtitle", {
-      opacity: 0,
-      y: 20,
-      duration: 0.6,
-      delay: 0.8,
-    });
-    gsap.from(".hero-subtitle-smb", {
-      opacity: 0,
-      y: 15,
-      duration: 0.6,
-      delay: 1.0,
-    });
-    gsap.from(".hero-cta", { opacity: 0, y: 20, duration: 0.6, delay: 1.1 });
-    gsap.from(".hero-stats", { opacity: 0, y: 20, duration: 0.6, delay: 1.2 });
-    gsap.from(".hero-visual", { opacity: 0, x: 50, duration: 1, delay: 0.8 });
+    gsap.fromTo(
+      ".hero-title .title-line",
+      { opacity: 0, y: 30 },
+      {
+        opacity: 1, y: 0,
+        duration: 0.8,
+        delay: 0.2,
+      }
+    );
+    gsap.fromTo(
+      ".hero-title .title-gradient",
+      { opacity: 0, y: 30 },
+      {
+        opacity: 1, y: 0,
+        duration: 0.8,
+        delay: 0.6,
+      }
+    );
+    gsap.fromTo(
+      ".hero-subtitle",
+      { opacity: 0, y: 20 },
+      {
+        opacity: 1, y: 0,
+        duration: 0.6,
+        delay: 0.8,
+      }
+    );
+    gsap.fromTo(
+      ".hero-subtitle-smb",
+      { opacity: 0, y: 15 },
+      {
+        opacity: 1, y: 0,
+        duration: 0.6,
+        delay: 1.0,
+      }
+    );
+    gsap.fromTo(
+      ".hero-cta",
+      { opacity: 0, y: 20 },
+      {
+        opacity: 1, y: 0,
+        duration: 0.6,
+        delay: 1.1,
+      }
+    );
+    gsap.fromTo(
+      ".hero-stats",
+      { opacity: 0, y: 20 },
+      {
+        opacity: 1, y: 0,
+        duration: 0.6,
+        delay: 1.2,
+      }
+    );
+    gsap.fromTo(
+      ".hero-visual",
+      { opacity: 0, x: 50 },
+      {
+        opacity: 1, x: 0,
+        duration: 1,
+        delay: 0.8,
+      }
+    );
 
     // Value props
     gsap.utils.toArray<HTMLElement>(".prop-card").forEach((card, index) => {
-      gsap.from(card, {
-        scrollTrigger: { trigger: card, start: "top 85%", once: true },
-        opacity: 0,
-        y: 60,
-        duration: 0.7,
-        delay: index * 0.15,
-      });
+      gsap.fromTo(
+        card,
+        { opacity: 0, y: 60 },
+        {
+          opacity: 1, y: 0,
+          scrollTrigger: { trigger: card, start: "top 85%", once: true },
+          duration: 0.7,
+          delay: index * 0.15,
+        }
+      );
     });
 
     // Service cards
     gsap.utils.toArray<HTMLElement>(".service-card").forEach((card, index) => {
-      gsap.from(card, {
-        scrollTrigger: { trigger: card, start: "top 85%", once: true },
-        opacity: 0,
-        y: 60,
-        duration: 0.7,
-        delay: index * 0.15,
-      });
+      gsap.fromTo(
+        card,
+        { opacity: 0, y: 60 },
+        {
+          opacity: 1, y: 0,
+          scrollTrigger: { trigger: card, start: "top 85%", once: true },
+          duration: 0.7,
+          delay: index * 0.15,
+        }
+      );
     });
 
     // Why choose cards
     gsap.utils.toArray<HTMLElement>(".why-card").forEach((card, index) => {
-      gsap.from(card, {
-        scrollTrigger: { trigger: card, start: "top 85%", once: true },
-        opacity: 0,
-        scale: 0.95,
-        duration: 0.6,
-        delay: index * 0.1,
-      });
+      gsap.fromTo(
+        card,
+        { opacity: 0, scale: 0.95 },
+        {
+          opacity: 1, scale: 1,
+          scrollTrigger: { trigger: card, start: "top 85%", once: true },
+          duration: 0.6,
+          delay: index * 0.1,
+        }
+      );
     });
 
     // Trust items
     gsap.utils.toArray<HTMLElement>(".trust-item").forEach((item, index) => {
-      gsap.from(item, {
-        scrollTrigger: { trigger: item, start: "top 85%", once: true },
-        opacity: 0,
-        scale: 0.8,
-        duration: 0.6,
-        delay: index * 0.1,
-      });
+      gsap.fromTo(
+        item,
+        { opacity: 0, scale: 0.8 },
+        {
+          opacity: 1, scale: 1,
+          scrollTrigger: { trigger: item, start: "top 85%", once: true },
+          duration: 0.6,
+          delay: index * 0.1,
+        }
+      );
     });
   }
 }

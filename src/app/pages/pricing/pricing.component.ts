@@ -5,12 +5,12 @@ import { FormsModule } from "@angular/forms";
 import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
 import emailjs from "@emailjs/browser";
 import { ContentService } from "../../services/content.service";
-import { RegionService, Region } from "../../services/region.service";
+import { RegionService, Region, PriceMap } from "../../services/region.service";
 
 interface PricingPlan {
   name: string;
   description: string | null;
-  prices: Record<Region, number>;
+  prices: PriceMap;
   unit: string | null;
   featured: boolean;
   icon: string | null;
@@ -23,7 +23,7 @@ interface CoursePricingTier {
   level: string | null;
   level_class: string | null;
   duration: string | null;
-  prices: Record<Region, number> | null;
+  prices: PriceMap | null;
   sort_order: number;
 }
 
@@ -59,7 +59,7 @@ interface FeatureBlock {
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
           </svg>
-          All prices in USD Â· Payments via PayPal, Wise, or bank transfer Â· Serving US &amp; global clients
+          Prices shown in {{ displayCurrency }} · Payments via PayPal, Wise, or bank transfer · Serving clients in the US, UK, UAE &amp; Pakistan
         </div>
       </div>
     </section>
@@ -155,8 +155,8 @@ interface FeatureBlock {
             <label for="s-timeline">Project Timeline</label>
             <select id="s-timeline" name="sTimeline" [(ngModel)]="subscriptionData.timeline" required>
               <option value="">When do you want to start?</option>
-              <option value="immediately">Immediately â€” as soon as possible</option>
-              <option value="1-2weeks">In 1â€“2 weeks</option>
+              <option value="immediately">Immediately — as soon as possible</option>
+              <option value="1-2weeks">In 1–2 weeks</option>
               <option value="1month">Within a month</option>
               <option value="flexible">Flexible / not sure yet</option>
             </select>
@@ -164,7 +164,7 @@ interface FeatureBlock {
 
           <div class="form-group">
             <label for="s-message">Project Details (Optional)</label>
-            <textarea id="s-message" name="sMessage" [(ngModel)]="subscriptionData.message" rows="3" placeholder="Briefly describe your project or any questionsâ€¦"></textarea>
+            <textarea id="s-message" name="sMessage" [(ngModel)]="subscriptionData.message" rows="3" placeholder="Briefly describe your project or any questions…"></textarea>
           </div>
 
           <button type="submit" class="btn-submit" [disabled]="!isSubscriptionFormValid() || isSubSubmitting">
@@ -174,7 +174,7 @@ interface FeatureBlock {
               </svg>
               Confirm Subscription
             </span>
-            <span *ngIf="isSubSubmitting">Submittingâ€¦</span>
+            <span *ngIf="isSubSubmitting">Submitting…</span>
           </button>
           <p class="form-note">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -192,7 +192,7 @@ interface FeatureBlock {
         <div class="section-header">
           <span class="section-tag">Nexa Web Service Academy</span>
           <h2>Course <span class="gradient-text">Pricing</span></h2>
-          <p>Learn web development with expert mentorship â€” courses designed for beginners to advanced developers</p>
+          <p>Learn web development with expert mentorship — courses designed for beginners to advanced developers</p>
         </div>
         <div class="courses-grid">
           <div class="course-price-card" *ngFor="let course of coursePricing">
@@ -364,8 +364,19 @@ export class PricingComponent implements OnInit {
     return this.sanitizer.bypassSecurityTrustHtml(html || "");
   }
 
-  priceFor(prices: Record<Region, number> | null | undefined): string {
-    return this.regionService.formatPrice(prices?.[this.currentRegion]);
+  /**
+   * Delegates to RegionService, which falls back to the US/USD figure when the
+   * visitor's region has no positive price. The previous version indexed the
+   * region directly, so a missing or 0 amount rendered as "Rs 0" / "AED 0" -
+   * every Academy course was advertised as free to PK and UAE visitors.
+   */
+  priceFor(prices: PriceMap | null | undefined): string {
+    return this.regionService.priceFor(prices);
+  }
+
+  /** Currency actually being displayed, for the note under the pricing header. */
+  get displayCurrency(): string {
+    return this.regionService.currencyUsedFor(this.plans?.[0]?.prices ?? null);
   }
 
   ngOnInit() {
@@ -423,7 +434,7 @@ export class PricingComponent implements OnInit {
       from_name: this.enrollmentData.name,
       from_email: this.enrollmentData.email,
       email: "contact@nexawebservice.com",
-      company: `${this.selectedCourse} â€” ${this.selectedPrice}`,
+      company: `${this.selectedCourse} — ${this.selectedPrice}`,
       challenge: this.enrollmentData.experience,
       budget: this.enrollmentData.availability,
       timeline: this.enrollmentData.phone || "Not provided",
@@ -448,7 +459,7 @@ export class PricingComponent implements OnInit {
   showSuccessPopup() {
     const div = document.createElement("div");
     div.style.cssText = "position:fixed;top:24px;right:24px;background:#10b981;color:#fff;padding:16px 24px;border-radius:12px;z-index:9999;font-weight:600;box-shadow:0 4px 20px rgba(0,0,0,0.15)";
-    div.textContent = "âœ“ Enrollment submitted! We'll contact you within 24 hours.";
+    div.textContent = "✓ Enrollment submitted! We'll contact you within 24 hours.";
     document.body.appendChild(div);
     setTimeout(() => div.remove(), 5000);
   }
@@ -489,7 +500,7 @@ export class PricingComponent implements OnInit {
       from_name: this.subscriptionData.name,
       from_email: this.subscriptionData.email,
       email: "contact@nexawebservice.com",
-      company: `[SUBSCRIPTION] ${this.selectedPlanName} (${this.selectedPlanPrice})${this.subscriptionData.company ? " â€” " + this.subscriptionData.company : ""}`,
+      company: `[SUBSCRIPTION] ${this.selectedPlanName} (${this.selectedPlanPrice})${this.subscriptionData.company ? " — " + this.subscriptionData.company : ""}`,
       challenge: "Subscription inquiry",
       budget: this.selectedPlanPrice,
       timeline: this.subscriptionData.timeline,
@@ -503,7 +514,7 @@ export class PricingComponent implements OnInit {
         this.isSubSubmitting = false;
         const div = document.createElement("div");
         div.style.cssText = "position:fixed;top:24px;right:24px;background:#10b981;color:#fff;padding:16px 24px;border-radius:12px;z-index:9999;font-weight:600;box-shadow:0 4px 20px rgba(0,0,0,0.15)";
-        div.textContent = "âœ“ Subscription request sent! We'll contact you within 24 hours.";
+        div.textContent = "✓ Subscription request sent! We'll contact you within 24 hours.";
         document.body.appendChild(div);
         setTimeout(() => div.remove(), 5000);
         this.closeSubscriptionModal();

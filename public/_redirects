@@ -1,0 +1,23 @@
+# Netlify reads this file from the publish root and applies it ahead of the
+# [[redirects]] blocks in netlify.toml.
+#
+# It exists because those netlify.toml rules are NOT reaching production.
+# Measured on the live site:
+#   /projects            -> 200 (should be 301 to /portfolio)
+#   /work                -> 200 (should be 301 to /portfolio)
+#   /any-unknown-url     -> 200, serving 85KB of Angular app shell,
+#                           not the 2.6KB public/404.html
+# Something is answering every path before netlify.toml is consulted - most
+# likely Netlify's auto-detected Angular runtime, or "Pretty URLs" still
+# enabled in the dashboard (Site settings -> Build & deploy -> Post
+# processing). Check both there; this file is the in-repo defence.
+
+# Force (!) so these win even against a catch-all that claims the path.
+/projects    /portfolio    301!
+/work        /portfolio    301!
+
+# Real 404 status for anything with no matching file. Safe for the 58
+# prerendered routes: Netlify always serves an existing static file before it
+# evaluates a non-forced redirect rule, and every route (including all 49
+# /blog/:slug articles) is its own prerendered index.html.
+/*           /404.html     404
